@@ -74,7 +74,6 @@ in
     custom.hjem.cfg = {
       # Environment variables for DMS theming support
       # This may be integrated with the DMS module someday
-      # Not sure if it needs to go in niri config or here, so its in both
       files.".config/environment.d/90-dms.conf".text = ''
         XDG_CURRENT_DESKTOP=niri
         QT_QPA_PLATFORM=wayland

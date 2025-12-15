@@ -54,6 +54,11 @@ in
       accounts-daemon.enable = true;
     };
 
+    sessionVariables = {
+      # Force electron apps to use wayland
+      NIXOS_OZONE_WL = "1";
+    };
+    
     custom.hjem.cfg = {
       rum.desktops.niri = {
         enable = true;
@@ -131,14 +136,6 @@ in
               xcursor-theme "breeze_cursors"
               xcursor-size 24
           }
-          environment {
-              NIXOS_OZONE_WL "1"
-              XDG_CURRENT_DESKTOP "niri"
-              QT_QPA_PLATFORM "wayland"
-              ELECTRON_OZONE_PLATFORM_HINT "auto"
-              QT_QPA_PLATFORMTHEME "qt6ct"
-              QT_QPA_PLATFORMTHEME_QT6 "qt6ct"    
-          }     
         '';
       };
     };
