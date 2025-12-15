@@ -43,6 +43,7 @@ in
       # Enable common desktop configuration and environments
       desktop = {
         enable = true;
+        enableDefaultApps = true;
         dms-greeter = {
           enable = true; # Disable this if plasma is enabled since plasma uses SDDM
           user = private.username;

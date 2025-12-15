@@ -14,6 +14,7 @@ in
     ./audio.nix
     ./fonts.nix
     ./security.nix
+    ./mime.nix
   ];
 
   options.custom.desktop = {
