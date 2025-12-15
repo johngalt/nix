@@ -38,6 +38,7 @@ in
       # Overlay from niri-flake
       inputs.niri.overlays.niri
     ];
+    
     programs.niri = {
       enable = true;
       # Pull latest niri from niri-flake
@@ -54,7 +55,7 @@ in
       accounts-daemon.enable = true;
     };
 
-    sessionVariables = {
+    environment.sessionVariables = {
       # Force electron apps to use wayland
       NIXOS_OZONE_WL = "1";
     };
