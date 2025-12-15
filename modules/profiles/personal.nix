@@ -59,6 +59,15 @@ in
           enable = true;
           theme = "dank";
         };
+        kitty = {
+          enable = true;
+          settings = {
+            include = [
+              "dank-tabs.conf"
+              "dank-theme.conf"
+            ];
+          };
+        };
         chromium.enable = true;
         firefox.enable = true;
         discord.enable = true;

@@ -8,5 +8,6 @@
     ./vesktop.nix
     ./chromium.nix
     ./syncthing.nix
+    ./kitty.nix
   ];
 }
