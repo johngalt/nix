@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.hjem.follows = "hjem";
     };
+    # Quickshell pinned to release
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell?rev=26531fc46ef17e9365b03770edd3fb9206fcb460";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Niri
     niri.url = "github:sodiboo/niri-flake";
     # Dank Material Shell

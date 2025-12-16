@@ -5,41 +5,50 @@
   pkgs,
   ...
 }:
-let
+let 
   cfg = config.custom.desktop.niri;
 
   inherit (lib)
     mkIf
     ;
-in
+in 
 {
   imports = [
-    inputs.dankMaterialShell.nixosModules.dankMaterialShell
-    ./themes # Separated out themes to keep this cleaner
+    ./themes
   ];
 
   config = mkIf (cfg.shell == "dms" && cfg.enable) {
-    # Enable DMS
-    programs.dankMaterialShell = {
-      enable = true;
+    # Using overlays to pull unstable/recent versions of packages
+    # Rather than getting version from nixpkgs, will pull/build versions from git
+    nixpkgs.overlays = [
+      # Overlay quickshell package with git version
+      inputs.quickshell.overlays.default
+      # Overlay dms-shell package with git version
+      (final: prev: { dms-shell = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.default; })
+    ];
 
-      systemd = {
-        enable = true; # Systemd service for auto-start
-        restartIfChanged = true; # Auto-restart dms.service when dankMaterialShell changes
-      };
+    programs.dms-shell = {
+      enable = true;
+      package = pkgs.dms-shell; # from overlay above
+
+      systemd.enable = true;
 
       # Core features
       enableSystemMonitoring = true; # System monitoring widgets (dgop)
+      enableClipboard = false; # Feature is built into DMS now, disabled until removed from nixpkgs module
       enableVPN = true; # VPN management widget
       enableDynamicTheming = true; # Wallpaper-based theming (matugen)
       enableAudioWavelength = true; # Audio visualizer (cava)
       enableCalendarEvents = true; # Calendar integration (khal)
+
+      quickshell.package = pkgs.quickshell; # from overlay above
+
     };
 
     # Add additional parameter to systemd service to only start with niri
-    systemd.user.services.dms = {
-      wants = [ "niri.service" ];
-    };
+    # systemd.user.services.dms = {
+    #   wants = [ "niri.service" ];
+    # };
 
     # Disable niri-flake polkit agent since DMS has its own
     systemd.user.services.niri-flake-polkit.enable = false;
@@ -50,12 +59,13 @@ in
       papirus-icon-theme # Icon theme
       swappy # Screenshot annotation
       seahorse # Gnome secrets manager
-      nemo # File browser
+      nemo # Alternative file browser
       imv # image viewer
+      nautilus # Gnome file browser
 
       xwayland-satellite # For X apps (like steam)
       xdg-desktop-portal-gtk
-      kdePackages.dolphin # KDE file browser, better than nautilus
+      kdePackages.dolphin # KDE file browser
       kdePackages.okular # KDE pdf viewer
 
       # KDE/QT Package dependencies for DMS
@@ -66,6 +76,7 @@ in
     ];
     services.dbus.packages = [
       pkgs.seahorse
+      pkgs.nautilus
     ];
 
     # DMS module includes gnome portal, but not gtk
@@ -83,14 +94,6 @@ in
       '';
       # User-level customization for DMS and Niri
       rum.desktops.niri = {
-        # Spawn app for logging clipboard historycd
-        spawn-at-startup = [
-          [
-            "bash"
-            "-c"
-            "wl-paste --watch cliphist store &"
-          ]
-        ];
         # Custom DMS-specific binds
         binds = {
           "Mod+Shift+S" = {
@@ -99,9 +102,6 @@ in
         };
         # Additional DMS-specific configuration for niri
         config = ''
-          hotkey-overlay {
-              skip-at-startup
-          }
           window-rule {
               match app-id=r#"^org\.gnome\."#
               draw-border-with-background false
@@ -123,6 +123,10 @@ in
           // Open DMS windows as floating by default
           window-rule {
             match app-id=r#"org.quickshell$"#
+            open-floating true
+          }
+          window-rule {
+            match app-id="firefox" title="Bitwarden"
             open-floating true
           }
           layer-rule {
