@@ -14,7 +14,7 @@ let
 in 
 {
   imports = [
-    ./themes
+    ./matugen
   ];
 
   config = mkIf (cfg.shell == "dms" && cfg.enable) {
@@ -60,10 +60,12 @@ in
       kdePackages.breeze.qt5
 
       # Theme stuff
+      # For KDE Apps (dolphin) need to change Configure -> Window Color Scheme
       adw-gtk3 # Support dynamic theming for gtk3 applications
       adwaita-qt
       adwaita-qt6
       papirus-icon-theme # Icon theme
+      papirus-folders
 
       # Applications
       swappy # Screenshot annotation
@@ -159,6 +161,26 @@ in
           include "dms/wpblur.kdl"
         '';
       };
+      # Force QT/KDE applications like Dolphin to use qt6ct and correct icon themes
+      # Some QT/KDE apps just ignore the ~/.config/qt{5,6}ct/ folders
+      files."./config/kdeglobals".text = ''
+        [UiSettings]
+        ColorScheme=qt6ct
+
+        [Icons]
+        Theme=Papirus-Dark
+      '';
     };
+    # gsettings uses dconf to store settings -- set default icon pack
+    # i'm sure there is a way to get ~/.config/gtk-{3,4}.0/settings.ini to work but its not on Nix
+    programs.dconf.profiles.user.databases = [
+      {
+        settings = {
+          "org/gnome/desktop/interface" = {
+            icon-theme = "Papirus-Dark";
+          };
+        };
+      }
+    ];
   };
 }

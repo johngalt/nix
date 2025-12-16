@@ -21,9 +21,14 @@ in
       [templates.btop]
       input_path = '${homeDir}/.config/matugen/themes/btop.theme'
       output_path = '${homeDir}/.config/btop/themes/matugen.theme'
+
+      [templates.yazi]
+      input_path = '${homeDir}/.config/matugen/themes/yazi-theme.toml'
+      output_path = '${homeDir}/.config/yazi/theme.toml'
     '';
 
     # Btop matugen template
     custom.hjem.cfg.files.".config/matugen/themes/btop.theme".source = ./btop.theme;
+    custom.hjem.cfg.files.".config/matugen/themes/yazi-theme.toml".source = ./yazi-theme.toml;
   };
 }
