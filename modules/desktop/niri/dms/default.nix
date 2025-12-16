@@ -81,6 +81,7 @@ in
 
     # DMS module includes gnome portal, but not gtk
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    xdg.portal.xdgOpenUsePortal = true;
 
     custom.hjem.cfg = {
       # Environment variables for DMS theming support

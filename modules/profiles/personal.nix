@@ -19,6 +19,15 @@ in
   };
 
   config = mkIf cfg.enable {
+    # Nixos modules
+    programs = {
+      yazi = {
+        enable = true;
+        plugins = {
+          inherit (pkgs.yaziPlugins) git wl-clipboard;
+        };
+      };
+    };
     # Custom module settings
     custom = {
       hjem = {
@@ -37,7 +46,6 @@ in
           localsend
           obsidian
           vscode
-          yazi
         ];
       };
       # Enable common desktop configuration and environments
