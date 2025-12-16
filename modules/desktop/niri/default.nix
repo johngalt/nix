@@ -34,8 +34,10 @@ in
   };
 
   config = mkIf cfg.enable {
+    # Using overlays to pull unstable/recent versions of packages
+    # Rather than getting version from nixpkgs, will pull/build versions from git
     nixpkgs.overlays = [
-      # Overlay from niri-flake
+      # Overlay niri-flake for niri-unstable
       inputs.niri.overlays.niri
     ];
     
@@ -65,56 +67,7 @@ in
         enable = true;
         package = null; # Disable niri config checking
         # Global niri keybinds (shell-specific keybinds in own module)
-        binds = {
-          "Mod+T" = {
-            spawn = [ "alacritty" ];
-          };
-          "Mod+Q" = {
-            parameters = {
-              repeat = false;
-            };
-            action = "close-window";
-          };
-          "Mod+Left" = {
-            action = "focus-column-left";
-          };
-          "Mod+Shift+Left" = {
-            action = "move-column-left";
-          };
-          "Mod+Ctrl+Left" = {
-            action = "consume-or-expel-window-left";
-          };
-          "Mod+Up" = {
-            action = "focus-workspace-up";
-          };
-          "Mod+Shift+Up" = {
-            action = "move-window-up-or-to-workspace-up";
-          };
-          "Mod+Right" = {
-            action = "focus-column-right";
-          };
-          "Mod+Shift+Right" = {
-            action = "move-column-right";
-          };
-          "Mod+Ctrl+Right" = {
-            action = "consume-or-expel-window-right";
-          };
-          "Mod+Down" = {
-            action = "focus-workspace-down";
-          };
-          "Mod+Shift+Down" = {
-            action = "move-window-down-or-to-workspace-down";
-          };
-          "Mod+Return" = {
-            action = "maximize-column";
-          };
-          "Mod+Shift+Return" = {
-            action = "set-column-width \"50%\"";
-          };
-          "Mod+Shift+Space" = {
-            action = "toggle-windowed-fullscreen";
-          };
-        };
+        binds = import ./binds.nix;
         # Niri global config (shell specific config will get merged with this)
         config = ''
           input {
@@ -136,6 +89,9 @@ in
           cursor {
               xcursor-theme "breeze_cursors"
               xcursor-size 24
+          }
+          hotkey-overlay {
+              skip-at-startup
           }
         '';
       };
