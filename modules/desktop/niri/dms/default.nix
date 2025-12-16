@@ -45,55 +45,58 @@ in
 
     };
 
-    # Add additional parameter to systemd service to only start with niri
-    # systemd.user.services.dms = {
-    #   wants = [ "niri.service" ];
-    # };
-
     # Disable niri-flake polkit agent since DMS has its own
     systemd.user.services.niri-flake-polkit.enable = false;
 
     # Additional system packages to install with DMS
     environment.systemPackages = with pkgs; [
-      adw-gtk3 # Support dynamic theming for gtk3 applications
-      papirus-icon-theme # Icon theme
-      swappy # Screenshot annotation
-      seahorse # Gnome secrets manager
-      nemo # Alternative file browser
-      imv # image viewer
-      nautilus # Gnome file browser
-
-      xwayland-satellite # For X apps (like steam)
-      xdg-desktop-portal-gtk
-      kdePackages.dolphin # KDE file browser
-      kdePackages.okular # KDE pdf viewer
-
       # KDE/QT Package dependencies for DMS
+      # NixOS and QT doesn't play well on non-Plasma setups
+      # Ideally I would use the qt6ct-kde patched package from AUR if I was on Arch
       libsForQt5.qt5ct
       kdePackages.qt6ct
       kdePackages.kcolorscheme
       kdePackages.breeze
+      kdePackages.breeze.qt5
+
+      # Theme stuff
+      adw-gtk3 # Support dynamic theming for gtk3 applications
+      adwaita-qt
+      adwaita-qt6
+      papirus-icon-theme # Icon theme
+
+      # Applications
+      swappy # Screenshot annotation
+      seahorse # Gnome secrets manager
+      imv # image viewer
+      nautilus # Gnome file browser
+      kdePackages.dolphin # KDE file browser
+      kdePackages.okular # KDE pdf viewer
+
+      xwayland-satellite # For X apps (like steam)
+      xdg-desktop-portal-gtk
     ];
+
     services.dbus.packages = [
       pkgs.seahorse
       pkgs.nautilus
     ];
 
+    # Environment variables for DMS and QT theming things
+    environment.variables = {
+      QT_QPA_PLATFORMTHEME = "qt6ct";
+      QT_QPA_PLATFORMTHEME_QT6 = "qt6ct";
+      XDG_CURRENT_DESKTOP = "niri";
+      QT_QPA_PLATFORM = "wayland";
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";
+    };
+
     # DMS module includes gnome portal, but not gtk
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     xdg.portal.xdgOpenUsePortal = true;
 
+    # User-level customization for DMS and Niri
     custom.hjem.cfg = {
-      # Environment variables for DMS theming support
-      # This may be integrated with the DMS module someday
-      files.".config/environment.d/90-dms.conf".text = ''
-        XDG_CURRENT_DESKTOP=niri
-        QT_QPA_PLATFORM=wayland
-        ELECTRON_OZONE_PLATFORM_HINT=auto
-        QT_QPA_PLATFORMTHEME=qt6ct
-        QT_QPA_PLATFORMTHEME_QT6=qt6ct
-      '';
-      # User-level customization for DMS and Niri
       rum.desktops.niri = {
         # Custom DMS-specific binds
         binds = {

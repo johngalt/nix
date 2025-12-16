@@ -53,7 +53,7 @@ in
       power-profiles-daemon.enable = true;
       upower.enable = true;
       libinput.enable = true;
-      fwupd.enable = true; # Firmware update daemon
+      fwupd.enable = true; 
       accounts-daemon.enable = true;
     };
 
@@ -63,9 +63,10 @@ in
     };
     
     custom.hjem.cfg = {
+      # The hjem rum module does not actually install niri, just configures it at the user-level
       rum.desktops.niri = {
         enable = true;
-        package = null; # Disable niri config checking
+        package = null; # Disable niri config checking (will not work because of 'include's)
         # Global niri keybinds (shell-specific keybinds in own module)
         binds = import ./binds.nix;
         # Niri global config (shell specific config will get merged with this)

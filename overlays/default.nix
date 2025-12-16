@@ -9,6 +9,11 @@
       qbitmover = prev.callPackage ../pkgs/qbitmover { };
       davocache = prev.callPackage ../pkgs/davocache { };
       eza-themes = prev.callPackage ../pkgs/eza-themes { };
+      qt6ct-kde = prev.qt6Packages.callPackage ../pkgs/qt6ct-kde { };
+
+      # qt6Packages = prev.qt6Packages.overrideScope (qfinal: qprev: {
+      #   qt6ct = prev.qt6Packages.callPackage ../pkgs/qt6ct-kde { };
+      # });
     })
   ];
 }
