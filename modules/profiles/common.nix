@@ -83,6 +83,15 @@ in
       duf
     ];
 
+    # Nixos modules
+    programs = {
+      fzf = {
+        keybindings = true;
+        fuzzyCompletion = true;
+      };
+      zoxide.enable = true;
+    };
+
     # User settings
     sops.secrets."userpass/${private.username}".neededForUsers = true;
 
@@ -91,7 +100,7 @@ in
       ${private.username} = {
         isNormalUser = true;
         inherit extraGroups;
-        shell = pkgs.zsh; # Replace this with shell defined in custom module?
+        shell = pkgs.zsh;
         hashedPasswordFile = config.sops.secrets."userpass/${private.username}".path;
         openssh.authorizedKeys.keys = [
           private.key
