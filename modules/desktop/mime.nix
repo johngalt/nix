@@ -63,7 +63,7 @@ in
         # File browser
         "inode/directory" = filebrowser;
         # Other types
-        "application/pdf" = "org.kde.okular.desktop";
+        "application/pdf" = "papers.desktop";
       } 
       webformats
       imageformats

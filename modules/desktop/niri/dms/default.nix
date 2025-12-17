@@ -74,9 +74,11 @@ in
       nautilus # Gnome file browser
       kdePackages.dolphin # KDE file browser
       kdePackages.okular # KDE pdf viewer
+      papers # Gnome pdf viewer
 
       xwayland-satellite # For X apps (like steam)
       xdg-desktop-portal-gtk
+      wl-clipboard # dms does its own thing, but keeping it for other stuff
     ];
 
     services.dbus.packages = [
@@ -88,14 +90,9 @@ in
     environment.variables = {
       QT_QPA_PLATFORMTHEME = "qt6ct";
       QT_QPA_PLATFORMTHEME_QT6 = "qt6ct";
-      XDG_CURRENT_DESKTOP = "niri";
       QT_QPA_PLATFORM = "wayland";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
     };
-
-    # DMS module includes gnome portal, but not gtk
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    xdg.portal.xdgOpenUsePortal = true;
 
     # User-level customization for DMS and Niri
     custom.hjem.cfg = {
@@ -163,7 +160,7 @@ in
       };
       # Force QT/KDE applications like Dolphin to use qt6ct and correct icon themes
       # Some QT/KDE apps just ignore the ~/.config/qt{5,6}ct/ folders
-      files."./config/kdeglobals".text = ''
+      files.".config/kdeglobals".text = ''
         [UiSettings]
         ColorScheme=qt6ct
 

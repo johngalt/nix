@@ -61,6 +61,29 @@ in
       # Force electron apps to use wayland
       NIXOS_OZONE_WL = "1";
     };
+
+    # Niri-flake provides a niri-portals.conf for xdg-desktop-portals
+    environment.variables = {
+      XDG_CURRENT_DESKTOP = "niri"; 
+    };
+
+    # Installing additional portals (gnome included with niri-flake)
+    xdg.portal = {
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      xdgOpenUsePortal = true;
+      # Overriding some portal defaults from niri-flake
+      config = {
+        common = {
+          default = [ "gtk" "gnome" ];
+          "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+          "org.freedesktop.impl.portal.AppChooser" = [ "gtk" ];
+        };
+      };
+    };
+
     
     custom.hjem.cfg = {
       # The hjem rum module does not actually install niri, just configures it at the user-level
