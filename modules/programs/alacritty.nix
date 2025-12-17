@@ -47,7 +47,7 @@ in
           font = {
             size = 11;
             normal = {
-              family = "Cascadia Mono";
+              family = "JetBrainsMono NF";
               style = "Regular";
             };
           };
