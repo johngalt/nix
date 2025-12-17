@@ -9,5 +9,6 @@
     ./chromium.nix
     ./syncthing.nix
     ./kitty.nix
+    ./yazi.nix
   ];
 }

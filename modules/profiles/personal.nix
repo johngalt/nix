@@ -19,15 +19,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Nixos modules
-    programs = {
-      yazi = {
-        enable = true;
-        plugins = {
-          inherit (pkgs.yaziPlugins) git wl-clipboard full-border;
-        };
-      };
-    };
     # Custom module settings
     custom = {
       hjem = {
@@ -76,6 +67,7 @@ in
             ];
           };
         };
+        yazi.enable = true;
         chromium.enable = true;
         firefox.enable = true;
         discord.enable = true;
