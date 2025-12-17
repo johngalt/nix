@@ -24,7 +24,7 @@ in
       yazi = {
         enable = true;
         plugins = {
-          inherit (pkgs.yaziPlugins) git wl-clipboard;
+          inherit (pkgs.yaziPlugins) git wl-clipboard full-border;
         };
       };
     };
