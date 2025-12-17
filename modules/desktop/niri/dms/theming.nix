@@ -36,11 +36,9 @@ in
       # Theme stuff
       # For KDE Apps (dolphin) need to change Configure -> Window Color Scheme
       adw-gtk3 # Support dynamic theming for gtk3 applications
-      papirus-icon-theme # Icon theme
-      catppuccin-papirus-folders.override { # Override to specify folder colors
-        flavor = "macchiato";
-        color = "blue";
-      }
+      (papirus-icon-theme.override {
+        color = "yaru";
+      })
     ];
 
     # Force QT/KDE applications like Dolphin to use qt6ct and correct icon themes

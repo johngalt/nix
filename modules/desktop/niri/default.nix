@@ -70,7 +70,7 @@ in
     # Installing additional portals (gnome included with niri-flake)
     xdg.portal = {
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      xdgOpenUsePortal = true;
+      # xdgOpenUsePortal = true;
       # Overriding some portal defaults from niri-flake
       config = {
         common = {
