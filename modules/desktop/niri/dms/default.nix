@@ -56,12 +56,9 @@ in
       imv # image viewer
       nautilus # Gnome file browser
       kdePackages.dolphin # KDE file browser
-      kdePackages.okular # KDE pdf viewer
       papers # Gnome pdf viewer
 
       xwayland-satellite # For X apps (like steam)
-      xdg-desktop-portal-gtk
-      wl-clipboard # dms does its own thing, but keeping it for other stuff
     ];
 
     services.dbus.packages = [

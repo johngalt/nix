@@ -63,7 +63,7 @@ in
         # File browser
         "inode/directory" = filebrowser;
         # Other types
-        "application/pdf" = "papers.desktop";
+        "application/pdf" = "org.gnome.Papers.desktop";
       } 
       webformats
       imageformats
