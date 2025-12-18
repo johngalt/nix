@@ -39,6 +39,9 @@ in
       (papirus-icon-theme.override {
         color = "yaru";
       })
+
+      # For firefox theming
+      pywalfox-native
     ];
 
     # Force QT/KDE applications like Dolphin to use qt6ct and correct icon themes
