@@ -20,14 +20,16 @@ in
 {
   imports = [
     inputs.niri.nixosModules.niri
-    ./dms
     ./dms-greeter
+    ./dms
+    ./noctalia
+    ./theming.nix # theming dependencies that apply to dms/noctalia
   ];
 
   options.custom.desktop.niri = {
     enable = mkEnableOption "Enable Niri";
     shell = mkOption {
-      type = enum [ "dms" ];
+      type = enum [ "dms" "noctalia" ];
       description = "Which shell to use for niri";
       default = "dms";
     };
@@ -39,6 +41,8 @@ in
     nixpkgs.overlays = [
       # Overlay niri-flake for niri-unstable
       inputs.niri.overlays.niri
+      # Overlay quickshell package with git version
+      inputs.quickshell.overlays.default
     ];
     
     programs.niri = {
@@ -65,7 +69,27 @@ in
     # Niri-flake provides a niri-portals.conf for xdg-desktop-portals
     environment.variables = {
       XDG_CURRENT_DESKTOP = "niri"; 
+      QT_QPA_PLATFORM = "wayland";
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";
     };
+
+    # Additional system packages to install with niri
+    environment.systemPackages = with pkgs; [
+      # Applications
+      swappy # Screenshot annotation
+      seahorse # Gnome secrets manager
+      imv # image viewer
+      nautilus # Gnome file browser
+      kdePackages.dolphin # KDE file browser
+      papers # Gnome pdf viewer
+
+      xwayland-satellite # For X apps (like steam)
+    ];
+    # Adding some services to dbus
+    services.dbus.packages = [
+      pkgs.seahorse
+      pkgs.nautilus
+    ];
 
     # Installing additional portals (gnome included with niri-flake)
     xdg.portal = {
@@ -84,7 +108,6 @@ in
       };
     };
 
-    
     custom.hjem.cfg = {
       # The hjem rum module does not actually install niri, just configures it at the user-level
       rum.desktops.niri = {

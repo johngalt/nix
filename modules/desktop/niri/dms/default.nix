@@ -14,22 +14,13 @@ let
 in 
 {
   imports = [
-    ./theming.nix
+    ./matugen
   ];
 
   config = mkIf (cfg.shell == "dms" && cfg.enable) {
-    # Using overlays to pull unstable/recent versions of packages
-    # Rather than getting version from nixpkgs, will pull/build versions from git
-    nixpkgs.overlays = [
-      # Overlay quickshell package with git version
-      inputs.quickshell.overlays.default
-      # Overlay dms-shell package with git version
-      (final: prev: { dms-shell = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.default; })
-    ];
-
     programs.dms-shell = {
       enable = true;
-      package = pkgs.dms-shell; # from overlay above
+      package = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.default; # pull latest from git
 
       systemd.enable = true;
 
@@ -41,36 +32,12 @@ in
       enableAudioWavelength = true; # Audio visualizer (cava)
       enableCalendarEvents = true; # Calendar integration (khal)
 
-      quickshell.package = pkgs.quickshell; # from overlay above
+      quickshell.package = pkgs.quickshell; # from overlay defined in niri module
 
     };
 
     # Disable niri-flake polkit agent since DMS has its own
     systemd.user.services.niri-flake-polkit.enable = false;
-
-    # Additional system packages to install with DMS
-    environment.systemPackages = with pkgs; [
-      # Applications
-      swappy # Screenshot annotation
-      seahorse # Gnome secrets manager
-      imv # image viewer
-      nautilus # Gnome file browser
-      kdePackages.dolphin # KDE file browser
-      papers # Gnome pdf viewer
-
-      xwayland-satellite # For X apps (like steam)
-    ];
-
-    services.dbus.packages = [
-      pkgs.seahorse
-      pkgs.nautilus
-    ];
-
-    # Environment variables for DMS/Wayland
-    environment.variables = {
-      QT_QPA_PLATFORM = "wayland";
-      ELECTRON_OZONE_PLATFORM_HINT = "auto";
-    };
 
     # User-level customization for DMS and Niri
     custom.hjem.cfg = {

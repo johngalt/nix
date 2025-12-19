@@ -39,7 +39,6 @@
     desktop = {
       niri = {
         enable = true;
-        shell = "dms";
       };
     };
   };

@@ -12,11 +12,7 @@ let
     ;
 in 
 {
-  imports = [
-    ./matugen
-  ];
-
-  config = mkIf (cfg.enable && cfg.shell == "dms") {
+  config = mkIf cfg.enable {
     # Set QT apps to follow qt6ct theme settings by default    
     environment.variables = {
       QT_QPA_PLATFORMTHEME = "qt6ct";
@@ -24,7 +20,7 @@ in
     };
 
     environment.systemPackages = with pkgs; [
-      # KDE/QT Package dependencies for DMS
+      # KDE/QT Package dependencies for DMS/Noctalia
       # NixOS and QT doesn't play well on non-Plasma setups
       # Ideally I would use the qt6ct-kde patched package from AUR if I was on Arch
       libsForQt5.qt5ct
@@ -37,7 +33,7 @@ in
       # For KDE Apps (dolphin) need to change Configure -> Window Color Scheme
       adw-gtk3 # Support dynamic theming for gtk3 applications
       (papirus-icon-theme.override {
-        color = "yaru";
+        color = "blue";
       })
 
       # For firefox theming

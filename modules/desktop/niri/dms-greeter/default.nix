@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -32,10 +33,11 @@ in
 
   # Don't enable this greeter if sddm is already enabled via plasma module
   config = mkIf (cfg.enable && !config.services.displayManager.sddm.enable) {
+    
     services.displayManager.dms-greeter = {
       enable = true;
-      # Use same dms-shell package
-      package = config.programs.dms-shell.package; 
+      # Use same dms-shell package (dms-greeter is part of this)
+      package = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.default; 
 
       compositor.name = cfg.compositor;
 
@@ -48,8 +50,8 @@ in
         path = "/tmp/dms-greeter.log";
       };
 
-      # Use same quickshell package as the one defined in dms module
-      quickshell.package = config.programs.dms-shell.quickshell.package;
+      # Quickshell from overlays
+      quickshell.package = pkgs.quickshell;
     };
     
     # Idk if this is needed or not
