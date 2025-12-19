@@ -1,0 +1,22 @@
+{
+  "name": "Nord Dark",
+  "surface": "#2e3440",
+  "surfaceText": "#eceff4",
+  "surfaceVariant": "#3b4252",
+  "surfaceVariantText": "#d8dee9",
+  "background": "#3B4252",
+  "backgroundText": "#E5E9F0",
+  "outline": "#4C566A",
+  "surfaceContainer": "#2E3440",
+  "surfaceContainerHigh": "#3B4252",
+  "surfaceContainerHighest": "#434C5E",
+  "primary": "#8fbcbb",
+  "secondary": "#5e81ac",
+  "primaryText": "#2e3440",
+  "primaryContainer": "#5E81AC",
+  "surfaceTint": "#88C0D0",
+  "error": "#BF616A",
+  "warning": "#B48EAD",
+  "info": "#EBCB8B",
+  "matugen_type": "scheme-tonal-spot"
+}

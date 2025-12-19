@@ -1,0 +1,22 @@
+{
+  "name": "0x96f - Dark",
+  "surface": "#3b393c",
+  "surfaceText": "#fcfcfc",
+  "surfaceVariant": "#262427",
+  "surfaceVariantText": "#fcfcfc",
+  "background": "#3b393c",
+  "backgroundText": "#fcfcfc",
+  "outline": "#676567",
+  "surfaceContainer": "#262427",
+  "surfaceContainerHigh": "#514f52",
+  "surfaceContainerHighest": "#676567",
+  "primary": "#aee8f4",
+  "secondary": "#ffca58",
+  "primaryText": "#292828",
+  "primaryContainer": "#6c9aa3",
+  "surfaceTint": "#aee8f4",
+  "error": "#ff8787",
+  "warning": "#a093e2",
+  "info": "#fc9d6f",
+  "matugen_type": "scheme-tonal-spot"
+}

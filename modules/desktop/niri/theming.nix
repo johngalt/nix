@@ -39,17 +39,6 @@ in
       # For firefox theming
       pywalfox-native
     ];
-
-    # Force QT/KDE applications like Dolphin to use qt6ct and correct icon themes
-    # Some QT/KDE apps just ignore the ~/.config/qt{5,6}ct/ folders
-    custom.hjem.cfg.files.".config/kdeglobals".text = ''
-      [UiSettings]
-      ColorScheme=qt6ct
-
-      [Icons]
-      Theme=Papirus-Dark
-    '';
-
     # gsettings uses dconf to store settings -- set default icon pack
     # i'm sure there is a way to get ~/.config/gtk-{3,4}.0/settings.ini to work but its not on Nix
     programs.dconf.profiles.user.databases = [

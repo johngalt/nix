@@ -99,6 +99,15 @@ in
           }
         '';
       };
+      # Force KDE applications like Dolphin to use noctalia KColorScheme
+      # Some KDE apps just ignore the ~/.config/qt{5,6}ct/ folders
+      files.".config/kdeglobals".text = ''
+        [UiSettings]
+        ColorScheme=noctalia
+
+        [Icons]
+        Theme=Papirus-Dark
+      '';
     };
   };
 }

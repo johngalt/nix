@@ -103,6 +103,15 @@ in
           include "dms/wpblur.kdl"
         '';
       };
+      # Force KDE applications like Dolphin to use DankMatugen KColorScheme
+      # Some KDE apps just ignore the ~/.config/qt{5,6}ct/ folders
+      files.".config/kdeglobals".text = ''
+        [UiSettings]
+        ColorScheme=DankMatugen
+
+        [Icons]
+        Theme=Papirus-Dark
+      '';
     };
   };
 }
