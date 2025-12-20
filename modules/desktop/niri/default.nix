@@ -59,6 +59,7 @@ in
       libinput.enable = true;
       fwupd.enable = true; 
       accounts-daemon.enable = true;
+      gvfs.enable = true; # usb device mounting
     };
 
     environment.sessionVariables = {
