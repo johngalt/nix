@@ -6,6 +6,7 @@
 let
   cfg = config.custom.desktop.niri;
   homeDir = "/home/${config.custom.hjem.user}";
+  matugenDir = ".config/matugen/themes";
 
   inherit (lib)
     mkIf
@@ -25,10 +26,15 @@ in
       [templates.yazi]
       input_path = '${homeDir}/.config/matugen/themes/yazi-theme.toml'
       output_path = '${homeDir}/.config/yazi/theme.toml'
+
+      [templates.vesktop]
+      input_path = '${homeDir}/.config/matugen/themes/vesktop.css'
+      outout_path = '${homeDir}/.config/vesktop/themes/dank-modified.css'
     '';
 
     # Btop matugen template
-    custom.hjem.cfg.files.".config/matugen/themes/btop.theme".source = ./btop.theme;
-    custom.hjem.cfg.files.".config/matugen/themes/yazi-theme.toml".source = ./yazi-theme.toml;
+    custom.hjem.cfg.files."${matugenDir}/btop.theme".source = ./btop.theme;
+    custom.hjem.cfg.files."${matugenDir}/yazi-theme.toml".source = ./yazi-theme.toml;
+    custom.hjem.cfg.files."${matugenDir}/vesktop.css".source = ./vesktop.css;
   };
 }
