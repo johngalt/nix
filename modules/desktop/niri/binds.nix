@@ -16,5 +16,6 @@
   "Mod+Shift+Down" = { action = "move-window-down-or-to-workspace-down"; };
   "Mod+Return" = { action = "maximize-column"; };
   "Mod+Shift+Return" = { action = "set-column-width \"50%\""; };
+  "Mod+Ctrl+Return" = { action = "toggle-window-floating"; };
   "Mod+Shift+Space" = { action = "toggle-windowed-fullscreen"; };
 }
