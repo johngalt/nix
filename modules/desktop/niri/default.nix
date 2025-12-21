@@ -20,10 +20,11 @@ in
 {
   imports = [
     inputs.niri.nixosModules.niri
-    ./dms-greeter
+    ./dms-greeter # display manager using greetd
     ./dms
     ./noctalia
     ./theming.nix # theming dependencies that apply to dms/noctalia
+    ./xdgsettings.nix # xdg portal settings and default applications
   ];
 
   options.custom.desktop.niri = {
@@ -75,6 +76,7 @@ in
     };
 
     # Additional system packages to install with niri
+    # Main system functionality, other apps defined in profiles
     environment.systemPackages = with pkgs; [
       # Applications
       swappy # Screenshot annotation
@@ -91,23 +93,6 @@ in
       pkgs.seahorse
       pkgs.nautilus
     ];
-
-    # Installing additional portals (gnome included with niri-flake)
-    xdg.portal = {
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      # xdgOpenUsePortal = true;
-      # Overriding some portal defaults from niri-flake
-      config = {
-        common = {
-          default = [ "gtk" "gnome" ];
-          "org.freedesktop.impl.portal.Access" = [ "gtk" ];
-          "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
-          "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-          "org.freedesktop.impl.portal.AppChooser" = [ "gtk" ];
-        };
-      };
-    };
 
     custom.hjem.cfg = {
       # The hjem rum module does not actually install niri, just configures it at the user-level

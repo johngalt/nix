@@ -33,17 +33,17 @@ in
       # For KDE Apps (dolphin) need to change Configure -> Window Color Scheme
       adw-gtk3 # Support dynamic theming for gtk3 applications
       (papirus-icon-theme.override {
-        color = "blue";
+        color = "green";
       })
 
       # For firefox theming
       pywalfox-native
     ];
-    # gsettings uses dconf to store settings -- set default icon pack
-    # i'm sure there is a way to get ~/.config/gtk-{3,4}.0/settings.ini to work but its not on Nix
+    # Gnome in Nix uses dconf to store settings
     programs.dconf.profiles.user.databases = [
       {
         settings = {
+          # Default icon pack
           "org/gnome/desktop/interface" = {
             icon-theme = "Papirus-Dark";
           };

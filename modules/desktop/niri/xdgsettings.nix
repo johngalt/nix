@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -8,7 +9,7 @@ let
 
   # Common applications
   webbrowser = "firefox.desktop";
-  filebrowser = "org.kde.dolphin.desktop";
+  filebrowser = "org.gnome.Nautilus.desktop";
   imageviewer = "imv.desktop";
 
   # MIME definitions for less repitition
@@ -68,5 +69,22 @@ in
       webformats
       imageformats
     ];
+    
+    # Installing additional portals (gnome included with niri-flake)
+    xdg.portal = {
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      # xdgOpenUsePortal = true;
+      # Overriding some portal defaults from niri-flake
+      config = {
+        common = {
+          default = [ "gtk" "gnome" ];
+          "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+          "org.freedesktop.impl.portal.AppChooser" = [ "gtk" ];
+        };
+      };
+    };
   };
 }

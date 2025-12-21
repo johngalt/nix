@@ -36,6 +36,11 @@ in
 
     };
 
+    # DMS specific dependencies
+    environment.systemPackages = with pkgs; [
+      libnotify # needed for certain dms plugins to send desktop notifications
+    ];
+
     # Disable niri-flake polkit agent since DMS has its own
     systemd.user.services.niri-flake-polkit.enable = false;
 
