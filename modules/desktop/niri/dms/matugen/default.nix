@@ -29,7 +29,7 @@ in
 
       [templates.vesktop]
       input_path = '${homeDir}/.config/matugen/themes/vesktop.css'
-      outout_path = '${homeDir}/.config/vesktop/themes/dank-modified.css'
+      output_path = '${homeDir}/.config/vesktop/themes/dank-modified.css'
     '';
 
     # Btop matugen template
