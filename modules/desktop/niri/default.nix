@@ -20,6 +20,7 @@ in
 {
   imports = [
     inputs.niri.nixosModules.niri
+    inputs.niri-session-manager.nixosModules.niri-session-manager
     ./dms-greeter # display manager using greetd
     ./dms
     ./noctalia
@@ -61,6 +62,11 @@ in
       fwupd.enable = true; 
       accounts-daemon.enable = true;
       gvfs.enable = true; # usb device mounting
+    };
+
+    # Session manager to save window positions
+    services.niri-session-manager = {
+      enable = true;
     };
 
     environment.sessionVariables = {
