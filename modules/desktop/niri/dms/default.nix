@@ -101,6 +101,10 @@ in
           switch-events {
             lid-close { spawn "dms" "ipc" "call" "lock" "lock"; }
           }
+          debug {
+            // Allows notification actions and window activation
+            honor-xdg-activation-with-invalid-serial
+          }
           // Extra niri includes files dynamically created by DMS
           include "dms/colors.kdl"
           include "dms/layout.kdl"
