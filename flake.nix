@@ -23,10 +23,6 @@
     };
     # Niri
     niri.url = "github:sodiboo/niri-flake";
-    niri-session-manager = {
-      url = "github:MTeaHead/niri-session-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     # Quickshell pinned to release
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell?rev=26531fc46ef17e9365b03770edd3fb9206fcb460";
