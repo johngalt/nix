@@ -30,11 +30,16 @@ in
       [templates.vesktop]
       input_path = '${homeDir}/.config/matugen/themes/vesktop.css'
       output_path = '${homeDir}/.config/vesktop/themes/dank-modified.css'
+
+      [templates.helix]
+      input_path = '${homeDir}/.config/matugen/themes/helix.toml'
+      output_path = '${homeDir}/.config/helix/themes/matugen.toml'
     '';
 
     # Btop matugen template
     custom.hjem.cfg.files."${matugenDir}/btop.theme".source = ./btop.theme;
     custom.hjem.cfg.files."${matugenDir}/yazi-theme.toml".source = ./yazi-theme.toml;
     custom.hjem.cfg.files."${matugenDir}/vesktop.css".source = ./vesktop.css;
+    custom.hjem.cfg.files."${matugenDir}/helix.toml".source = ./helix.toml;
   };
 }
