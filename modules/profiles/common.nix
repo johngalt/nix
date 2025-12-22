@@ -61,6 +61,7 @@ in
         };
         bat = {
           enable = true;
+          theme = "gruvbox-dark";
         };
       };
     };

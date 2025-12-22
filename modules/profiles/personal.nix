@@ -84,7 +84,7 @@ in
         };
         eza = {
           enable = true;
-          theme = "catppuccin";
+          theme = "gruvbox-dark";
         };
       };
     };
