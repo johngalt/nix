@@ -1,21 +1,21 @@
 {
   "dark": {
     "name": "Gruvbox Material Dark Hard",
-    "surface": "#232a2e", //bg_dim
+    "surface": "#293136", //bg_dim
     "surfaceText": "#d3c6aa", //fg1
-    "surfaceVariant": "#2d353b", //bg0
+    "surfaceVariant": "#333c43", //bg0
     "surfaceVariantText": "#d3c6aa", //fg0 -- slightly darker than fg1
-    "background": "#2d353b", //bg0 -- slightly lighter than surface
+    "background": "#333c43", //bg0 -- slightly lighter than surface
     "backgroundText": "#d3c6aa",  //fg1
-    "outline": "#56635f", //grey2 (bg5)
-    "surfaceContainer": "#343f44", //bg1
-    "surfaceContainerHigh": "#3d484d", //bg3
-    "surfaceContainerHighest": "#475258", //bg5
+    "outline": "#b9c0ab", //grey2 (bg5)
+    "surfaceContainer": "#3a464c", //bg1
+    "surfaceContainerHigh": "#434f55", //bg2
+    "surfaceContainerHighest": "#4d5960", //bg3
     "primary": "#a7c080", //green
     "secondary": "#7fbbb3", //yellow (testing blue)
-    "primaryText": "#232a2e", //bg_dim 
+    "primaryText": "#293136", //bg_dim 
     "primaryContainer": "#a7c080", // primary
-    "surfaceTint": "#425047", //bg_visual_green
+    "surfaceTint": "#48584e", //bg_visual_green
     "error": "#e57e80", //red
     "warning": "#e59875", //orange
     "info": "#dabc7f", //yellow
@@ -23,21 +23,21 @@
   },
   "light": {
     "name": "Gruvbox Material Light Hard",
-    "surface": "#efebd4",
+    "surface": "#e5dfc5",
     "surfaceText": "#5c6a72",
-    "surfaceVariant": "#fdf6e3",
+    "surfaceVariant": "#f3ead3",
     "surfaceVariantText": "#5c6a72",
-    "background": "#fdf6e3",
+    "background": "#f3ead3",
     "backgroundText": "#5c6a72",
     "outline": "#829181", //grey2
-    "surfaceContainer": "#efebd4", //bg2
-    "surfaceContainerHigh": "#e6e2cc", //bg3
-    "surfaceContainerHighest": "#e0dcc7", //bg4
+    "surfaceContainer": "#e5dfc5", //bg2
+    "surfaceContainerHigh": "#ddd8be", //bg3
+    "surfaceContainerHighest": "#d8d3ba", //bg4
     "primary": "#8ca101",
     "secondary": "#dea000",
-    "primaryText": "#efebd4",
+    "primaryText": "#e5dfc5",
     "primaryContainer": "#8ca101",
-    "surfaceTint": "#f0f1d2",
+    "surfaceTint": "#e5e6c5",
     "error": "#f75552",
     "warning": "#f47d26",
     "info": "#dea000",
