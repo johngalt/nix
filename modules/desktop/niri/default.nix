@@ -103,6 +103,7 @@ in
         binds = import ./binds.nix;
         # Niri global config (shell specific config will get merged with this)
         config = ''
+          prefer-no-csd
           input {
               keyboard {
                   xkb { 
