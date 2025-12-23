@@ -67,6 +67,13 @@ in
             ];
           };
         };
+        foot = {
+          enable = true;
+          settings = {
+            main.include = "/home/${private.username}/.config/foot/dank-colors.ini";
+            main.font = "JetBrainsMono NF:size=11";
+          };
+        };
         yazi.enable = true;
         chromium.enable = true;
         firefox.enable = true;
