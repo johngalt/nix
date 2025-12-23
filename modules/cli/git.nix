@@ -31,8 +31,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    custom.hjem.cfg.rum = {
-      programs.git = {
+    custom.hjem.cfg = {
+      rum.programs.git = {
         enable = true;
         settings = {
           init = {
