@@ -1,4 +1,5 @@
 {
+  lib,
   ...
 }:
 {
@@ -13,6 +14,7 @@
       common.enable = true;
       personal.enable = true;
     };
+
     # Impermanence
     system.impermanence = {
       enable = true;
