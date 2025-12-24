@@ -38,20 +38,21 @@ in
   };
   config = mkIf cfg.enable {
 
+    environment.shellAliases = {
+      neofetch = "fastfetch";
+      ls = "eza --icons=always --width=100";
+      ll = "eza -l -a --icons=auto";
+      tree = "ls --tree --git-ignore";
+      cat = "bat";
+      flinks = "find . -links 1 -type f ! -name '*.png' ! -name '*.jpg' ! -name '*sample*' ! -name '*.nfo' ! -name '*.srt'";
+    };
+
     # Custom module settings
     custom = {
       system = {
         ssh.enable = true;
-        zsh = {
+        fish = {
           enable = true;
-          aliases = {
-            neofetch = "fastfetch";
-            ls = "eza --icons=always --width=100";
-            ll = "eza -l -a --icons=auto";
-            tree = "ls --tree --git-ignore";
-            cat = "bat";
-            flinks = "find . -links 1 -type f ! -name '*.png' ! -name '*.jpg' ! -name '*sample*' ! -name '*.nfo' ! -name '*.srt'";
-          };
         };
       };
       cli = {
@@ -82,6 +83,8 @@ in
       systemctl-tui
       wakeonlan
       duf
+      fd
+      fq
     ];
 
     # Nixos modules
@@ -101,7 +104,7 @@ in
       ${private.username} = {
         isNormalUser = true;
         inherit extraGroups;
-        shell = pkgs.zsh;
+        shell = pkgs.fish;
         hashedPasswordFile = config.sops.secrets."userpass/${private.username}".path;
         openssh.authorizedKeys.keys = [
           private.key
