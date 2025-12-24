@@ -58,15 +58,15 @@ in
           enable = true;
           theme = "dank";
         };
-        kitty = {
-          enable = true;
-          settings = {
-            include = [
-              "dank-tabs.conf"
-              "dank-theme.conf"
-            ];
-          };
-        };
+        # kitty = {
+        #   enable = true;
+        #   settings = {
+        #     include = [
+        #       "dank-tabs.conf"
+        #       "dank-theme.conf"
+        #     ];
+        #   };
+        # };
         foot = {
           enable = true;
           settings = {
