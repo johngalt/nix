@@ -24,7 +24,7 @@ in
     # Fish plugins
     environment.systemPackages = with pkgs.fishPlugins; [
       fzf-fish
-      pure
+      # pure
     ];
   };
 }
