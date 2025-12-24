@@ -114,7 +114,7 @@ in
                   track-layout "global"
               }
               touchpad { 
-                  tap // Tap to click
+                  //tap // Disabled because tap is too sensitive
                   dwt // Disable when typing
                   tap-button-map "left-right-middle" // Two fingers right click
                   click-method "clickfinger"
