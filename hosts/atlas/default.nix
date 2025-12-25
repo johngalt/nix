@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   ...
 }:
 {
@@ -10,6 +11,7 @@
 
   # Nix-index
   programs.nix-index-database.comma.enable = true;
+  programs.nix-index.enableFishIntegration = lib.mkForce false;
 
   # Custom module settings
   custom = {

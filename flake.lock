@@ -11,11 +11,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1766517055,
-        "narHash": "sha256-r/+oO2811yJWm52ysdt/gNG2efXKrWH5+jEBttt/m1s=",
+        "lastModified": 1766610767,
+        "narHash": "sha256-259EpTJ5zDLYM/+kRxWo7wkq8GWGK3xgVevv7MfqolM=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "1d4d145187fa6857cd7a846e09ea032819a98993",
+        "rev": "6303304a100a7c06d9ab1d0d0898ba02749b9d11",
         "type": "github"
       },
       "original": {
@@ -220,6 +220,26 @@
         "type": "github"
       }
     },
+    "nix-index-database": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1765267181,
+        "narHash": "sha256-d3NBA9zEtBu2JFMnTBqWj7Tmi7R5OikoU2ycrdhQEws=",
+        "owner": "nix-community",
+        "repo": "nix-index-database",
+        "rev": "82befcf7dc77c909b0f2a09f5da910ec95c5b78f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nix-index-database",
+        "type": "github"
+      }
+    },
     "nix-private": {
       "locked": {
         "lastModified": 1765747484,
@@ -339,11 +359,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1766517701,
-        "narHash": "sha256-mfwxi4loqYxdzyDWoNEtksiLpZeqoTMRDPvKnIYLNaY=",
+        "lastModified": 1766626087,
+        "narHash": "sha256-85SoTgGK4/QTcrrH73CW3JWxbARQMeKZO1tIdH2OarI=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "816f8351c2e1f72b39ff466cae2684fdedcecab5",
+        "rev": "c689d16dff078bc4efbc66336cb11c36fcdf7734",
         "type": "github"
       },
       "original": {
@@ -404,6 +424,7 @@
         "hjem-rum": "hjem-rum",
         "impermanence": "impermanence",
         "niri": "niri",
+        "nix-index-database": "nix-index-database",
         "nix-private": "nix-private",
         "nixpkgs": "nixpkgs_4",
         "noctalia": "noctalia",
