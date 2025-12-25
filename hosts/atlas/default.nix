@@ -1,11 +1,15 @@
 {
-  lib,
+  inputs,
   ...
 }:
 {
   imports = [
     ./hardware # Host hardware configuration
+    inputs.nix-index-database.nixosModules.default
   ];
+
+  # Nix-index
+  programs.nix-index-database.comma.enable = true;
 
   # Custom module settings
   custom = {

@@ -5,6 +5,11 @@
     # Private flake
     nix-private.url = "git+ssh://git@github.com/johngalt/private-nix.git?shallow=1";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Nix-index
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Disko -- declarative disk management
     disko = {
       url = "github:nix-community/disko";
