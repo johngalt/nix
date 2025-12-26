@@ -5,7 +5,7 @@
   ...
 }:
 let 
-  cfg = config.custom.desktop.niri;
+  cfg = config.custom.graphical.niri;
 
   inherit (lib)
     mkIf

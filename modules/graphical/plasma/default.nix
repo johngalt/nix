@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.custom.desktop.plasma;
+  cfg = config.custom.graphical.plasma;
 
   inherit (lib)
     mkEnableOption
@@ -14,7 +14,7 @@ let
 
 in
 {
-  options.custom.desktop.plasma = {
+  options.custom.graphical.plasma = {
     enable = mkEnableOption "Enable KDE Plasma";
   };
 

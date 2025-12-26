@@ -11,12 +11,12 @@ in
   imports = [
     ./niri
     ./plasma
+    ./dms-greeter
     ./audio.nix
     ./fonts.nix
-    ./security.nix
   ];
 
-  options.custom.desktop = {
-    enable = mkEnableOption "Enable global desktop configurations";
+  options.custom.graphical = {
+    enable = mkEnableOption "Enable graphical configurations";
   };
 }

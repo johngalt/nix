@@ -29,13 +29,15 @@ in
     programs.foot = {
       enable = true;
     };
+    
     custom.hjem.cfg = {
       rum.programs.foot = {
         enable = true;
         package = null; # Installed globally
         settings = mkMerge [
           {
-            # Global module settings
+            # Pull default font from fontconfig module
+            main.font = "${lib.head config.fonts.fontconfig.defaultFonts.monospace}:size=11";
           }
           cfg.settings
         ];

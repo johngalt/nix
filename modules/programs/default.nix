@@ -5,11 +5,12 @@
   imports = [
     ./alacritty.nix
     ./firefox.nix
+    ./thunderbird.nix
     ./foot.nix
     ./vesktop.nix
     ./chromium.nix
     ./syncthing.nix
-    ./kitty.nix
+    ./vscode.nix
     ./yazi.nix
   ];
 }

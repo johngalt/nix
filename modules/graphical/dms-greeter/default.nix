@@ -6,7 +6,7 @@
   ...
 }:
 let
-  cfg = config.custom.desktop.dms-greeter;
+  cfg = config.custom.graphical.dms-greeter;
   inherit (lib)
     mkEnableOption
     mkIf
@@ -17,7 +17,7 @@ let
     ;
 in
 {
-  options.custom.desktop.dms-greeter = {
+  options.custom.graphical.dms-greeter = {
     enable = mkEnableOption "Enable dms-greeter";
     user = mkOption {
       type = str;

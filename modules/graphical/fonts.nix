@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.custom.desktop;
+  cfg = config.custom.graphical;
   inherit (lib)
     mkIf
     ;
@@ -26,7 +26,6 @@ in
       fontconfig.defaultFonts = {
         serif = [ "Noto Serif" ];
         sansSerif = [ "Noto Sans" ];
-        # monospace = [ "Cascadia Mono" ];
         monospace = [ "JetBrainsMono NF" ];
         emoji = [ "Noto Color Emoji" ];
       };

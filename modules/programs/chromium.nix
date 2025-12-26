@@ -34,7 +34,6 @@ in
         "PasswordManagerEnabled" = false;
         "AutofillCreditCardEnabled" = false;
       };
-      # enablePlasmaBrowserIntegration = true;
     };
   };
 }

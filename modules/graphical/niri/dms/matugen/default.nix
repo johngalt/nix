@@ -4,7 +4,7 @@
   ...
 }:
 let
-  cfg = config.custom.desktop.niri;
+  cfg = config.custom.graphical.niri;
   homeDir = "/home/${config.custom.hjem.user}";
   matugenDir = ".config/matugen/themes";
 

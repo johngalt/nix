@@ -14,15 +14,19 @@ let
     ;
   inherit (lib.types)
     str
+    nullOr
     ;
 in
 {
   options.custom.cli.eza = {
     enable = mkEnableOption "Enable eza, an ls replacement";
     theme = mkOption {
-      type = str;
+      type = nullOr str;
       description = "Theme to use for eza";
-      default = "catppuccin";
+      default = null;
+    };
+    enableAliases = mkEnableOption "Enable shell aliases for eza" // {
+      default = true;
     };
   };
 
@@ -32,7 +36,14 @@ in
       eza
       eza-themes # Custom package from eza-themes repository
     ];
-    custom.hjem.cfg = {
+
+    environment.shellAliases = mkIf cfg.enableAliases {
+      ls = "eza --icons=always --width=100";
+      ll = "eza -l -a --icons=auto";
+      tree = "eza --tree --git-ignore";
+    };
+
+    custom.hjem.cfg = mkIf (!isNull cfg.theme) {
       files.".config/eza/theme.yml".source = "${pkgs.eza-themes}/share/eza-themes/${cfg.theme}.yml";
     };
   };

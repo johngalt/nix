@@ -6,7 +6,7 @@
   ...
 }:
 let
-  cfg = config.custom.profiles.personal;
+  cfg = config.custom.profiles.desktop;
 
   inherit (lib)
     mkEnableOption
@@ -14,33 +14,27 @@ let
     ;
 in
 {
-  options.custom.profiles.personal = {
-    enable = mkEnableOption "Enable personal modules";
+  options.custom.profiles.desktop = {
+    enable = mkEnableOption "Enable desktop modules";
   };
 
   config = mkIf cfg.enable {
     # Custom module settings
     custom = {
       hjem = {
-        enable = true;
-        user = private.username;
         # Extra packages to install for user
         extraPackages = with pkgs; [
           calibre
           moonlight-qt
           just
           vlc
-          nixd
-          helix
           nixpkgs-track
-          duf
           localsend
           obsidian
-          vscode
         ];
       };
-      # Enable common desktop configuration and environments
-      desktop = {
+      # Enable common graphical configurations and environments
+      graphical = {
         enable = true;
         enableDefaultApps = true;
         dms-greeter = {
@@ -53,46 +47,31 @@ in
         };
         plasma.enable = false;
       };
+      cli = {
+        comma.enable = true;
+      };
       programs = {
         alacritty = {
           enable = true;
-          theme = "dank";
+          imports = [ "~/.config/alacritty/dank-theme.toml" ];
         };
-        # kitty = {
-        #   enable = true;
-        #   settings = {
-        #     include = [
-        #       "dank-tabs.conf"
-        #       "dank-theme.conf"
-        #     ];
-        #   };
-        # };
         foot = {
           enable = true;
           settings = {
-            main.include = "/home/${private.username}/.config/foot/dank-colors.ini";
-            main.font = "JetBrainsMono NF:size=11";
+            main.include = "~/.config/foot/dank-colors.ini";
           };
         };
         yazi.enable = true;
         chromium.enable = true;
         firefox.enable = true;
         discord.enable = true;
+        thunderbird.enable = true;
+        vscode.enable = true;
+        syncthing.enable = true;
       };
       system = {
         yubikey.enable = true;
         printing.enable = true;
-      };
-      cli = {
-        git = {
-          enable = true;
-          name = private.fullname;
-          email = private.email;
-        };
-        eza = {
-          enable = true;
-          theme = "gruvbox-dark";
-        };
       };
     };
   };

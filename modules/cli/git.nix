@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -31,6 +32,10 @@ in
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      git
+    ];
+
     custom.hjem.cfg = {
       rum.programs.git = {
         enable = true;

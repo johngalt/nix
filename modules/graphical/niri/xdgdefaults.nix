@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.custom.desktop;
+  cfg = config.custom.graphical;
 
   # Common applications
   webbrowser = "firefox.desktop";
@@ -54,7 +54,7 @@ let
     ;
 in 
 {
-  options.custom.desktop = {
+  options.custom.graphical = {
     enableDefaultApps = mkEnableOption "Enable default applications via XDG";
   };
   

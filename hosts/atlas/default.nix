@@ -1,24 +1,17 @@
 {
-  inputs,
-  lib,
   ...
 }:
 {
   imports = [
     ./hardware # Host hardware configuration
-    inputs.nix-index-database.nixosModules.default
   ];
-
-  # Nix-index
-  programs.nix-index-database.comma.enable = true;
-  programs.nix-index.enableFishIntegration = lib.mkForce false;
 
   # Custom module settings
   custom = {
-    # Common and personal profiles enabled
+    # Base and desktop profiles enabled
     profiles = {
-      common.enable = true;
-      personal.enable = true;
+      base.enable = true;
+      desktop.enable = true;
     };
 
     # Impermanence
@@ -40,14 +33,6 @@
         "/var/lib/NetworkManager/timestamps"
         "/var/lib/sddm/state.conf"
       ];
-    };
-    programs = {
-      syncthing.enable = true;
-    };
-    desktop = {
-      niri = {
-        enable = true;
-      };
     };
   };
 }

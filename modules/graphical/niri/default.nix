@@ -6,7 +6,7 @@
   ...
 }:
 let
-  cfg = config.custom.desktop.niri;
+  cfg = config.custom.graphical.niri;
 
   inherit (lib)
     mkEnableOption
@@ -20,14 +20,13 @@ in
 {
   imports = [
     inputs.niri.nixosModules.niri
-    ./dms-greeter # display manager using greetd
     ./dms
     ./noctalia
     ./theming.nix # theming dependencies that apply to dms/noctalia
-    ./xdgsettings.nix # xdg portal settings and default applications
+    ./xdgdefaults.nix # xdg portal settings and default applications
   ];
 
-  options.custom.desktop.niri = {
+  options.custom.graphical.niri = {
     enable = mkEnableOption "Enable Niri";
     shell = mkOption {
       type = enum [ "dms" "noctalia" ];
@@ -62,6 +61,8 @@ in
       accounts-daemon.enable = true;
       gvfs.enable = true; # usb device mounting
     };
+    # gnupg stuff + pinentry
+    programs.gnupg.agent.enable = true;
 
     environment.sessionVariables = {
       # Force electron apps to use wayland
@@ -114,7 +115,7 @@ in
                   track-layout "global"
               }
               touchpad { 
-                  tap // Disabled because tap is too sensitive
+                  tap // Tap-to-click
                   drag true // Tap-and-drag
                   dwt // Disable when typing
                   tap-button-map "left-right-middle" // Two fingers right click

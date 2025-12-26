@@ -4,7 +4,7 @@
   ...
 }:
 let
-  cfg = config.custom.desktop;
+  cfg = config.custom.graphical;
   inherit (lib)
     mkIf
     ;

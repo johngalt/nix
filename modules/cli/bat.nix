@@ -21,19 +21,29 @@ in
     theme = mkOption {
       type = str;
       description = "Theme to use for bat";
-      default = "Catppuccin Macchiato";
+      default = "ansi"; # Just use terminal colors as default
+    };
+    enableAliases = mkEnableOption "Enable shell aliases for bat" // {
+      default = true;
     };
   };
 
-  config =
-    mkIf cfg.enable {
-      environment.systemPackages = [ pkgs.bat ];
-    }
-    // mkIf config.custom.hjem.enable {
-      # Enable settings file only if hjem is enabled
-      custom.hjem.cfg.files.".config/bat/config".text = ''
-        --theme="${cfg.theme}"
-        --italic-text=always
-      '';
+  config = mkIf cfg.enable {
+    programs.bat = {
+      enable = true;
+      extraPackages = with pkgs.bat-extras; [
+        batdiff
+        batman
+        prettybat
+      ];
+      settings = {
+        italic-text = "always";
+        theme = cfg.theme;
+      };
     };
+
+    environment.shellAliases = mkIf cfg.enableAliases {
+      cat = "bat";
+    };
+  };
 }

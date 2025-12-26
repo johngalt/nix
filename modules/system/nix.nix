@@ -50,15 +50,6 @@
     timeZone = "America/Chicago";
     hardwareClockInLocalTime = lib.mkDefault true;
   };
-
-  # Disable sudo lecture since root filesystem is wiped on each boot
-  security.sudo = {
-    wheelNeedsPassword = false;
-    extraConfig = ''
-      Defaults lecture = never
-    '';
-  };
-
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "24.11";
 }

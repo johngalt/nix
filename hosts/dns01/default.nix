@@ -19,7 +19,7 @@
 
   # Custom module settings
   custom = {
-    profiles.common.enable = true;
+    profiles.base.enable = true;
     services = {
       beszel = {
         enable = true;

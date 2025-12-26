@@ -6,7 +6,7 @@
   ...
 }:
 let 
-  cfg = config.custom.desktop.niri;
+  cfg = config.custom.graphical.niri;
 
   noctalia = cmd: [
     "noctalia-shell" "ipc" "call"

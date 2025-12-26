@@ -56,7 +56,7 @@
 
   # Custom module settings
   custom = {
-    profiles.common.enable = true;
+    profiles.base.enable = true;
     system = {
       docker = {
         enable = true;

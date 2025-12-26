@@ -4,7 +4,7 @@
 {
   imports = [
     ./cli
-    ./desktop
+    ./graphical
     ./profiles
     ./programs
     ./services

@@ -3,8 +3,8 @@
 }:
 {
   imports = [
-    ./common.nix
-    ./personal.nix
+    ./base.nix
+    ./desktop.nix
     ./server.nix
   ];
 }

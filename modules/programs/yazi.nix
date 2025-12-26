@@ -39,6 +39,7 @@ in
         };
         initLua = pkgs.writeTextFile {
           name = "yazi-init.lua";
+          # Init git and full-border plugins
           text = ''
             require("full-border"):setup {
               -- Available values: ui.Border.PLAIN, ui.Border.ROUNDED

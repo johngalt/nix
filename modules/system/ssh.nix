@@ -19,6 +19,7 @@ in
     services = {
       openssh = {
         enable = true;
+        # Sensible defaults for SSH
         settings = {
           UsePAM = false;
           PermitRootLogin = "no";
