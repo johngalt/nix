@@ -15,7 +15,6 @@ in
 {
   imports = [
     ./matugen
-    ./themes
   ];
 
   config = mkIf (cfg.shell == "dms" && cfg.enable) {
