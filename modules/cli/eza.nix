@@ -38,9 +38,9 @@ in
     ];
 
     environment.shellAliases = mkIf cfg.enableAliases {
-      ls = "eza --icons=always --width=100";
+      ls = "eza --icons=auto";
       ll = "eza -l -a --icons=auto";
-      tree = "eza --tree --git-ignore";
+      tree = "eza --tree --git-ignore --icons=auto";
     };
 
     custom.hjem.cfg = mkIf (!isNull cfg.theme) {

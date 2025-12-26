@@ -9,8 +9,6 @@ let
   
   # Common shell aliases to apply to all hosts
   commonAliases = {
-    # Move this one
-    flinks = "find . -links 1 -type f ! -name '*.png' ! -name '*.jpg' ! -name '*sample*' ! -name '*.nfo' ! -name '*.srt'";
   };
 
   inherit (lib)
@@ -60,72 +58,52 @@ in
 
     # Disable man cache generation because it prolongs build times
     documentation.man.generateCaches = lib.mkForce false;
+    # Disable command-not-found
+    programs.command-not-found.enable = false;
 
     # Starship prompt
     programs.starship = {
       enable = true;
+      settings = {
+        format = "$username$hostname:$directory$git_branch$nix_shell$character";
+        status = {
+          disabled = false;
+          symbol = "✘";
+          style = "fg:red bg:transparent";
+          format = "[ $status$symbol]($style)";
+        };
+        username = {
+          disabled = false;
+          style_user = "white";
+          style_root = "red";
+          format = "[$user]($style)";
+          show_always = true;
+        };
+        hostname = {
+          ssh_only = false;
+          format = "@[$ssh_symbol](bold white)$hostname";
+          ssh_symbol = "\\( 🌐\\)";
+          disabled = false;
+        };
+        directory = {
+          format = "[$path]($style) ";
+          style = "";
+          home_symbol = "~";
+          truncation_symbol = "…/";
+          truncate_to_repo = false;
+          read_only = "";
+        };
+        nix_shell = {
+          disabled = false;
+          heuristic = true;
+          format = "[❄️ \\(Nix Shell\\)](bold white) ";
+        };
+        git_branch = {
+          format = "[| $symbol$branch]($style) ";
+          symbol = "  ";
+          style = "fg:green bg:transparent";
+        };
+      };
     };
-
-    # TODO: rewrite starship config into nix format with programs.starship.settings option
-    # custom.hjem.cfg = {
-    #   files.".config/starship.toml".text = ''
-    #     # Two-line prompt
-    #     format = """
-    #     [](bg:transparent fg:bright-purple)$os[](fg:bright-purple bg:cyan)$directory$git_branch[](fg:cyan bg:transparent)$status
-    #     $character
-    #     """
-
-    #     [status]
-    #     disabled = false
-    #     symbol = "✘"
-    #     style = "fg:red bg:transparent"
-    #     format = "[ $status$symbol]($style)"
-
-    #     [os]
-    #     disabled = false
-    #     format = "[$symbol ]($style)"
-    #     style = "bg:bright-purple fg:black"
-
-    #     [os.symbols]
-    #     Alpine = ""
-    #     Arch = ""
-    #     Debian = ""
-    #     EndeavourOS = ""
-    #     Fedora = ""
-    #     Gentoo = ""
-    #     Macos = ""
-    #     Manjaro = ""
-    #     Mint = ""
-    #     NixOS = ""
-    #     openSUSE = ""
-    #     Pop = ""
-    #     Raspbian = ""
-    #     Redhat = ""
-    #     RedHatEnterprise = ""
-    #     RockyLinux = ""
-    #     Ubuntu = ""
-    #     Void = ""
-    #     Linux = ""
-
-    #     [time]
-    #     disabled = true
-    #     time_format = "%R"
-    #     style = "bg:white fg:black"
-    #     format = "[ 󱑍 $time ]($style)"
-
-    #     [directory]
-    #     format = "[ $path ]($style)"
-    #     style = "fg:black bg:cyan"
-    #     home_symbol = "~"
-    #     truncation_symbol = "…/"
-    #     truncate_to_repo = false
-    #     read_only = ""
-
-    #     [git_branch]
-    #     format = "[| $symbol$branch]($style)"
-    #     symbol = "  "
-    #     style = "fg:black bg:cyan"
-    #   '';
-    # };
   };
 }

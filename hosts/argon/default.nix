@@ -58,6 +58,9 @@
   custom = {
     profiles.base.enable = true;
     system = {
+      shell.aliases = {
+        flinks = "find . -links 1 -type f ! -name '*.png' ! -name '*.jpg' ! -name '*sample*' ! -name '*.nfo' ! -name '*.srt'";
+      };
       docker = {
         enable = true;
         customUser = "docker";
