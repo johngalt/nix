@@ -31,6 +31,7 @@ in
           nixpkgs-track
           localsend
           obsidian
+          gpu-screen-recorder-gtk
         ];
       };
       # Enable common graphical configurations and environments
@@ -64,6 +65,7 @@ in
         yazi.enable = true;
         chromium.enable = true;
         firefox.enable = true;
+        zen.enable = true;
         discord.enable = true;
         thunderbird.enable = true;
         vscode.enable = true;

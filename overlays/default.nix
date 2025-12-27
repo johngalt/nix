@@ -16,20 +16,16 @@
         src = prev.fetchFromGitHub {
           owner = "nix-community";
           repo = "nixd";
-          # tag = "2.7.0";
-          tag = null;
-          rev = "1d7de1d88744bfb5addb207dc4fc3ed39dbeeacd";
-          hash = "sha256-yiTaTk3S2JgogrPlZOislXCPzOwMK1ZV6j/xAauus1s=";
+          tag = "2.7.0";
+          hash = "sha256-VPUX/68ysFUr1S8JW9I1rU5UcRoyZiCjL+9u2owrs6w=";
         };
       });
       nixf = prev.nixf.overrideAttrs (old: {
         src = prev.fetchFromGitHub {
           owner = "nix-community";
           repo = "nixd";
-          tag = null;
-          #tag = "2.7.0";
-          rev = "1d7de1d88744bfb5addb207dc4fc3ed39dbeeacd";
-          hash = "sha256-yiTaTk3S2JgogrPlZOislXCPzOwMK1ZV6j/xAauus1s=";
+          tag = "2.7.0";
+          hash = "sha256-VPUX/68ysFUr1S8JW9I1rU5UcRoyZiCjL+9u2owrs6w=";
         };
       });
     })

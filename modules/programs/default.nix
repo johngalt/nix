@@ -12,5 +12,6 @@
     ./syncthing.nix
     ./vscode.nix
     ./yazi.nix
+    ./zen.nix
   ];
 }

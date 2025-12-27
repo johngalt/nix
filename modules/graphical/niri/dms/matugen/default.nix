@@ -34,6 +34,10 @@ in
       [templates.helix]
       input_path = '${homeDir}/.config/matugen/themes/helix.toml'
       output_path = '${homeDir}/.config/helix/themes/matugen.toml'
+
+      [templates.zen]
+      input_path = '${homeDir}/.config/matugen/themes/dankzen.css'
+      output_path = '${homeDir}/.zen/htqcmbyj.Default Profile/chrome/userChrome.css'
     '';
 
     # Btop matugen template
@@ -41,5 +45,6 @@ in
     custom.hjem.cfg.files."${matugenDir}/yazi-theme.toml".source = ./yazi-theme.toml;
     custom.hjem.cfg.files."${matugenDir}/vesktop.css".source = ./vesktop.css;
     custom.hjem.cfg.files."${matugenDir}/helix.toml".source = ./helix.toml;
+    custom.hjem.cfg.files."${matugenDir}/zenbrowser-dank.css".source = ./zenbrowser-dank.css;
   };
 }

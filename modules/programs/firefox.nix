@@ -28,6 +28,7 @@ in
         DisableTelemetry = true;
         DisableMasterPasswordCreation = true;
         DisplayBookmarksToolbar = "always";
+        NoDefaultBookmarks = true;
         DontCheckDefaultBrowser = true;
         OfferToSaveLogins = false;
         PasswordManagerEnabled = false;
