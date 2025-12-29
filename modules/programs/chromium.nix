@@ -33,6 +33,8 @@ in
       extraOpts = {
         "PasswordManagerEnabled" = false;
         "AutofillCreditCardEnabled" = false;
+        "AutofillAddressEnabled" = false;
+        "GenAiDefaultSettings" = 2; # Disables generative AI
       };
     };
   };

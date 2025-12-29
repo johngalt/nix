@@ -3,6 +3,7 @@
 }:
 {
   imports = [
+    ./_1password.nix
     ./alacritty.nix
     ./firefox.nix
     ./thunderbird.nix

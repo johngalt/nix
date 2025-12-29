@@ -32,6 +32,7 @@ in
           localsend
           obsidian
           gpu-screen-recorder-gtk
+          rustdesk-flutter
         ];
       };
       # Enable common graphical configurations and environments
@@ -70,6 +71,10 @@ in
         thunderbird.enable = true;
         vscode.enable = true;
         syncthing.enable = true;
+        _1password = {
+          enable = true;
+          polkitUsers = [ "${private.username} " ]; 
+        };
       };
       system = {
         yubikey.enable = true;
