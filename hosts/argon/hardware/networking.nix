@@ -16,6 +16,16 @@
         34400 # threadfin
         44262 # qbit
       ];
+      allowedTCPPortRanges = [
+        {
+          # Rust Desk ports
+          from = 21115;
+          to = 21119;
+        }
+      ];
+      allowedUDPPorts = [
+        21116 # Rust desk
+      ];
     };
   };
 
