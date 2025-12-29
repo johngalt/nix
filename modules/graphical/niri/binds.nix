@@ -1,6 +1,6 @@
 # Global niri binds. Shell specific binds will be in respective module.
 {
-  "Mod+T" = { spawn = [ "alacritty" ]; };
+  "Mod+T" = { spawn = [ "foot" ]; };
   "Mod+Q" = { parameters = { repeat = false; }; action = "close-window"; };
 
   # Workspace navigation
