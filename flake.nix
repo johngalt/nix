@@ -41,8 +41,12 @@
     dankMaterialShell = {
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.dgop.follows = "dgop";
     };
+    # Testing repo
+    # dms-test = {
+    #   url = "github:AvengeMedia/DankMaterialShell/doctor";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     # Noctalia shell
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
