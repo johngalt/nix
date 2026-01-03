@@ -64,6 +64,7 @@
   # Custom module settings
   custom = {
     profiles.base.enable = true;
+    profiles.server.enable = true;
     system = {
       shell.aliases = {
         flinks = "find . -links 1 -type f ! -name '*.png' ! -name '*.jpg' ! -name '*sample*' ! -name '*.nfo' ! -name '*.srt'";
@@ -112,6 +113,13 @@
       forgejo-ssh = {
         enable = true;
         sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIUp5CycMjxyBJEIw9awQ38r/BpRRBLixmltEzZb5xK6 Gitea Host Key";
+      };
+      beszel = {
+        # Adding some additional options for the beszel module to show additional disks
+        environment = {
+          EXTRA_FILESYSTEMS = "sda1__Backups,sdb1__Data3,sdc1__Data1,sdd1__Parity1,sde1__Data2,nvme3n1p1__Cache";
+          EXCLUDE_SMART = true;
+        };
       };
       sanoid = {
         enable = true;
@@ -199,10 +207,6 @@
         daysFrom = 12;
         daysTo = 30;
         healthcheck = "628b7d91-9767-4ba2-9021-2893105e07f4";
-      };
-      beszel = {
-        enable = true;
-        environmentFile = config.sops.templates."beszel-agent".path;
       };
     };
   };

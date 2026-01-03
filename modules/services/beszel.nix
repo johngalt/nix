@@ -29,6 +29,10 @@ in
       type = lib.types.path;
       description = "Path to environment file used with beszel-agent service";
     };
+    environment = mkOption {
+      type = lib.types.attrs;
+      description = "Beszel environmental variables";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -56,6 +60,7 @@ in
       enable = true;
       openFirewall = true;
       environmentFile = cfg.environmentFile;
+      environment = cfg.environment;
     };
   };
 }
