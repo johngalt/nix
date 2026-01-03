@@ -10,14 +10,6 @@
   ];
 
   # SOPS definitions
-  # Beszel
-  sops.secrets."beszel/sshkey" = { };
-  sops.secrets."beszel/hydratoken" = { };
-  sops.templates."beszel-agent".content = ''
-    HUB_URL=https://beszel.${private.domain}
-    KEY=${config.sops.placeholder."beszel/sshkey"}
-    TOKEN=${config.sops.placeholder."beszel/hydratoken"}
-  '';
   # Renovate
   sops.secrets."renovate/github_key" = { };
   sops.secrets."renovate/renovate_key" = { };
@@ -42,7 +34,6 @@
     };
     schedule = "*-*-* 00/2:00:00";
   };
-
   services.gitea-actions-runner = {
     package = pkgs.forgejo-runner;
     instances = {
@@ -62,16 +53,12 @@
 
   # Custom module settings
   custom = {
+    # Profiles
     profiles.base.enable = true;
+    profiles.server.enable = true;
     system.docker = {
       enable = true;
       customUser = "docker";
-    };
-    services = {
-      beszel = {
-        enable = true;
-        environmentFile = config.sops.templates."beszel-agent".path;
-      };
     };
   };
 

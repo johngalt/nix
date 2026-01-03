@@ -1,5 +1,4 @@
 {
-  config,
   private,
   ...
 }:
@@ -8,25 +7,10 @@
     ./hardware
   ];
 
-  # SOPS definitions for host
-  sops.secrets."beszel/sshkey" = { };
-  sops.secrets."beszel/dns01token" = { };
-  sops.templates."beszel-agent".content = ''
-    HUB_URL=https://beszel.${private.domain}
-    KEY=${config.sops.placeholder."beszel/sshkey"}
-    TOKEN=${config.sops.placeholder."beszel/dns01token"}
-  '';
-
   # Custom module settings
   custom = {
     profiles.base.enable = true;
-    services = {
-      beszel = {
-        enable = true;
-        environmentFile = config.sops.templates."beszel-agent".path;
-      };
-    };
-
+    profiles.server.enable = true;
   };
 
   # Technitium DNS server

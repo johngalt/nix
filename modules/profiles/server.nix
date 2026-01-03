@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  private,
   ...
 }:
 let
@@ -17,9 +18,17 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Custom module settings
-    custom = {
-      # Beszel
+    # Sops definitions
+    # Beszel
+    sops.secrets."beszel/sshkey" = { };
+    sops.templates."beszel-agent".content = ''
+      HUB_URL=https://beszel.${private.domain}
+      KEY=${config.sops.placeholder."beszel/sshkey"}
+    '';
+
+    custom.services.beszel = {
+      enable = true;
+      environmentFile = config.sops.templates."beszel-agent".path;
     };
   };
 }

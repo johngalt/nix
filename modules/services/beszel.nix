@@ -13,7 +13,6 @@ let
     mkIf
     ;
   inherit (lib.types)
-    path
     str
     ;
 
@@ -27,7 +26,7 @@ in
       default = "beszel-agent";
     };
     environmentFile = mkOption {
-      type = path;
+      type = lib.types.path;
       description = "Path to environment file used with beszel-agent service";
     };
   };
@@ -46,7 +45,7 @@ in
           "messagebus"
           "docker"
         ];
-        DynamicUser = mkForce true;
+        DynamicUser = mkForce false;
         Group = "beszel-agent";
       };
     };
