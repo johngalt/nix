@@ -2,12 +2,19 @@
   config,
   pkgs,
   private,
+  lib,
   ...
 }:
 {
   imports = [
     ./hardware
   ];
+
+  # Hacky way to get VSCode working when I want to use fish shell
+  users.users.${private.username}.shell = lib.mkForce pkgs.bash;
+  programs.bash.interactiveShellInit = ''
+    exec fish
+  '';
 
   # Host-specific programs
   programs = {
