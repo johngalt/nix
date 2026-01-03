@@ -45,10 +45,10 @@ in
     };
     systemd.services.beszel-agent = {
       serviceConfig = {
-        SupplementaryGroups = [
+        SupplementaryGroups = lib.optionals config.virtualisation.docker.enable [ "docker" ] ++ [
           "messagebus"
-          "docker"
         ];
+
         DynamicUser = mkForce false;
         Group = "beszel-agent";
       };
