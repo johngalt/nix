@@ -32,6 +32,7 @@ in
     environment = mkOption {
       type = lib.types.attrs;
       description = "Beszel environmental variables";
+      default = { };
     };
   };
 
