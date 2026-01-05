@@ -10,7 +10,9 @@
     ./hardware
   ];
 
-  # Hacky way to get VSCode working when I want to use fish shell
+  # Set default login shell to bash to avoid breaking certain things
+  # VSCode remote SSH doesn't work with fish (needs bash)
+  # This will launch fish for any interactive shells
   users.users.${private.username}.shell = lib.mkForce pkgs.bash;
   programs.bash.interactiveShellInit = ''
     exec fish
@@ -68,6 +70,10 @@
     system = {
       shell.aliases = {
         flinks = "find . -links 1 -type f ! -name '*.png' ! -name '*.jpg' ! -name '*sample*' ! -name '*.nfo' ! -name '*.srt'";
+        dcp = "docker compose";
+        dcu = "docker compose up -d";
+        dcs = "docker compose stop";
+        dcl = "docker compose logs";
       };
       docker = {
         enable = true;
@@ -118,7 +124,7 @@
         # Adding some additional options for the beszel module to show additional disks
         environment = {
           EXTRA_FILESYSTEMS = "sda1__Backups,sdb1__Data3,sdc1__Data1,sdd1__Parity1,sde1__Data2,nvme3n1p1__Cache";
-          EXCLUDE_SMART = true;
+          EXCLUDE_SMART = "true";
         };
       };
       sanoid = {
