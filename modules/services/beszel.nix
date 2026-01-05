@@ -14,6 +14,7 @@ let
     ;
   inherit (lib.types)
     str
+    attrsOf
     ;
 
 in
@@ -30,7 +31,7 @@ in
       description = "Path to environment file used with beszel-agent service";
     };
     environment = mkOption {
-      type = lib.types.attrs;
+      type = attrsOf str;
       description = "Beszel environmental variables";
       default = { };
     };
