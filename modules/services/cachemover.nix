@@ -70,9 +70,15 @@ in
       description = "Run the cache mover scripts daily";
       startAt = "04:00";
       script = ''
+        echo "Pausing torrents ..."
         ${moverCmd} --pause
+        echo "Starting cache mover ..."
         ${pkgs.davocache}/bin/davocache ${cfg.cacheMount} ${cfg.coldStorage} ${toString cfg.daysFrom} ${toString cfg.daysTo}
+        echo "Resuming torrents ..."
         ${moverCmd} --resume
+        echo "Deleting empty directories ..."
+        find ${cfg.cacheMount} -type d -empty ! -path '*/books*' ! -path '*/audiobooks*' -delete
+        echo "Complete ..."
       '';
       serviceConfig = {
         Type = "oneshot";

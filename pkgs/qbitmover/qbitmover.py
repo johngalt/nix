@@ -11,7 +11,7 @@ from datetime import timedelta
 
 # Configure logging
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[logging.StreamHandler(sys.stdout)],
@@ -105,7 +105,12 @@ def filter_torrents(torrent_list, timeoffset_from, timeoffset_to, cache_mount):
 
 
 def exists_in_cache(cache_mount, content_path):
-    cache_path = os.path.join(cache_mount, content_path.lstrip("/"))
+    # Changed .lstrip to .removeprefix as my content_path is different then what is expected
+    # My content paths: /vault/torrents/ (mergerfs of /mnt/data-disks/data0*)
+    # Cache directory is: /mnt/cache-disks/cache-01/{torrents,media}
+    # So for this to find the correct cache path, need to strip /vault/ from what qbittorrent sees to get just torrents/
+    # From there, it can append the end of the content_path to the base cache mount point to see if the content files exist on cache drive
+    cache_path = os.path.join(cache_mount, content_path.removeprefix("/vault/"))
     return os.path.exists(cache_path)
 
 
