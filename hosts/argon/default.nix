@@ -65,6 +65,7 @@
         dcu = "docker compose up -d";
         dcs = "docker compose stop";
         dcl = "docker compose logs";
+        dut = "COLORTERM=truecolor duf -only-mp /mnt/data-disks/\*,/mnt/cache-disks/\*,/mnt/parity-disks/\*,/mnt/vault";
       };
       docker = {
         enable = true;
