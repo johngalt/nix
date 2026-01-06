@@ -67,6 +67,7 @@ in
               match app-id="zen"
               match app-id="com.mitchellh.ghostty"
               match app-id="kitty"
+              match app-id="foot"
               draw-border-with-background false
           }
           window-rule {
@@ -76,10 +77,6 @@ in
           // Open DMS windows as floating by default
           window-rule {
             match app-id=r#"org.quickshell$"#
-            open-floating true
-          }
-          window-rule {
-            match app-id="firefox" title="Bitwarden"
             open-floating true
           }
           layer-rule {

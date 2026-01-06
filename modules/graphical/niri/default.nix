@@ -86,6 +86,7 @@ in
       nautilus # Gnome file browser
       kdePackages.dolphin # KDE file browser
       papers # Gnome pdf viewer
+      zathura
 
       xwayland-satellite # For X apps (like steam)
     ];
