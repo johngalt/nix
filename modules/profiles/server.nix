@@ -2,6 +2,7 @@
   lib,
   config,
   private,
+  pkgs,
   ...
 }:
 let
@@ -18,6 +19,25 @@ in
   };
 
   config = mkIf cfg.enable {
+    # Set default login shell to bash to avoid breaking certain things
+    # VSCode remote SSH doesn't work with fish (needs bash)
+    # This will launch fish for any interactive shells
+    users.users.${private.username}.shell = lib.mkForce pkgs.bash;
+    programs.bash.interactiveShellInit = ''
+      exec fish
+    '';
+    
+    custom.services = {
+      beszel = {
+        enable = true;
+        environmentFile = config.sops.templates."beszel-agent".path;
+      };
+      scrutiny = {
+        enable = lib.mkDefault false; # Will enable per host (so it isn't enabled on VMs)
+        endpoint = "https://scrutiny.${private.domain}";
+      };
+    };
+
     # Sops definitions
     # Beszel
     sops.secrets."beszel/sshkey" = { };
@@ -25,10 +45,5 @@ in
       HUB_URL=https://beszel.${private.domain}
       KEY=${config.sops.placeholder."beszel/sshkey"}
     '';
-
-    custom.services.beszel = {
-      enable = true;
-      environmentFile = config.sops.templates."beszel-agent".path;
-    };
   };
 }

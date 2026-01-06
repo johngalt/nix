@@ -21,5 +21,6 @@
   custom = {
     profiles.base.enable = true;
     profiles.server.enable = true;
+    services.scrutiny.enable = true;
   };
 }

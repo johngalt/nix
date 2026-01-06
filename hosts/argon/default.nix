@@ -2,21 +2,12 @@
   config,
   pkgs,
   private,
-  lib,
   ...
 }:
 {
   imports = [
     ./hardware
   ];
-
-  # Set default login shell to bash to avoid breaking certain things
-  # VSCode remote SSH doesn't work with fish (needs bash)
-  # This will launch fish for any interactive shells
-  users.users.${private.username}.shell = lib.mkForce pkgs.bash;
-  programs.bash.interactiveShellInit = ''
-    exec fish
-  '';
 
   # Host-specific programs
   programs = {
@@ -126,6 +117,9 @@
           EXTRA_FILESYSTEMS = "sda1__Backups,sdb1__Data3,sdc1__Data1,sdd1__Parity1,sde1__Data2,nvme3n1p1__Cache";
           EXCLUDE_SMART = "true";
         };
+      };
+      scrutiny = {
+        enable = true;
       };
       sanoid = {
         enable = true;
