@@ -11,6 +11,7 @@
     ./komodo.nix
     ./restic.nix
     ./sanoid.nix
+    ./scrutiny.nix
     ./snapraid.nix
     ./technitium.nix
   ];
