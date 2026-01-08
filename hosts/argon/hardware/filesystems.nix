@@ -33,7 +33,7 @@
     options = [ "subvol=/data" ];
   };
   fileSystems."/mnt/data-disks/data03" = {
-    device = "/dev/disk/by-uuid/80b08aac-7aea-4d93-92db-295595732ece";
+    device = "/dev/disk/by-uuid/959bd10f-a3f4-4fd4-b641-8d2cbaaafb74";
     fsType = "btrfs";
     options = [ "subvol=/data" ];
   };
@@ -56,7 +56,7 @@
     options = [ "subvol=/content" ];
   };
   fileSystems."/mnt/snapraid-content/disk03" = {
-    device = "/dev/disk/by-uuid/80b08aac-7aea-4d93-92db-295595732ece";
+    device = "/dev/disk/by-uuid/959bd10f-a3f4-4fd4-b641-8d2cbaaafb74";
     fsType = "btrfs";
     options = [ "subvol=/content" ];
   };
