@@ -26,7 +26,7 @@
     settings = {
       endpoint = "https://forge.${private.domain}/api/v1";
       gitAuthor = "Renovate Bot <renovate-bot@${private.domain}>";
-      platform = "gitea";
+      platform = "forgejo";
       onboardingConfigFileName = "renovate.json";
       autodiscover = true;
       optimizeForDisabled = true;
