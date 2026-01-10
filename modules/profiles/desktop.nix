@@ -33,6 +33,8 @@ in
           obsidian
           gpu-screen-recorder-gtk
           rustdesk-flutter
+          readest
+          foliate
         ];
       };
       # Enable common graphical configurations and environments
