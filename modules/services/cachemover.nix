@@ -1,24 +1,35 @@
 {
   config,
-  lib,
   pkgs,
+  lib,
   ...
 }:
 let
   cfg = config.custom.services.cachemover;
 
-  moverCmd = builtins.concatStringsSep " " [
-    "${pkgs.qbitmover}/bin/qbitmover --host ${cfg.qbitHost}"
-    "--cache-mount ${cfg.cacheMount}"
-    "--days-from ${toString cfg.daysFrom} --days-to ${toString cfg.daysTo}"
-  ];
+  moverEnv = {
+    CACHE_PATH = cfg.cacheMount;
+    BACKING_PATH = cfg.coldStorage;
+    LOG_PATH = "/tmp/cachemover.log";
+    AUTO_UPDATE = "false";
+    THRESHOLD_PERCENTAGE = toString cfg.thresholdPercent;
+    TARGET_PERCENTAGE = toString cfg.targetPercent;
+    LOG_LEVEL = "INFO";
+    MAX_WORKERS = "8";
+    MAX_LOG_SIZE_MB = "100";
+    EXCLUDED_DIRS = "books"; # comma separated list of directories
+    NOTIFICATIONS_ENABLED = toString (!isNull cfg.notificationUrl);
+    NOTIFY_THRESHOLD = toString (!isNull cfg.notificationUrl);
+    NOTIFICATION_URLS = cfg.notificationUrl; # comma seperated list of apprise notification endpoints
+  };
 
   inherit (lib)
-    mkEnableOption
-    mkOption
     mkIf
+    mkOption
+    mkEnableOption
     ;
   inherit (lib.types)
+    nullOr
     str
     int
     ;
@@ -26,15 +37,6 @@ in
 {
   options.custom.services.cachemover = {
     enable = mkEnableOption "Enable cachemover service to offload cache drive";
-    user = mkOption {
-      type = str;
-      description = "User for cachemover systemd service to run as";
-      default = "docker";
-    };
-    qbitHost = mkOption {
-      type = str;
-      description = "Host for qbittorrent api";
-    };
     cacheMount = mkOption {
       type = str;
       description = "Mount point for cache drive";
@@ -43,47 +45,43 @@ in
       type = str;
       description = "Mount point for cold storage pool (without cache drive)";
     };
-    daysTo = mkOption {
+    thresholdPercent = mkOption {
       type = int;
-      description = "End of range of torrents to move off cache drive";
-      default = 30;
+      description = "Threshold percentage of used space before running cache mover";
+      default = 75;
     };
-    daysFrom = mkOption {
+    targetPercent = mkOption {
       type = int;
-      description = "Beginning of range of torrents to move off cache drive";
-      default = 12;
+      description = "Percentage of used space to target when running cache mover";
+      default = 30;
     };
     healthcheck = mkOption {
       type = str;
       description = "Healthcheck ID for healthcheck service";
     };
+    notificationUrl = mkOption {
+      type = nullOr str;
+      description = "Apprise URLs to send notifications on cachemover run";
+      default = null;
+    };
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      # Custom packages from ./pkgs folder
-      qbitmover
-      davocache
+      # Custom package from ./pkgs folder
+      mergerfs-cache-mover
     ];
 
     systemd.services.cachemover = {
       description = "Run the cache mover scripts daily";
       startAt = "04:00";
       script = ''
-        echo "Pausing torrents ..."
-        ${moverCmd} --pause
-        echo "Starting cache mover ..."
-        ${pkgs.davocache}/bin/davocache ${cfg.cacheMount} ${cfg.coldStorage} ${toString cfg.daysFrom} ${toString cfg.daysTo}
-        echo "Resuming torrents ..."
-        ${moverCmd} --resume
-        echo "Deleting empty directories ..."
-        find ${cfg.cacheMount} -type d -empty ! -path '*/books*' ! -path '*/audiobooks*' -delete
-        echo "Complete ..."
+        ${pkgs.mergerfs-cache-mover}/bin/mergerfs-cache-mover --console-log
       '';
       serviceConfig = {
         Type = "oneshot";
-        User = cfg.user;
       };
+      environment = moverEnv;
       onFailure = [ "ping-healthchecks@${cfg.healthcheck}:failure.service" ];
       onSuccess = [ "ping-healthchecks@${cfg.healthcheck}:success.service" ];
       wants = [ "ping-healthchecks@${cfg.healthcheck}:start.service" ];

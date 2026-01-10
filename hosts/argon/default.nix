@@ -202,12 +202,12 @@
       };
       cachemover = {
         enable = true;
-        qbitHost = "http://localhost:7476/proxy/$(cat ${config.sops.secrets."cachemover/apikey".path})";
-        cacheMount = "/mnt/cache-disks/cache01/";
+        cacheMount = "/mnt/cache-disks/cache01";
         coldStorage = "/mnt/vault-cold";
-        daysFrom = 12;
-        daysTo = 30;
+        thresholdPercent = 70;
+        targetPercent = 30;
         healthcheck = "628b7d91-9767-4ba2-9021-2893105e07f4";
+        notificationUrl = "$(cat ${config.sops.secrets."cachemover/discordurl".path})";
       };
     };
   };
@@ -229,9 +229,10 @@
     sopsFile = ../../secrets/komodo.env;
   };
   # Cachemover
-  sops.secrets."cachemover/apikey" = {
-    owner = "docker";
-  };
+  # sops.secrets."cachemover/apikey" = {
+  #   owner = "docker";
+  # };
+  sops.secrets."cachemover/discordurl" = { };
   # Restic
   sops.secrets."restic/repokey" = { };
   sops.secrets."backblaze/keyID" = { };
