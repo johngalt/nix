@@ -30,7 +30,7 @@
     niri.url = "github:sodiboo/niri-flake";
     # Quickshell pinned to release
     quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell?rev=26531fc46ef17e9365b03770edd3fb9206fcb460";
+      url = "git+https://git.outfoxxed.me/quickshell/quickshell?rev=41828c4180fb921df7992a5405f5ff05d2ac2fff";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Dank Material Shell
@@ -57,7 +57,6 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
   outputs =
