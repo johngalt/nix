@@ -18,8 +18,8 @@ let
     MAX_WORKERS = "8";
     MAX_LOG_SIZE_MB = "100";
     EXCLUDED_DIRS = "books"; # comma separated list of directories
-    NOTIFICATIONS_ENABLED = toString (!isNull cfg.notificationUrl);
-    NOTIFY_THRESHOLD = toString (!isNull cfg.notificationUrl);
+    NOTIFICATIONS_ENABLED = lib.boolToString (!isNull cfg.notificationUrl);
+    NOTIFY_THRESHOLD = lib.boolToString (!isNull cfg.notificationUrl);
     NOTIFICATION_URLS = cfg.notificationUrl; # comma seperated list of apprise notification endpoints
   };
 
