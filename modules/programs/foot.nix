@@ -29,6 +29,12 @@ in
     programs.foot = {
       enable = true;
     };
+
+    # Set 256color on remote ssh hosts
+    programs.ssh.extraConfig = ''
+      Host *
+        SetEnv TERM=xterm-256color
+    '';
     
     custom.hjem.cfg = {
       rum.programs.foot = {
