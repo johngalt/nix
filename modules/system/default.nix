@@ -3,6 +3,7 @@
 }:
 {
   imports = [
+    ./auto-cpufreq.nix
     ./docker.nix
     ./impermanence.nix
     ./hjem.nix
