@@ -30,7 +30,7 @@
     niri.url = "github:sodiboo/niri-flake";
     # Quickshell pinned to release
     quickshell = {
-      url = "git+https://git.outfoxxed.me/quickshell/quickshell?rev=41828c4180fb921df7992a5405f5ff05d2ac2fff";
+      url = "git+https://git.outfoxxed.me/quickshell/quickshell?rev=db37dc580afc9db1bc598436649c650138b6166d";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Dank Material Shell
@@ -55,6 +55,11 @@
     # Zen browser
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # Auto-cpufreq
+    auto-cpufreq = {
+      url = "github:AdnanHodzic/auto-cpufreq";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -84,7 +89,7 @@
     in
     {
       # Set default formatter to nixfmt-rfc-style
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt;
 
       # Function to build nixosConfigurations for each host
       nixosConfigurations = lib.genAttrs hosts (
