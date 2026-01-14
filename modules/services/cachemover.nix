@@ -18,9 +18,8 @@ let
     MAX_WORKERS = "8";
     MAX_LOG_SIZE_MB = "100";
     EXCLUDED_DIRS = "books"; # comma separated list of directories
-    NOTIFICATIONS_ENABLED = lib.boolToString (!isNull cfg.notificationUrl);
-    NOTIFY_THRESHOLD = lib.boolToString (!isNull cfg.notificationUrl);
-    NOTIFICATION_URLS = cfg.notificationUrl; # comma seperated list of apprise notification endpoints
+    NOTIFICATIONS_ENABLED = lib.boolToString (lib.hasAttr "NOTIFICATION_URLS" cfg.credentials);
+    NOTIFY_THRESHOLD = lib.boolToString (lib.hasAttr "NOTIFICATION_URLS" cfg.credentials);
   };
 
   inherit (lib)
@@ -29,7 +28,7 @@ let
     mkEnableOption
     ;
   inherit (lib.types)
-    nullOr
+    attrs
     str
     int
     ;
@@ -59,10 +58,11 @@ in
       type = str;
       description = "Healthcheck ID for healthcheck service";
     };
-    notificationUrl = mkOption {
-      type = nullOr str;
-      description = "Apprise URLs to send notifications on cachemover run";
-      default = null;
+    # Hacky way to allow for passing SOPS secrets to systemd script (i.e. notification URL)
+    credentials = mkOption {
+      type = attrs;
+      description = "Credentials to pass to cachemover (e.g. notification URL) as path";
+      default = { };
     };
   };
 
@@ -76,10 +76,17 @@ in
       description = "Run the cache mover scripts daily";
       startAt = "04:00";
       script = ''
+        ${lib.concatStringsSep "\n" (
+          map (name: ''
+            ${name}="$(systemd-creds cat 'SECRET-${name}')"
+            export ${name}
+          '') (lib.attrNames cfg.credentials)
+        )}
         ${pkgs.mergerfs-cache-mover}/bin/mergerfs-cache-mover --console-log
       '';
       serviceConfig = {
         Type = "oneshot";
+        LoadCredential = lib.mapAttrsToList (name: value: "SECRET-${name}:${value}") cfg.credentials;
       };
       environment = moverEnv;
       onFailure = [ "ping-healthchecks@${cfg.healthcheck}:failure.service" ];

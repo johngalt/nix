@@ -207,7 +207,9 @@
         thresholdPercent = 70;
         targetPercent = 30;
         healthcheck = "628b7d91-9767-4ba2-9021-2893105e07f4";
-        notificationUrl = "$(cat ${config.sops.secrets."cachemover/discordurl".path})";
+        credentials = {
+          NOTIFICATION_URLS = config.sops.secrets."cachemover/discordurl".path;
+        };
       };
     };
   };
