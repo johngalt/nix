@@ -26,25 +26,27 @@ in
         extraPackages = with pkgs; [
           calibre
           moonlight-qt
-          just
           vlc
-          nixpkgs-track
           localsend
           obsidian
           gpu-screen-recorder-gtk
           rustdesk-flutter
-          readest
+          readest # Ebooks
+          imv # image viewer
+          papers # Gnome pdf viewer
+          zathura # Minimal pdf viewer
         ];
       };
       # Enable common graphical configurations and environments
       graphical = {
         enable = true;
-        enableDefaultApps = true;
-        dms-greeter = {
+        portals.enable = true;
+        greeter = {
           enable = true; # Disable this if plasma is enabled since plasma uses SDDM
           user = private.username;
         };
-        niri = {
+        niri.enable = true;
+        quickshell = {
           enable = true;
           shell = "dms";
         };
@@ -76,6 +78,7 @@ in
           enable = true;
           polkitUsers = [ "${private.username} " ]; 
         };
+        zed.enable = true;
       };
       system = {
         yubikey.enable = true;

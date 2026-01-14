@@ -5,13 +5,13 @@
   pkgs,
   ...
 }:
-let 
-  cfg = config.custom.graphical.niri;
+let
+  cfg = config.custom.graphical.quickshell;
 
   inherit (lib)
     mkIf
     ;
-in 
+in
 {
   imports = [
     ./matugen
@@ -20,7 +20,7 @@ in
   config = mkIf (cfg.shell == "dms" && cfg.enable) {
     programs.dms-shell = {
       enable = true;
-      package = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.default; # pull latest from git
+      package = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.default; # override nixpkgs version of dms
 
       systemd.enable = true;
 
@@ -32,7 +32,7 @@ in
       enableAudioWavelength = true; # Audio visualizer (cava)
       enableCalendarEvents = true; # Calendar integration (khal)
 
-      quickshell.package = pkgs.quickshell; # from overlay defined in niri module
+      quickshell.package = pkgs.quickshell; # Overlayed in quickshell module
 
     };
 
@@ -46,7 +46,7 @@ in
 
     # User-level customization for DMS and Niri
     custom.hjem.cfg = {
-      rum.desktops.niri = {
+      rum.desktops.niri = mkIf config.custom.graphical.niri.enable {
         # Custom DMS-specific binds
         binds = {
           "Mod+Shift+S" = {

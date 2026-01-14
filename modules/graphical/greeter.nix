@@ -6,7 +6,8 @@
   ...
 }:
 let
-  cfg = config.custom.graphical.dms-greeter;
+  cfg = config.custom.graphical.greeter;
+
   inherit (lib)
     mkEnableOption
     mkIf
@@ -17,8 +18,8 @@ let
     ;
 in
 {
-  options.custom.graphical.dms-greeter = {
-    enable = mkEnableOption "Enable dms-greeter";
+  options.custom.graphical.greeter = {
+    enable = mkEnableOption "Enable dank greeter (DMS)";
     user = mkOption {
       type = str;
       description = "Default greeter user";
@@ -36,8 +37,8 @@ in
     
     services.displayManager.dms-greeter = {
       enable = true;
-      # Use same dms-shell package (dms-greeter is part of this)
-      package = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.default; 
+      # Override nixpkgs dms-shell with package from dms git
+      package = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
       compositor.name = cfg.compositor;
 
@@ -50,8 +51,7 @@ in
         path = "/tmp/dms-greeter.log";
       };
 
-      # Quickshell from overlays
-      quickshell.package = pkgs.quickshell;
+      quickshell.package = pkgs.quickshell; # This is an overlay from quickshell module
     };
     
     # Idk if this is needed or not

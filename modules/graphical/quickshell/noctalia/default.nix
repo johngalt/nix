@@ -6,7 +6,7 @@
   ...
 }:
 let 
-  cfg = config.custom.graphical.niri;
+  cfg = config.custom.graphical.quickshell;
 
   noctalia = cmd: [
     "noctalia-shell" "ipc" "call"
@@ -26,8 +26,6 @@ in
     nixpkgs.overlays = [
       # Overlay noctalia package from repo into nixpkgs
       inputs.noctalia.overlays.default
-      # Overlay quickshell package with git version
-      inputs.quickshell.overlays.default
     ];
 
     environment.systemPackages = with pkgs; [
@@ -43,7 +41,7 @@ in
     systemd.user.services.niri-flake-polkit.enable = true;
 
     custom.hjem.cfg = {
-      rum.desktops.niri = {
+      rum.desktops.niri = mkIf config.custom.graphical.niri.enable {
         # Noctalia-specific niri binds
         binds = {
           "Mod+Space".spawn = noctalia "launcher toggle";

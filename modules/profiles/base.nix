@@ -34,13 +34,14 @@ in
       btop
       ncdu
       fastfetch
-      nixfmt-rfc-style
+      nixfmt
       systemctl-tui
       wakeonlan
       duf
       fd
       fq
       duf
+      nixpkgs-track
     ];
 
     # Custom module settings

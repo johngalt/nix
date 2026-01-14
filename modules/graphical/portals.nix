@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.custom.graphical;
+  cfg = config.custom.graphical.portals;
 
   # Common applications
   webbrowser = "firefox.desktop";
@@ -13,24 +13,25 @@ let
   imageviewer = "imv.desktop";
 
   # MIME definitions for less repitition
-  imageformats = lib.genAttrs [
-    "image/tiff"
-    "image/tiff-fx"
-    "image/png"
-    "image/x-png"
-    "image/jpeg"
-    "image/jpg"
-    "image/pjpeg"
-    "image/svg+xml"
-    "image/gif"
-    "image/bmp"
-    "image/x-bmp"
-    "image/heif"
-    "image/avif"
-    "image/jxl"
-    "image/webp"
-    "image/qoi"
-  ] (format: imageviewer);
+  # Module supports globbing now so I don't need this
+  # imageformats = lib.genAttrs [
+  #   "image/tiff"
+  #   "image/tiff-fx"
+  #   "image/png"
+  #   "image/x-png"
+  #   "image/jpeg"
+  #   "image/jpg"
+  #   "image/pjpeg"
+  #   "image/svg+xml"
+  #   "image/gif"
+  #   "image/bmp"
+  #   "image/x-bmp"
+  #   "image/heif"
+  #   "image/avif"
+  #   "image/jxl"
+  #   "image/webp"
+  #   "image/qoi"
+  # ] (format: imageviewer);
 
   webformats = lib.genAttrs [
     "application/rdf+xml"
@@ -54,20 +55,21 @@ let
     ;
 in 
 {
-  options.custom.graphical = {
-    enableDefaultApps = mkEnableOption "Enable default applications via XDG";
+  options.custom.graphical.portals = {
+     enable = mkEnableOption "Enable XDG portal configurations";
   };
   
-  config = mkIf cfg.enableDefaultApps {
+  config = mkIf cfg.enable {
     xdg.mime.defaultApplications = lib.mkMerge [
       {
+        # Images
+        "image/*" = imageviewer;
         # File browser
         "inode/directory" = filebrowser;
         # Other types
         "application/pdf" = "org.gnome.Papers.desktop";
       } 
       webformats
-      imageformats
     ];
     
     # Installing additional portals (gnome included with niri-flake)

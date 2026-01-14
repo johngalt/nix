@@ -10,29 +10,16 @@ let
 
   inherit (lib)
     mkEnableOption
-    mkOption
     mkIf
-    ;
-  inherit (lib.types)
-    enum
     ;
 in
 {
   imports = [
     inputs.niri.nixosModules.niri
-    ./dms
-    ./noctalia
-    ./theming.nix # theming dependencies that apply to dms/noctalia
-    ./xdgdefaults.nix # xdg portal settings and default applications
   ];
 
   options.custom.graphical.niri = {
     enable = mkEnableOption "Enable Niri";
-    shell = mkOption {
-      type = enum [ "dms" "noctalia" ];
-      description = "Which shell to use for niri";
-      default = "dms";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -41,8 +28,6 @@ in
     nixpkgs.overlays = [
       # Overlay niri-flake for niri-unstable
       inputs.niri.overlays.niri
-      # Overlay quickshell package with git version
-      inputs.quickshell.overlays.default
     ];
     
     programs.niri = {
@@ -61,6 +46,7 @@ in
       accounts-daemon.enable = true;
       gvfs.enable = true; # usb device mounting
     };
+
     # gnupg stuff + pinentry
     programs.gnupg.agent.enable = true;
 
@@ -82,12 +68,7 @@ in
       # Applications
       swappy # Screenshot annotation
       seahorse # Gnome secrets manager
-      imv # image viewer
-      nautilus # Gnome file browser
-      kdePackages.dolphin # KDE file browser
-      papers # Gnome pdf viewer
-      zathura
-
+      nautilus # Needed by Gnome portal
       xwayland-satellite # For X apps (like steam)
     ];
     # Adding some services to dbus

@@ -11,9 +11,11 @@ in
   imports = [
     ./niri
     ./plasma
-    ./dms-greeter
+    ./quickshell
     ./audio.nix
     ./fonts.nix
+    ./greeter.nix
+    ./portals.nix
   ];
 
   options.custom.graphical = {
