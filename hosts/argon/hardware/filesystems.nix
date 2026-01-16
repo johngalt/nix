@@ -84,7 +84,8 @@
       "cache.files=off"
       "moveonenospc=true"
       "func.getattr=newest"
-      "category.create=msppfrd" # Most shared path, path-preserving, random percentage of free space
+      "category.create=pfrd"
+      #"category.create=msppfrd" # Most shared path, path-preserving, random percentage of free space
       "ignorepponrename=true" # Needed to allow cross-links from cachemover script to work correctly
       "dropcacheonclose=false"
       "minfreespace=200G"
