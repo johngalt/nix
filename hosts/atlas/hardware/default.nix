@@ -18,6 +18,10 @@
     ./networking.nix
   ];
 
+  # Logitech peripherals
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
