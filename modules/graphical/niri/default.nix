@@ -66,7 +66,7 @@ in
     # Main system functionality, other apps defined in profiles
     environment.systemPackages = with pkgs; [
       # Applications
-      swappy # Screenshot annotation
+      satty # Screenshot annotation
       seahorse # Gnome secrets manager
       nautilus # Needed by Gnome portal
       xwayland-satellite # For X apps (like steam)

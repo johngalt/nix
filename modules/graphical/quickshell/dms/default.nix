@@ -26,7 +26,6 @@ in
 
       # Core features
       enableSystemMonitoring = true; # System monitoring widgets (dgop)
-      enableClipboard = false; # Feature is built into DMS now, disabled until removed from nixpkgs module
       enableVPN = true; # VPN management widget
       enableDynamicTheming = true; # Wallpaper-based theming (matugen)
       enableAudioWavelength = true; # Audio visualizer (cava)
@@ -39,6 +38,7 @@ in
     # DMS specific dependencies
     environment.systemPackages = with pkgs; [
       libnotify # needed for certain dms plugins to send desktop notifications
+      satty # screenshot annotation
     ];
 
     # Disable niri-flake polkit agent since DMS has its own
@@ -50,7 +50,10 @@ in
         # Custom DMS-specific binds
         binds = {
           "Mod+Shift+S" = {
-            action = "spawn-sh \"dms screenshot --stdout | swappy -f -\"";
+            action = "spawn-sh \"dms screenshot\"";
+          };
+          "Mod+Ctrl+S" = {
+            action = "spawn-sh \"dms screenshot --stdout | satty -f - --early-exit --actions-on-enter save-to-clipboard --output-filename ~/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png\"";
           };
         };
         # Additional DMS-specific configuration for niri
