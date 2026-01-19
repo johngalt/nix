@@ -110,6 +110,7 @@ in
           include "dms/alttab.kdl"
           include "dms/binds.kdl"
           include "dms/wpblur.kdl"
+          include "dms/outputs.kdl"
         '';
       };
       # Force KDE applications like Dolphin to use DankMatugen KColorScheme
