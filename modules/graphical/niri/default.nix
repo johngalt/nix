@@ -103,6 +103,10 @@ in
                   tap-button-map "left-right-middle" // Two fingers right click
                   click-method "clickfinger"
               }
+              mouse {
+                scroll-factor 0.9
+              }
+              warp-mouse-to-focus
           }
           cursor {
               xcursor-theme "breeze_cursors"
