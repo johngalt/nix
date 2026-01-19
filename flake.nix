@@ -30,7 +30,7 @@
     niri.url = "github:sodiboo/niri-flake";
     # Quickshell pinned to release
     quickshell = {
-      url = "git+https://git.outfoxxed.me/quickshell/quickshell?rev=db37dc580afc9db1bc598436649c650138b6166d";
+      url = "git+https://git.outfoxxed.me/quickshell/quickshell?rev=41828c4180fb921df7992a5405f5ff05d2ac2fff";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Dank Material Shell
