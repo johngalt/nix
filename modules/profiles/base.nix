@@ -42,6 +42,7 @@ in
       fq
       duf
       nixpkgs-track
+      unzip
     ];
 
     # Custom module settings
