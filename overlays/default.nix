@@ -10,6 +10,9 @@
       davocache = prev.callPackage ../pkgs/davocache { };
       eza-themes = prev.callPackage ../pkgs/eza-themes { };
       mergerfs-cache-mover = prev.callPackage ../pkgs/mergerfs-cache-mover { };
+
+      # Use new scrutiny from fork: 
+      scrutiny-collector = prev.callPackage ../pkgs/scrutiny-collector { };
     })
   ];
 }

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let 
@@ -40,6 +41,16 @@ in
       schedule = cfg.schedule;
       settings.api.endpoint = cfg.endpoint;
       settings.host.id = cfg.hostname;
+    };
+
+    # Override the nixpkgs module to add zfs collector to systemd script
+    systemd.services.scrutiny-collector = mkIf (builtins.hasAttr "zfs" config.boot.supportedFilesystems) {
+      serviceConfig = {
+        ExecStart = lib.mkForce [
+          "${pkgs.scrutiny-collector}/bin/scrutiny-collector-metrics run --config /run/scrutiny-collector/config.yaml"
+          "${pkgs.scrutiny-collector}/bin/scrutiny-collector-zfs run"
+        ];
+      };
     };
   };
 }
