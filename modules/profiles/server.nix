@@ -19,6 +19,10 @@ in
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      wakeonlan
+    ];
+
     # Set default login shell to bash to avoid breaking certain things
     # VSCode remote SSH doesn't work with fish (needs bash)
     # This will launch fish for any interactive shells

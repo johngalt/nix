@@ -35,15 +35,18 @@ in
       ncdu
       fastfetch
       nixfmt
-      systemctl-tui
-      wakeonlan
       duf
       fd
       fq
       duf
+      jq
       nixpkgs-track
       unzip
     ];
+
+    environment.variables = {
+      EDITOR = "hx";
+    };
 
     # Custom module settings
     custom = {

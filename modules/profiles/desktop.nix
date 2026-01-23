@@ -69,16 +69,16 @@ in
         yazi.enable = true;
         chromium.enable = true;
         firefox.enable = true;
-        zen.enable = true;
+        zen.enable = false;
         discord.enable = true;
-        thunderbird.enable = true;
+        thunderbird.enable = false;
         vscode.enable = true;
         syncthing.enable = true;
         _1password = {
           enable = true;
           polkitUsers = [ "${private.username} " ]; 
         };
-        zed.enable = true;
+        zed.enable = false;
       };
       system = {
         yubikey.enable = true;
