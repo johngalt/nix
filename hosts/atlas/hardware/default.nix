@@ -18,6 +18,26 @@
     ./networking.nix
   ];
 
+  # Rename builtin-speaker device
+  services.pipewire.wireplumber.extraConfig = {
+    "device-rename" = {
+      "monitor.alsa.rules" = [
+        {
+          matches = [
+            {
+              "node.name" = "alsa_output.pci-0000_c4_00.6.analog-stereo";
+            }
+          ];
+          actions = {
+            update-props = {
+              "node.description" = "PC Speakers";
+            };
+          };
+        }
+      ];
+    };
+  };
+
   # Logitech peripherals
   hardware.logitech.wireless.enable = true;
   hardware.logitech.wireless.enableGraphical = true;
