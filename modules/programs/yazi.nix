@@ -32,7 +32,6 @@ in
         plugins = {
           inherit (pkgs.yaziPlugins) 
             git
-            wl-clipboard
             full-border
             ouch
             ;
@@ -77,7 +76,7 @@ in
             }
             {
               on = "<C-y>";
-              run = "plugin wl-clipboard";
+              run = "shell -- for path in %s; do echo \"file://$path\"; done | wl-copy -t text/uri-list";
               desc = "Copy file contents to wl-clipboard";
             }
           ];
