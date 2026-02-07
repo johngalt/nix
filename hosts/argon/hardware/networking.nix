@@ -10,6 +10,7 @@
       allowedTCPPorts = [
         443 # ssl
         2049 # nfs
+        1400 # sonos
         1883 # mqtt (home-assistant)
         8083 # qbitapi
         32400 # plex
