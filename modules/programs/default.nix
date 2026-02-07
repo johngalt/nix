@@ -10,6 +10,7 @@
     ./foot.nix
     ./vesktop.nix
     ./chromium.nix
+    ./steam.nix
     ./syncthing.nix
     ./vscode.nix
     ./yazi.nix

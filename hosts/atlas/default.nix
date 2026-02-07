@@ -15,6 +15,8 @@
       development.enable = true;
     };
 
+    programs.steam.enable = true;
+    
     # Impermanence
     system.impermanence = {
       enable = true;
