@@ -35,6 +35,7 @@ in
           imv # image viewer
           papers # Gnome pdf viewer
           zathura # Minimal pdf viewer
+          ripdrag
         ];
       };
       # Enable common graphical configurations and environments
@@ -69,7 +70,7 @@ in
         yazi.enable = true;
         chromium.enable = true;
         firefox.enable = true;
-        zen.enable = false;
+        zen.enable = true;
         discord.enable = true;
         thunderbird.enable = false;
         vscode.enable = true;

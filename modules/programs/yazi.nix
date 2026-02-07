@@ -79,6 +79,11 @@ in
               run = "shell -- for path in %s; do echo \"file://$path\"; done | wl-copy -t text/uri-list";
               desc = "Copy file contents to wl-clipboard";
             }
+            {
+              on ="<C-n>";
+              run = "shell -- ripdrag --no-click --and-exit --icon-size 64 --all \"$@\"";
+              desc = "Open selected files in ripdrag";
+            }
           ];
         };
       };
