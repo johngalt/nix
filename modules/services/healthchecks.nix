@@ -60,7 +60,7 @@ in
                 else
                   # Get logs of last invocation
                   LAST_TIMESTAMP=$(systemctl show --property InactiveExitTimestamp --value "$MONITOR_UNIT")
-                  LOGS=$(journalctl --no-pager -u "$MONITOR_UNIT" --since "$LAST_TIMESTAMP")
+                  LOGS=$(journalctl --no-pager -u "$MONITOR_UNIT" --since "$LAST_TIMESTAMP" -n 100)
 
                   # This will be 1 in case of error
                   # Healthchecks supports "fail" or 1 for this:
