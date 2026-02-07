@@ -55,6 +55,9 @@ in
           "Mod+Ctrl+S" = {
             action = "spawn-sh \"dms screenshot --stdout | satty -f - --early-exit --actions-on-enter save-to-clipboard --output-filename ~/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png\"";
           };
+          "Ctrl+Alt+T" = {
+            action = "spawn-sh \"sudo udevadm trigger --subsystem-match=input --action=change\"";
+          };
         };
         # Additional DMS-specific configuration for niri
         config = ''
