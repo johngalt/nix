@@ -36,7 +36,10 @@
   # Use standard lan network to keep consistency
   systemd.network.links."10-lan" = {
     matchConfig.Path = "pci-0000:06:00.0";
-    linkConfig.Name = "lan";
+    linkConfig = {
+      Name = "lan";
+      TransmitQueueLength = 10000;
+    };
   };
   systemd.network.networks."10-lan" = {
     matchConfig.Name = "lan";
