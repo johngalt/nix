@@ -6,6 +6,7 @@
   inputs,
   lib,
   modulesPath,
+  private,
   pkgs,
   ...
 }:
@@ -17,6 +18,7 @@
     ./disko.nix
     ./filesystems.nix
     ./networking.nix
+    ./ups.nix
   ];
 
   # Use the systemd-boot EFI boot loader.

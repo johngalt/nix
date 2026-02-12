@@ -15,6 +15,7 @@
     inputs.disko.nixosModules.disko # Disko disk management
     ./disko.nix
     ./networking.nix
+    ./ups.nix
   ];
 
   boot.supportedFilesystems = [ "zfs" ];
