@@ -85,6 +85,7 @@ in
         # Global niri keybinds (shell-specific keybinds in own module)
         binds = import ./binds.nix;
         # Niri global config (shell specific config will get merged with this)
+        # Host specific config may be defined in host nix file
         config = ''
           prefer-no-csd
           input {

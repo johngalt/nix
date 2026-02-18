@@ -2,6 +2,7 @@
 {
   "Mod+T" = { spawn = [ "foot" ]; };
   "Mod+Q" = { parameters = { repeat = false; }; action = "close-window"; };
+  "Mod+D" = { parameters = { repeat = false; }; action = "toggle-overview"; };
 
   # Workspace navigation
   "Mod+Left" = { action = "focus-column-or-monitor-left"; };

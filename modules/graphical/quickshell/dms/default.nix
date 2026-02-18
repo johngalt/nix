@@ -48,17 +48,8 @@ in
     custom.hjem.cfg = {
       rum.desktops.niri = mkIf config.custom.graphical.niri.enable {
         # Custom DMS-specific binds
-        binds = {
-          "Mod+Shift+S" = {
-            action = "spawn-sh \"dms screenshot\"";
-          };
-          "Mod+Ctrl+S" = {
-            action = "spawn-sh \"dms screenshot --stdout | satty -f - --early-exit --actions-on-enter save-to-clipboard --output-filename ~/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png\"";
-          };
-          "Ctrl+Alt+T" = {
-            action = "spawn-sh \"sudo udevadm trigger --subsystem-match=input --action=change\"";
-          };
-        };
+        binds = import ./binds.nix;
+
         # Additional DMS-specific configuration for niri
         config = ''
           window-rule {
@@ -113,7 +104,7 @@ in
           include "dms/alttab.kdl"
           include "dms/binds.kdl"
           include "dms/wpblur.kdl"
-          include "dms/outputs.kdl"
+          include "dms/windowrules.kdl"
         '';
       };
       # Force KDE applications like Dolphin to use DankMatugen KColorScheme
