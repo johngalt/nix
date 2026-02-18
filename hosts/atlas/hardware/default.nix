@@ -18,57 +18,42 @@
     ./networking.nix
   ];
 
-  # Rename builtin-speaker device
-  services.pipewire.wireplumber.extraConfig = {
-    "device-rename" = {
-      "monitor.alsa.rules" = [
-        {
-          matches = [
-            {
-              "node.name" = "alsa_output.pci-0000_c4_00.6.analog-stereo";
-            }
-          ];
-          actions = {
-            update-props = {
-              "node.description" = "PC Speakers";
-            };
-          };
-        }
-      ];
-    };
-  };
-
   # Logitech peripherals
   hardware.logitech.wireless.enable = true;
   hardware.logitech.wireless.enableGraphical = true;
 
+  # Power
+  services.upower.enable = true;
+  # Fingerprint
+  services.fprintd.enable = true;
+
+  # Graphics
+  hardware = {
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        vpl-gpu-rt
+        intel-media-driver
+        intel-vaapi-driver
+      ];
+    };
+    bluetooth.enable = true;
+  };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # Setting default driver to intel-media-driver
+
+  # Bootloader 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware = {
-    graphics.enable = true;
-    bluetooth.enable = true;
-  };
-
-  boot.initrd.availableKernelModules = [
-    "nvme"
-    "xhci_pci"
-    "thunderbolt"
-    "usb_storage"
-    "usbhid"
-    "sd_mod"
-    "sdhci_pci"
-  ];
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  boot.kernelModules = [ "kvm-amd" ];
+  # Kernel stuff
+  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ "xe" ];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-
+  
   # Pinned kernel version
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
-  # System76 CPU Scheduler
-  # services.system76-scheduler.enable = true;
-  services.upower.enable = true;
+  boot.kernelPackages = pkgs.linuxPackages_6_19;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

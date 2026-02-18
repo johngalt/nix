@@ -23,13 +23,4 @@
     };
   };
 
-  # Wait for wlan device to come online before starting IWD
-  systemd = {
-    services = {
-      "iwd" = {
-        after = [ "sys-devices-pci0000:00-0000:00:02.3-0000:c3:00.0-net-wlan0.device" ];
-        wants = [ "sys-devices-pci0000:00-0000:00:02.3-0000:c3:00.0-net-wlan0.device" ];
-      };
-    };
-  };
 }
