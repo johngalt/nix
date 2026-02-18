@@ -40,6 +40,7 @@ in
       fq
       duf
       jq
+      ripgrep
       nixpkgs-track
       unzip
     ];
@@ -76,6 +77,10 @@ in
         eza = {
           enable = true;
           theme = "gruvbox-dark";
+        };
+        helix = {
+          enable = true;
+          theme = "gruvbox-material";
         };
       };
     };
