@@ -42,11 +42,6 @@
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Testing repo
-    # dms-test = {
-    #   url = "github:AvengeMedia/DankMaterialShell/doctor";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     # Noctalia shell
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
@@ -55,11 +50,6 @@
     # Zen browser
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Auto-cpufreq
-    auto-cpufreq = {
-      url = "github:AdnanHodzic/auto-cpufreq";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -85,6 +75,7 @@
         "hydra"
         "dns01"
         "bootstrap"
+	"cesium"
       ];
     in
     {
