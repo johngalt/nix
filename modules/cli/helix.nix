@@ -32,6 +32,10 @@ in
         enable = true;
         settings = {
           theme = cfg.theme;
+          # Keybinds
+          keys.normal = {
+            X = "select_line_above";
+          };
         };
         languages = {
           language = [
