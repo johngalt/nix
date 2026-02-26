@@ -84,6 +84,54 @@ in
           MoreFromMozilla = false;
           FirefoxLabs = false;
         };
+        # Declarative extensions
+        ExtensionSettings = {
+          # uBlock Origin
+          "uBlock0@raymondhill.net" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # 1Password
+          "{d634138d-c276-4fc8-924b-40a0ea21d284}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Imagus
+          "{00000f2a-7cde-4f20-83ed-434fcb420d71}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/imagus/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Karakeep
+          "addon@karakeep.app" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/karakeep/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Monarch Money Tweaks
+          "Monarch-Money-Tweaks@paresi.robert" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/monarch-money-tweaks/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Pywalfox
+          "pywalfox@frewacom.org" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/pywalfox/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Reddit Enhancement Suite
+          "jid1-xUfzOsOFlzSOXg@jetpack" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/reddit-enhancement-suite/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Sponsor Block for YouTube
+          "sponsorBlocker@ajay.app" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # SteamDB
+          "firefox-extension@steamdb.info" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/steam-database/latest.xpi";
+            installation_mode = "force_installed";
+          };
+        };
       };
     };
   };

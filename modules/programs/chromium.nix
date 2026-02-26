@@ -27,7 +27,7 @@ in
       extensions = [
         "imfcckkmcklambpijbgcebggegggkgla" # Monarch Retail Sync
         "bjfcejklblacnehdgcjjlnejbdjlnohn" # Monarch Money Tweaks
-        "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
+        "aeblfdkhhhdcdjpifhhbdiojplfjncoa" # 1Password
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
       ];
       extraOpts = {
