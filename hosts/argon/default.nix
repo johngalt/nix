@@ -154,14 +154,15 @@
         enable = true;
         databases = [
           "auth"
+          "booklore"
+          "gatus"
+          "netronome"
           "forgejo"
           "mealie"
           "paperless"
-          "vaultwarden"
           "komodo"
           "miniflux"
           "immich"
-          "linkwarden"
         ];
         backupDir = "/mnt/arrays/tank/database-backup";
         time = "00:00";
