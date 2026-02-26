@@ -1,7 +1,7 @@
 # DMS-specific binds (most using dms ipc)
 {
   "Mod+Shift+S" = {
-    action = "spawn-sh \"dms screenshot -d ~/Pictures/Screenshots\"";
+    action = "spawn-sh \"dms screenshot --cursor=off -d ~/Pictures/Screenshots\"";
   };
   "Mod+Ctrl+S" = {
     action = "spawn-sh \"dms screenshot --stdout | satty -f - --early-exit --save-after-copy --actions-on-enter save-to-clipboard --output-filename ~/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png\"";
