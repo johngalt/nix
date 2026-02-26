@@ -88,6 +88,7 @@ in
         # Host specific config may be defined in host nix file
         config = ''
           prefer-no-csd
+          spawn-at-startup "${lib.getExe pkgs.solaar}" "--window=hide"
           input {
               keyboard {
                   xkb { 
