@@ -57,7 +57,8 @@ in
     ];
 
     # Disable man cache generation because it prolongs build times
-    documentation.man.generateCaches = lib.mkForce false;
+    documentation.man.cache.enable = false;
+    
     # Disable command-not-found
     programs.command-not-found.enable = false;
 
