@@ -24,7 +24,7 @@ in
       hjem = {
         # Extra packages to install for user
         extraPackages = with pkgs; [
-          calibre
+          # calibre
           moonlight-qt
           vlc
           localsend
