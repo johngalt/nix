@@ -99,8 +99,8 @@ in
                   track-layout "global"
               }
               touchpad { 
-                  tap // Tap-to-click
-                  drag true // Tap-and-drag
+                  // tap // Tap-to-click
+                  // drag true // Tap-and-drag
                   dwt // Disable when typing
                   tap-button-map "left-right-middle" // Two fingers right click
                   click-method "clickfinger"
