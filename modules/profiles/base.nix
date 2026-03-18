@@ -40,6 +40,7 @@ in
       fq
       duf
       jq
+      dix
       ripgrep
       nixpkgs-track
       unzip
