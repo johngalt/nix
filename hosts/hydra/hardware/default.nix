@@ -4,6 +4,7 @@
 {
   lib,
   modulesPath,
+  pkgs,
   inputs,
   ...
 }:
@@ -28,6 +29,7 @@
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
   boot.extraModulePackages = [ ];
 
   boot.loader.systemd-boot.enable = true;
