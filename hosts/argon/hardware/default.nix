@@ -45,6 +45,10 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
+  # Intel iGPU monitoring
+  hardware.intel-gpu-tools.enable = true;
+  environment.systemPackages = with pkgs; [ intel-gpu-tools ];
+  
   # Coral TPU support
   hardware.coral.pcie.enable = true;
 
