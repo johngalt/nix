@@ -24,8 +24,12 @@ in
       hjem = {
         # Extra packages to install for user
         extraPackages = with pkgs; [
-          # calibre
-          moonlight-qt
+          calibre
+         (pkgs.kodi-wayland.withPackages (kodiPkgs: with kodiPkgs; [
+        		pvr-iptvsimple
+            plex-for-kodi
+        	]))
+	        moonlight-qt
           vlc
           localsend
           obsidian
@@ -79,7 +83,7 @@ in
           enable = true;
           polkitUsers = [ "${private.username} " ]; 
         };
-        zed.enable = false;
+        zed.enable = true;
       };
       system = {
         yubikey.enable = true;
