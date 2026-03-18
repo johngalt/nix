@@ -31,6 +31,9 @@ in
       rum.programs.helix = {
         enable = true;
         settings = {
+          editor = {
+            color-modes = true;
+          };
           theme = cfg.theme;
           # Keybinds
           keys.normal = {
