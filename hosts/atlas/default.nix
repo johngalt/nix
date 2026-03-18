@@ -15,7 +15,7 @@
       development.enable = true;
     };
 
-    programs.steam.enable = false;
+    programs.steam.enable = true;
 
     # Placing this niri config snippet for HOST specific display setting
     hjem.cfg.rum.desktops.niri.config = ''
