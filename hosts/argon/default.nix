@@ -154,7 +154,6 @@
         enable = true;
         databases = [
           "auth"
-          "booklore"
           "gatus"
           "netronome"
           "forgejo"
@@ -163,6 +162,9 @@
           "komodo"
           "miniflux"
           "immich"
+          "qui"
+          "tracearr"
+          "zipline"
         ];
         backupDir = "/mnt/arrays/tank/database-backup";
         time = "00:00";
