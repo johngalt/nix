@@ -38,7 +38,7 @@
   boot.initrd.kernelModules = [ ];
 
   # Stickied kernel version
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
