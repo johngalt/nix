@@ -17,8 +17,13 @@ in
   };
 
   config = mkIf cfg.enable {
+    # Adwiata theme installer for Steam
+    environment.systemPackages = with pkgs; [
+      adwsteamgtk
+    ];
     programs.steam = {
       enable = true;
+      # Proton-GE
       extraCompatPackages = with pkgs; [
         proton-ge-bin
       ];
