@@ -49,7 +49,7 @@ in
     ferretVersion = mkOption {
       type = str;
       description = "Version tag of container image for ferretdb";
-      default = "1.24.1";
+      default = "2.7.0";
     };
     envFiles = mkOption {
       type = listOf path;
@@ -60,14 +60,14 @@ in
       version = mkOption {
         type = str;
         description = "Version tag of container image for komodo-core";
-        default = "latest";
+        default = "2.0.0";
       };
     };
     periphery = {
       version = mkOption {
         type = str;
         description = "Version tag of container image for komodo-periphery";
-        default = "latest";
+        default = "2.0.0";
       };
       rootDir = mkOption {
         type = str;
@@ -79,7 +79,7 @@ in
       version = mkOption {
         type = str;
         description = "Version tag of container image for postgres";
-        default = "17.5";
+        default = "17-0.107.0";
       };
       mountDir = mkOption {
         type = str;
@@ -99,6 +99,7 @@ in
       environmentFiles = cfg.envFiles;
       volumes = [
         "komodo-repo-cache:/repo-cache:rw"
+        "komodo-keys:/config/keys"
       ];
       ports = [
         "9120:9120/tcp"
@@ -126,10 +127,12 @@ in
       after = [
         "docker-network-komodo.service"
         "docker-volume-komodo-repo-cache.service"
+        "docker-volume-komodo-keys.service"
       ];
       requires = [
         "docker-network-komodo.service"
         "docker-volume-komodo-repo-cache.service"
+        "docker-volume-komodo-keys.service"
       ];
       partOf = [
         "docker-compose-komodo-root.target"
@@ -140,18 +143,19 @@ in
     };
     virtualisation.oci-containers.containers."komodo-ferretdb" = {
       image = "ghcr.io/ferretdb/ferretdb:${cfg.ferretVersion}";
-      environment = {
-        "FERRETDB_POSTGRESQL_URL" = "postgres://komodo-postgres:5432/komodo";
-      };
+      environmentFiles = cfg.envFiles;
       labels = {
         "komodo.skip" = "";
       };
       dependsOn = [
         "komodo-postgres"
       ];
+      volumes = [
+        "komodo-ferretdb-state:/state"
+      ];
       log-driver = "journald";
       extraOptions = [
-        "--network-alias=ferretdb"
+        "--network-alias=komodo-ferretdb"
         "--network=komodo"
       ];
     };
@@ -183,6 +187,7 @@ in
         "${cfg.periphery.rootDir}:${cfg.periphery.rootDir}:rw"
         "/proc:/proc:rw"
         "/var/run/docker.sock:/var/run/docker.sock:rw"
+        "komodo-keys:/config/keys"
       ];
       labels = {
         "komodo.skip" = "";
@@ -202,9 +207,11 @@ in
       };
       after = [
         "docker-network-komodo.service"
+        "docker-volume-komodo-keys.service"
       ];
       requires = [
         "docker-network-komodo.service"
+        "docker-volume-komodo-keys.service"
       ];
       partOf = [
         "docker-compose-komodo-root.target"
@@ -214,7 +221,7 @@ in
       ];
     };
     virtualisation.oci-containers.containers."komodo-postgres" = {
-      image = "postgres:${cfg.postgres.version}";
+      image = "ghcr.io/ferretdb/postgres-documentdb:${cfg.postgres.version}-ferretdb-${cfg.ferretVersion}";
       environment = commonEnvironment;
       environmentFiles = cfg.envFiles;
       volumes = [
@@ -274,6 +281,30 @@ in
       };
       script = ''
         docker volume inspect komodo-repo-cache || docker volume create komodo-repo-cache
+      '';
+      partOf = [ "docker-compose-komodo-root.target" ];
+      wantedBy = [ "docker-compose-komodo-root.target" ];
+    };
+    systemd.services."docker-volume-komodo-keys" = {
+      path = [ pkgs.docker ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        docker volume inspect komodo-keys || docker volume create komodo-keys
+      '';
+      partOf = [ "docker-compose-komodo-root.target" ];
+      wantedBy = [ "docker-compose-komodo-root.target" ];
+    };
+    systemd.services."docker-volume-komodo-ferretdb-state" = {
+      path = [ pkgs.docker ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        docker volume inspect komodo-ferretdb-state || docker volume create komodo-ferretdb-state
       '';
       partOf = [ "docker-compose-komodo-root.target" ];
       wantedBy = [ "docker-compose-komodo-root.target" ];

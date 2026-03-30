@@ -95,16 +95,16 @@
       };
       komodo = {
         enable = true;
-        ferretVersion = "1.24.1";
+        ferretVersion = "2.7.0";
         envFiles = [ config.sops.secrets.komodo.path ];
         core = {
-          version = "1.19.5";
+          version = "2.0.0";
         };
         periphery = {
-          version = "1.19.5";
+          version = "2.0.0";
         };
         postgres = {
-          version = "17.5";
+          version = "17-0.107.0";
           mountDir = "/mnt/arrays/tank/databases/komodo";
         };
       };
