@@ -52,6 +52,10 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    helix = {
+      url = "github:helix-editor/helix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -75,7 +79,7 @@
         "hydra"
         "dns01"
         "bootstrap"
-	"cesium"
+       	"cesium"
       ];
     in
     {

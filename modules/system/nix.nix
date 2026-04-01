@@ -24,6 +24,9 @@
         # Workaround for https://github.com/NixOS/nix/issues/9574
         nix-path = config.nix.nixPath;
 
+        extra-substituters = [ "https://helix.cachix.org" ];
+        extra-trusted-public-keys = [ "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs=" ];
+        
         download-buffer-size = 524288000;
       };
       # Opinionated: disable channels

@@ -29,7 +29,6 @@ in
     # Common system packages to install
     environment.systemPackages = with pkgs; [
       nano
-      helix
       wget
       btop
       ncdu
