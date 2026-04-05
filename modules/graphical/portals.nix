@@ -5,33 +5,12 @@
   ...
 }:
 let
-  cfg = config.custom.graphical.portals;
+  cfg = config.custom.graphical;
 
   # Common applications
   webbrowser = "firefox.desktop";
   filebrowser = "org.gnome.Nautilus.desktop";
   imageviewer = "imv.desktop";
-
-  # MIME definitions for less repitition
-  # Module supports globbing now so I don't need this
-  # imageformats = lib.genAttrs [
-  #   "image/tiff"
-  #   "image/tiff-fx"
-  #   "image/png"
-  #   "image/x-png"
-  #   "image/jpeg"
-  #   "image/jpg"
-  #   "image/pjpeg"
-  #   "image/svg+xml"
-  #   "image/gif"
-  #   "image/bmp"
-  #   "image/x-bmp"
-  #   "image/heif"
-  #   "image/avif"
-  #   "image/jxl"
-  #   "image/webp"
-  #   "image/qoi"
-  # ] (format: imageviewer);
 
   webformats = lib.genAttrs [
     "application/rdf+xml"
@@ -50,16 +29,12 @@ let
   ] (format: webbrowser);
 
   inherit (lib)
-    mkEnableOption
     mkIf
     ;
-in 
+in
 {
-  options.custom.graphical.portals = {
-     enable = mkEnableOption "Enable XDG portal configurations";
-  };
-  
   config = mkIf cfg.enable {
+    # Set default applications per mime type via XDG
     xdg.mime.defaultApplications = lib.mkMerge [
       {
         # Images
@@ -68,18 +43,23 @@ in
         "inode/directory" = filebrowser;
         # Other types
         "application/pdf" = "org.gnome.Papers.desktop";
-      } 
+      }
       webformats
     ];
-    
-    # Installing additional portals (gnome included with niri-flake)
+
+    # Set xdg portal preferences
     xdg.portal = {
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      # xdgOpenUsePortal = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-gnome
+      ];
       # Overriding some portal defaults from niri-flake
       config = {
         common = {
-          default = [ "gtk" "gnome" ];
+          default = [
+            "gtk"
+            "gnome"
+          ];
           "org.freedesktop.impl.portal.Access" = [ "gtk" ];
           "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
           "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];

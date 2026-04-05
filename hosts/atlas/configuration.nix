@@ -2,10 +2,6 @@
   ...
 }:
 {
-  imports = [
-    ./hardware # Host hardware configuration
-  ];
-
   # Custom module settings
   custom = {
     # Base and desktop profiles enabled
@@ -13,9 +9,8 @@
       base.enable = true;
       desktop.enable = true;
       development.enable = true;
+      gaming.enable = true;
     };
-
-    programs.steam.enable = true;
 
     # Placing this niri config snippet for HOST specific display setting
     hjem.cfg.rum.desktops.niri.config = ''
@@ -26,7 +21,7 @@
         variable-refresh-rate
       }
     '';
-    
+
     # Impermanence
     system.impermanence = {
       enable = true;

@@ -17,11 +17,9 @@ in
   };
 
   config = mkIf cfg.enable {
-
     environment.systemPackages = with pkgs; [
       chromium
     ];
-
     programs.chromium = {
       enable = true;
       extensions = [

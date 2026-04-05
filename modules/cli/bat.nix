@@ -6,31 +6,24 @@
 }:
 let
   cfg = config.custom.cli.bat;
+
+  # Set theme for bat
+  batTheme = "gruvbox-dark";
+
   inherit (lib)
     mkEnableOption
-    mkOption
     mkIf
-    ;
-  inherit (lib.types)
-    str
     ;
 in
 {
   options.custom.cli.bat = {
     enable = mkEnableOption "Enable bat, a cat replacement";
-    theme = mkOption {
-      type = str;
-      description = "Theme to use for bat";
-      default = "ansi"; # Just use terminal colors as default
-    };
-    enableAliases = mkEnableOption "Enable shell aliases for bat" // {
-      default = true;
-    };
   };
 
   config = mkIf cfg.enable {
     programs.bat = {
       enable = true;
+      # Bat plugins
       extraPackages = with pkgs.bat-extras; [
         batdiff
         batman
@@ -38,11 +31,12 @@ in
       ];
       settings = {
         italic-text = "always";
-        theme = cfg.theme;
+        theme = batTheme;
       };
     };
 
-    environment.shellAliases = mkIf cfg.enableAliases {
+    # Set alias to replace cat
+    environment.shellAliases = {
       cat = "bat";
     };
   };

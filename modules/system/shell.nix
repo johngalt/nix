@@ -4,9 +4,9 @@
   pkgs,
   ...
 }:
-let 
+let
   cfg = config.custom.system.shell;
-  
+
   # Common shell aliases to apply to all hosts
   commonAliases = {
   };
@@ -21,7 +21,7 @@ let
     attrs
     ;
 
-in 
+in
 {
   options.custom.system.shell = {
     enable = mkEnableOption "Enable shell configurations";
@@ -58,7 +58,7 @@ in
 
     # Disable man cache generation because it prolongs build times
     documentation.man.cache.enable = false;
-    
+
     # Disable command-not-found
     programs.command-not-found.enable = false;
 

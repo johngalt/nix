@@ -23,26 +23,22 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Using overlays to pull unstable/recent versions of packages
-    # Rather than getting version from nixpkgs, will pull/build versions from git
-    nixpkgs.overlays = [
-      # Overlay niri-flake for niri-unstable
-      inputs.niri.overlays.niri
-    ];
-    
+    # Overlay from niri flake provides git builds of niri and cached binaries
+    nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+
     programs.niri = {
       enable = true;
-      # Pull latest niri from niri-flake
+      # Using niri from overlay above rather than default from nixpkgs
       package = pkgs.niri-unstable;
     };
 
-    # Various services to run when using niri (KDE module includes these when using Plasma)
+    # Various services to run when using niri
     # Some of these may be included in the niri or dms nix module and become redundant
     services = {
       power-profiles-daemon.enable = true;
       upower.enable = true;
       libinput.enable = true;
-      fwupd.enable = true; 
+      fwupd.enable = true;
       accounts-daemon.enable = true;
       gvfs.enable = true; # usb device mounting
     };
@@ -57,7 +53,7 @@ in
 
     # Niri-flake provides a niri-portals.conf for xdg-desktop-portals
     environment.variables = {
-      XDG_CURRENT_DESKTOP = "niri"; 
+      XDG_CURRENT_DESKTOP = "niri";
       QT_QPA_PLATFORM = "wayland";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
     };
@@ -83,7 +79,7 @@ in
         enable = true;
         package = null; # Disable niri config checking (will not work because of 'include's)
         # Global niri keybinds (shell-specific keybinds in own module)
-        binds = import ./binds.nix;
+        binds = import ./_binds.nix;
         # Niri global config (shell specific config will get merged with this)
         # Host specific config may be defined in host nix file
         config = ''
@@ -91,14 +87,14 @@ in
           spawn-at-startup "${lib.getExe pkgs.solaar}" "--window=hide"
           input {
               keyboard {
-                  xkb { 
+                  xkb {
                       layout "us"
                   }
                   repeat-delay 600
                   repeat-rate 25
                   track-layout "global"
               }
-              touchpad { 
+              touchpad {
                   // tap // Tap-to-click
                   // drag true // Tap-and-drag
                   dwt // Disable when typing

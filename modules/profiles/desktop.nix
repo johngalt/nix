@@ -24,65 +24,39 @@ in
       hjem = {
         # Extra packages to install for user
         extraPackages = with pkgs; [
-          calibre
-         (pkgs.kodi-wayland.withPackages (kodiPkgs: with kodiPkgs; [
-        		pvr-iptvsimple
-            plex-for-kodi
-        	]))
+          calibre # for kindle
 	        moonlight-qt
           vlc
           localsend
           obsidian
           gpu-screen-recorder-gtk
           rustdesk-flutter
-          readest # Ebooks
+          readest # ebook reader
           imv # image viewer
           papers # Gnome pdf viewer
-          zathura # Minimal pdf viewer
-          ripdrag
+          zathura # minimalist pdf viewer
+          ripdrag # drag-and-drop from terminal
         ];
       };
       # Enable common graphical configurations and environments
       graphical = {
         enable = true;
-        portals.enable = true;
-        greeter = {
-          enable = true; # Disable this if plasma is enabled since plasma uses SDDM
-          user = private.username;
-        };
+        greeter.enable = true;
         niri.enable = true;
         quickshell = {
           enable = true;
           shell = "dms";
         };
-        plasma.enable = false;
-      };
-      cli = {
-        comma.enable = true;
       };
       programs = {
-        alacritty = {
-          enable = true;
-          imports = [ "~/.config/alacritty/dank-theme.toml" ];
-        };
-        foot = {
-          enable = true;
-          settings = {
-            main.include = "~/.config/foot/dank-colors.ini";
-          };
-        };
+        foot.enable = true;
         yazi.enable = true;
         chromium.enable = true;
         firefox.enable = true;
-        zen.enable = true;
+        zen.enable = false;
         discord.enable = true;
-        thunderbird.enable = false;
-        vscode.enable = true;
         syncthing.enable = true;
-        _1password = {
-          enable = true;
-          polkitUsers = [ "${private.username} " ]; 
-        };
+        _1password.enable = true;
         zed.enable = true;
       };
       system = {

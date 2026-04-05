@@ -8,16 +8,7 @@ let
     ;
 in
 {
-  imports = [
-    ./niri
-    ./plasma
-    ./quickshell
-    ./audio.nix
-    ./fonts.nix
-    ./greeter.nix
-    ./portals.nix
-  ];
-
+  # Set global custom option to control enabling all elements of the graphical module
   options.custom.graphical = {
     enable = mkEnableOption "Enable graphical configurations";
   };

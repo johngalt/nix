@@ -18,7 +18,7 @@
     spawn = [ "dms" "ipc" "call" "notifications" "toggle" ];
     parameters = { hotkey-overlay-title="Notification Center"; };
   };
-  "Mod+Shift+N" = { 
+  "Mod+Shift+N" = {
     spawn = [ "dms" "ipc" "call" "notepad" "toggle" ];
     parameters = { hotkey-overlay-title="Notepad"; };
   };

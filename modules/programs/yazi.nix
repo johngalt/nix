@@ -4,14 +4,14 @@
   pkgs,
   ...
 }:
-let 
+let
   cfg = config.custom.programs.yazi;
 
   inherit (lib)
     mkEnableOption
     mkIf
     ;
-in 
+in
 {
   options.custom.programs.yazi = {
     enable = mkEnableOption "Enable yazi file manager";
@@ -30,7 +30,7 @@ in
       yazi = {
         enable = true;
         plugins = {
-          inherit (pkgs.yaziPlugins) 
+          inherit (pkgs.yaziPlugins)
             git
             full-border
             ouch
@@ -80,7 +80,7 @@ in
               desc = "Copy file contents to wl-clipboard";
             }
             {
-              on ="<C-n>";
+              on = "<C-n>";
               run = "shell -- ripdrag --no-click --and-exit --icon-size 64 --all \"$@\"";
               desc = "Open selected files in ripdrag";
             }

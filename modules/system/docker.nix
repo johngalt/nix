@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  private,
   ...
 }:
 let
@@ -37,11 +38,18 @@ in
     virtualisation.docker.enable = true;
     virtualisation.docker.autoPrune.enable = lib.mkDefault true;
 
-    users.users = optionalAttrs (cfg.customUser != null) {
-      ${cfg.customUser} = {
-        isSystemUser = true;
-        group = "docker";
-        extraGroups = cfg.customUserGroups;
+    users.users = {
+      # Add primary user to docker group
+      ${private.username} = {
+        extraGroups = "docker";
+      }
+      // optionalAttrs (cfg.customUser != null) {
+        # Optionally create custom user for running docker services
+        ${cfg.customUser} = {
+          isSystemUser = true;
+          group = "docker";
+          extraGroups = cfg.customUserGroups;
+        };
       };
     };
   };

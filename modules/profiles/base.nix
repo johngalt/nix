@@ -26,7 +26,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Common system packages to install
+    # Base system packages to install
     environment.systemPackages = with pkgs; [
       nano
       wget
@@ -45,13 +45,8 @@ in
       unzip
     ];
 
-    environment.variables = {
-      EDITOR = "hx";
-    };
-
-    # Custom module settings
+    # Custom module settings for base profile
     custom = {
-      # Hjem for home file management
       hjem = {
         enable = true;
         user = private.username;
@@ -61,27 +56,14 @@ in
         shell.enable = true;
       };
       cli = {
-        git = {
-          enable = true;
-          name = private.fullname;
-          email = private.email;
-        };
         nh = {
           enable = true;
           flake = "/home/${private.username}/git/nixos";
         };
-        bat = {
-          enable = true;
-          theme = "gruvbox-dark";
-        };
-        eza = {
-          enable = true;
-          theme = "gruvbox-dark";
-        };
-        helix = {
-          enable = true;
-          theme = "gruvbox-material";
-        };
+        git.enable = true;
+        bat.enable = true;
+        eza.enable = true;
+        helix.enable = true;
       };
     };
   };

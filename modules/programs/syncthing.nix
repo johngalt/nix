@@ -1,3 +1,4 @@
+# TODO: Eventually clean this up to use on multiple hosts
 {
   config,
   pkgs,

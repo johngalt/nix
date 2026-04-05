@@ -20,7 +20,6 @@ in
         cascadia-code
         noto-fonts-color-emoji
         nerd-fonts.jetbrains-mono
-
       ];
       fontconfig.useEmbeddedBitmaps = true;
       fontconfig.defaultFonts = {

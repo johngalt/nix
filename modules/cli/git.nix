@@ -2,33 +2,23 @@
   config,
   lib,
   pkgs,
+  private,
   ...
 }:
 let
   cfg = config.custom.cli.git;
 
+  gitName = private.fullname;
+  gitEmail = private.email;
+
   inherit (lib)
     mkEnableOption
-    mkOption
     mkIf
-    ;
-  inherit (lib.types)
-    str
     ;
 in
 {
   options.custom.cli.git = {
     enable = mkEnableOption "Enable Git";
-    name = mkOption {
-      type = str;
-      description = "Name for git config";
-      default = "";
-    };
-    email = mkOption {
-      type = str;
-      description = "Email for git config";
-      default = "";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -44,8 +34,8 @@ in
             defaultBranch = "main";
           };
           user = {
-            email = cfg.email;
-            name = cfg.name;
+            email = gitEmail;
+            name = gitName;
           };
         };
       };
