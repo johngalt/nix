@@ -2,76 +2,56 @@
   description = "Home NixOS Configuration";
 
   inputs = {
-    # Private flake
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # Private flake for sensitive values
     nix-private.url = "git+ssh://git@github.com/johngalt/private-nix.git?shallow=1";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Nix-index
-    nix-index-database = {
-      url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Disko -- declarative disk management
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Impermanence -- persistent root storage
+
+    # Declarative disk management
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Wipe root directory with each boot
     impermanence.url = "github:nix-community/impermanence";
-    # SOPS -- secrets management
+
+    # Sops for secrets
     sops-nix.url = "github:Mic92/sops-nix";
-    # Hjem -- home file management
+
+    # Hjem and Hjem-rum for home file management
     hjem.url = "github:feel-co/hjem";
-    hjem-rum = {
-      url = "github:snugnug/hjem-rum";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hjem.follows = "hjem";
-    };
-    # Niri
+    hjem-rum.url = "github:snugnug/hjem-rum";
+    hjem-rum.inputs.nixpkgs.follows = "nixpkgs";
+    hjem-rum.inputs.hjem.follows = "hjem";
+
+    # Niri window manager
     niri.url = "github:sodiboo/niri-flake";
-    # Quickshell pinned to release
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/quickshell/quickshell?rev=41828c4180fb921df7992a5405f5ff05d2ac2fff";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    # Quickshell framework -- pinned to avoid breaking shells
+    quickshell.url = "git+https://git.outfoxxed.me/quickshell/quickshell?rev=41828c4180fb921df7992a5405f5ff05d2ac2fff";
+    quickshell.inputs.nixpkgs.follows = "nixpkgs";
+
     # Dank Material Shell
-    dgop = {
-      url = "github:AvengeMedia/dgop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    dankMaterialShell = {
-      url = "github:AvengeMedia/DankMaterialShell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Noctalia shell
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Zen browser
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    helix = {
-      url = "github:helix-editor/helix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
+    dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs";
+    # DMS Plugins
+    dms-plugin-registry.url = "github:AvengeMedia/dms-plugin-registry";
+    dms-plugin-registry.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Helix modal editor
+    helix.url = "github:helix-editor/helix";
+    helix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      ...
-    }@inputs:
+    { ... }@inputs:
     let
-      inherit (self) outputs;
-      lib = nixpkgs.lib;
-      system = "x86_64-linux";
-      # Private attrset to utilize in other configurations
+      lib = inputs.nixpkgs.lib;
       private = inputs.nix-private.private;
 
-      # List of hosts to build configurations for
+      # Function from llakala to recursively import nix modules
+      recursivelyImport = import lib/recursivelyImport.nix { inherit lib; };
+
+      # List of hosts and builder function to build nixos configurations for
       hosts = [
         "atlas"
         "argon"
@@ -79,31 +59,21 @@
         "hydra"
         "dns01"
         "bootstrap"
-       	"cesium"
+        "cesium"
       ];
-    in
-    {
-      # Set default formatter to nixfmt-rfc-style
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt;
-
-      # Function to build nixosConfigurations for each host
-      nixosConfigurations = lib.genAttrs hosts (
+      mkSystem =
         host:
         lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit
-              inputs
-              outputs
-              private
-              ;
-          };
-          modules = [
-            ./hosts/${host} # Host-specific configurations
-            ./modules # Custom modules
-            (import ./overlays) # Custom overlays
-          ];
-        }
-      );
+          specialArgs = { inherit inputs private; };
+          modules =
+            recursivelyImport [
+              ./hosts/${host}
+              ./modules
+            ]
+            ++ [ (import ./overlays) ]; # TODO: Move overlays to just custom package definitions
+        };
+    in
+    {
+      nixosConfigurations = lib.genAttrs hosts mkSystem;
     };
 }
