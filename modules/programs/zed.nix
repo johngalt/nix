@@ -19,6 +19,7 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       zed-editor
+      nixd
     ];
 
     # Dynamic library support

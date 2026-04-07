@@ -5,10 +5,6 @@
   ...
 }:
 {
-  imports = [
-    ./hardware
-  ];
-
   # SOPS definitions
   # Renovate
   sops.secrets."renovate/github_key" = { };

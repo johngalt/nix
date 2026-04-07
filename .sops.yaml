@@ -1,0 +1,19 @@
+keys:
+  - &taylor age1za75g4g6jl2zuq36dud2e6ssdgzj8n8ee2tnrma2jj4jeexee96sp9f4tv
+  - &host_atlas age1rcdqxlqf8v2ha2dekz7cs72ctrzh2fvqvw63w6h7e3hccvgepy0qznxa8t
+  - &host_argon age1dz2mx7dc3k4tlcuta6wkjf887j9uqj8gkt88czfjkulw08lz2plqc2far6
+  - &host_incus age1rf9rplg8z4qlgq5vjj5vy558x0angagx24y4ul860gm89ezeqaes0q2ajs
+  - &host_hydra age1sr90fdh608d8kxpcujmuddxxlc4f0uk4l7ur4mkxsaxw3dyun90sv2q9ca
+  - &host_dns01 age1s82lfezym83mqpyw3yvqlrasrf6qagdhm3sfqr3m4lscttujfg7strmhhk
+  - &host_cesium age15haz8whmqr0q84aa9j2vlsrn65l5lmuyyj64pzsfw6k99cm4v49qlk4alp
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *taylor
+        - *host_atlas
+        - *host_argon
+        - *host_incus
+        - *host_hydra
+        - *host_dns01
+        - *host_cesium

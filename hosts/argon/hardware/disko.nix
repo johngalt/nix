@@ -1,4 +1,12 @@
 {
+  inputs,
+  ...
+}:
+{
+  imports = [
+    inputs.disko.nixosModules.disko
+  ];
+
   disko.devices.disk.main = {
     device = "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_1TB_S59ANM0W621674W";
     type = "disk";
@@ -86,4 +94,9 @@
     "/persist".neededForBoot = true;
     "/var/log".neededForBoot = true;
   };
+  swapDevices = [
+    {
+      device = "/dev/disk/by-uuid/cf2e2f11-3051-4d58-805b-ff32d429b4e1";
+    }
+  ];
 }

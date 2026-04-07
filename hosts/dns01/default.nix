@@ -3,10 +3,6 @@
   ...
 }:
 {
-  imports = [
-    ./hardware
-  ];
-
   # Custom module settings
   custom = {
     profiles.base.enable = true;
@@ -31,8 +27,10 @@
   };
 
   # Networking settings. Not enough to break into own file
-  networking.hostName = "dns01";
-  networking.domain = private.domain;
-  networking.firewall.enable = true;
-  networking.useDHCP = true;
+  networking = {
+    hostName = "dns01";
+    domain = private.domain;
+    firewall.enable = true;
+    useDHCP = true;
+  };
 }

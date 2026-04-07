@@ -18,12 +18,18 @@
     };
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
     # Pinned/overwritten default nix kernel version
     kernelPackages = pkgs.linuxPackages_6_19;
   };
 
   # Hardware/graphics
   hardware = {
+    enableRedistributableFirmware = true;
     cpu.intel.updateMicrocode = true;
     bluetooth.enable = true;
     # Logitech wireles utilities for mouse/keyboard
@@ -70,4 +76,5 @@
       wifi.backend = "iwd";
     };
   };
+  nixpkgs.hostPlatform = "x86_64-linux";
 }

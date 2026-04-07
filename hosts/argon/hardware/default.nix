@@ -2,25 +2,12 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 {
-  config,
-  inputs,
   lib,
-  modulesPath,
-  private,
   pkgs,
   ...
 }:
 
 {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    inputs.disko.nixosModules.disko # Disko disk management
-    ./disko.nix
-    ./filesystems.nix
-    ./networking.nix
-    ./ups.nix
-  ];
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -42,19 +29,11 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = true;
+  hardware.enableRedistributableFirmware = true;
 
-  # Intel iGPU monitoring
-  hardware.intel-gpu-tools.enable = true;
-  environment.systemPackages = with pkgs; [ intel-gpu-tools ];
-  
   # Coral TPU support
   hardware.coral.pcie.enable = true;
 
-  swapDevices = [
-    {
-      device = "/dev/disk/by-uuid/cf2e2f11-3051-4d58-805b-ff32d429b4e1";
-    }
-  ];
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

@@ -64,8 +64,8 @@ let
       ; set to false to get full programm output via email
       short = true
       subject = [SnapRAID] Status Report:
-      from = 
-      to = 
+      from =
+      to =
       ; maximum email size in KiB
       maxsize = 500
 

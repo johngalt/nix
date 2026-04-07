@@ -4,21 +4,11 @@
 {
   config,
   lib,
-  modulesPath,
-  inputs,
   pkgs,
   ...
 }:
 
 {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    inputs.disko.nixosModules.disko # Disko disk management
-    ./disko.nix
-    ./networking.nix
-    ./ups.nix
-  ];
-
   boot.supportedFilesystems = [ "zfs" ];
 
   boot.initrd.availableKernelModules = [
@@ -38,5 +28,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = true;
+  hardware.enableRedistributableFirmware = true;
 }

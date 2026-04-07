@@ -8,7 +8,7 @@
   lib,
 }:
 let
-  version = "1.9.0";
+  version = "1.49.1";
 in
 buildGoModule rec {
   inherit version;
@@ -18,7 +18,7 @@ buildGoModule rec {
     owner = "Starosdev";
     repo = "scrutiny";
     tag = "v${version}";
-    hash = "sha256-qnSUJDhjYtdpE3Sc5O7yFLKMLXVRO9P67N9TqhbhG/c=";
+    hash = "";
   };
 
   subPackages = [
@@ -26,7 +26,7 @@ buildGoModule rec {
     "collector/cmd/collector-zfs"
   ];
 
-  vendorHash = "sha256-nfL+44lKBmAcScoV0AHotSotQz4Z3kHIpePERuncM6c=";
+  vendorHash = "";
 
   nativeBuildInputs = [ makeWrapper ];
 

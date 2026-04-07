@@ -5,10 +5,6 @@
   ...
 }:
 {
-  imports = [
-    ./hardware
-  ];
-
   # Host-specific programs
   programs = {
     # Needed for remote vscode

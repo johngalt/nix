@@ -4,10 +4,6 @@
   ...
 }:
 {
-  imports = [
-    ./hardware # Host hardware configuration
-  ];
-
   # Enable incus for VM management
   virtualisation.incus = {
     enable = true;

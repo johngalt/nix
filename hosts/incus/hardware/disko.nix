@@ -1,4 +1,12 @@
 {
+  inputs,
+  ...
+}:
+{
+  imports = [
+    inputs.disko.nixosModules.disko # Disko disk management
+  ];
+
   disko.devices = {
     disk = {
       main = {

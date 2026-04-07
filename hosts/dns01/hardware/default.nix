@@ -5,15 +5,12 @@
   lib,
   modulesPath,
   pkgs,
-  inputs,
   ...
 }:
 
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
-    inputs.disko.nixosModules.disko
-    ./disko.nix
   ];
 
   services.qemuGuest.enable = true;
