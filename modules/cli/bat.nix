@@ -1,49 +1,32 @@
+{ inputs, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let
-  cfg = config.custom.cli.bat;
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    ;
-  inherit (lib.types)
-    str
-    ;
-in
-{
-  options.custom.cli.bat = {
-    enable = mkEnableOption "Enable bat, a cat replacement";
-    theme = mkOption {
-      type = str;
-      description = "Theme to use for bat";
-      default = "ansi"; # Just use terminal colors as default
-    };
-    enableAliases = mkEnableOption "Enable shell aliases for bat" // {
-      default = true;
-    };
-  };
+  flake.modules.nixos.bat =
+    { pkgs, ... }:
+    let
+      theme = "gruvbox-dark";
 
-  config = mkIf cfg.enable {
-    programs.bat = {
-      enable = true;
-      extraPackages = with pkgs.bat-extras; [
-        batdiff
-        batman
-        prettybat
-      ];
-      settings = {
-        italic-text = "always";
-        theme = cfg.theme;
+      # Will use simple wrapper since there is no wrapper-module for bat
+      batWrapped = inputs.wrappers.lib.wrapPackage {
+        inherit pkgs;
+        package = pkgs.bat;
+        flags = {
+          "--theme" = theme;
+          "--style" = "grid";
+          "--italic-text" = "always";
+        };
+      };
+    in
+    {
+      # Using module option to set package instead of environment.systemPackages
+      # This way I can reference this wrapped package in other modules if needed
+      programs.bat = {
+        enable = true;
+        package = batWrapped;
+      };
+
+      # Set alias to replace cat
+      environment.shellAliases = {
+        cat = "bat";
       };
     };
-
-    environment.shellAliases = mkIf cfg.enableAliases {
-      cat = "bat";
-    };
-  };
 }

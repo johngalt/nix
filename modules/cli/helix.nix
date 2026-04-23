@@ -1,117 +1,131 @@
+{ inputs, self, ... }:
 {
-  config,
-  lib,
-  inputs,
-  pkgs,
-  ...
-}:
-let 
-  cfg = config.custom.cli.helix;
-  
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    ;
-  inherit (lib.types)
-    str
-    ;
+  flake.modules.nixos.helix =
+    { pkgs, ... }:
+    let
+      # Wrapper module needs to be passed pkgs first via `.apply`
+      helixWrapped = self.wrappers.helix.apply { inherit pkgs; };
+    in
+    {
+      environment.systemPackages = [
+        helixWrapped.wrapper # Wrapped package
+      ];
 
-in 
-{
-  options.custom.cli.helix = {
-    enable = mkEnableOption "Enable helix configuration";
-    theme = mkOption {
-      type = str;
-      description = "Helix theme to set";
-      default = "";
+      # Go ahead and set it as default
+      environment.variables = {
+        EDITOR = "hx";
+        VISUAL = "hx";
+      };
+
+      # Add helix cachix binary cache
+      nix.settings = {
+        substituters = [ "https://helix.cachix.org" ];
+        trusted-public-keys = [ "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs=" ];
+      };
     };
-  };
 
-  config = mkIf cfg.enable {
-    environment.systemPackages = [
-      inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
-    
-    custom.hjem.cfg = {
-      rum.programs.helix = {
-        enable = true;
-        package = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default;
-        
-        settings = {
-          editor = {
-            color-modes = true;
-            line-number = "relative";
-            end-of-line-diagnostics = "hint";
-            rainbow-brackets = true;
-            inline-diagnostics = {
-              cursor-line = "warning";
-              other-lines = "warning";
-            };
-            statusline = {
-              mode = {
-                normal = "NORMAL";
-                insert = "INSERT";
-                select = "SELECT";
-              };
-            };
-            lsp = {
-              display-messages = true;
-              display-inlay-hints = true;
-            };
-            cursor-shape = {
-              insert = "bar";
-              normal = "block";
-              select = "underline";
-            };
-            indent-guides.render = true;
+  # Initialize helix wrapper with some default configuration
+  # Accessed by calling this wrapper with `.apply` 
+  flake.wrappers.helix =
+    { lib, wlib, pkgs, ... }:
+    let
+      # Going to override a builtin theme to allow for transparent background
+      themes = {
+        gruvbox-transparent = ''
+          inherits = "gruvbox_material_dark_medium"
+          "ui.background" = { }
+        '';
+      };
+    in
+    {
+      imports = [ wlib.wrapperModules.helix ];
+
+      # Using helix package from flake inputs (newer than nixpkgs)
+      package = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
+      # Set theme/settings here
+      inherit themes;
+      settings = {
+        theme = "gruvbox-transparent";
+        editor = {
+          color-modes = true;
+          line-number = "relative";
+          end-of-line-diagnostics = "hint";
+          rainbow-brackets = true;
+          inline-diagnostics = {
+            cursor-line = "warning";
           };
-          theme = cfg.theme;
-          # Keybinds
-          keys.normal = {
-            X = "select_line_above";
+          statusline = {
+            mode = {
+              normal = "NORMAL";
+              insert = "INSERT";
+              select = "SELECT";
+            };
           };
+          lsp = {
+            display-messages = true;
+            display-inlay-hints = true;
+          };
+          cursor-shape = {
+            insert = "bar";
+            normal = "block";
+            select = "underline";
+          };
+          indent-guides.render = true;
         };
-        languages = {
-          language = [
-            {
-              name = "go";
-              auto-format = true;
-              formatter = { command = "goimports"; };
-            }
-            {
-              name = "nix";
-              auto-format = false;
-              formatter = {
-                command = "${lib.getExe pkgs.nixpkgs-fmt}";
-              };
-              file-types = [ "nix" ];
-              language-servers = [ "nixd" ];
-            }
-            {
-              name = "yaml";
-              auto-format = true;
-              file-types = [ "yaml" "yml" ];
-              language-servers = [ "yaml" ];
-            }
-          ];
-          language-server = {
-            gopls = {
-              command = "${lib.getExe pkgs.gopls}";
-              args = [ "-logfile=/tmp/gopls.log" "serve" ];
-              config = { "ui.diagnostic.staticcheck" = true; };
+        # Keybinds
+        keys.normal = {
+          X = "select_line_above";
+        };
+      };
+      languages = {
+        language = [
+          {
+            name = "go";
+            auto-format = true;
+            formatter = {
+              command = "goimports";
             };
-            yaml = {
-              command = "${pkgs.nodePackages.yaml-language-server}/bin/yaml-language-server";
-              args = [ "--stdio" ];
+          }
+          {
+            name = "nix";
+            auto-format = false;
+            formatter = {
+              command = "${lib.getExe pkgs.nixpkgs-fmt}";
             };
-            nixd = {
-              command = "${lib.getExe pkgs.nixd}";
-              args = [ ];
+            file-types = [ "nix" ];
+            language-servers = [ "nixd" ];
+          }
+          {
+            name = "yaml";
+            auto-format = true;
+            file-types = [
+              "yaml"
+              "yml"
+            ];
+            language-servers = [ "yaml" ];
+          }
+        ];
+        language-server = {
+          gopls = {
+            command = "${lib.getExe pkgs.gopls}";
+            args = [
+              "-logfile=/tmp/gopls.log"
+              "serve"
+            ];
+            config = {
+              "ui.diagnostic.staticcheck" = true;
             };
+          };
+          yaml = {
+            command = "${lib.getExe pkgs.yaml-language-server}";
+            args = [ "--stdio" ];
+          };
+          nixd = {
+            command = "${lib.getExe pkgs.nixd}";
+            args = [ ];
           };
         };
       };
     };
-  };
 }

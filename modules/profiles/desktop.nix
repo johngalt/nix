@@ -1,94 +1,43 @@
+{ self, ... }:
 {
-  lib,
-  config,
-  private,
-  pkgs,
-  ...
-}:
-let
-  cfg = config.custom.profiles.desktop;
+  # Desktop profile 
+  flake.modules.nixos.desktop =
+    { pkgs, ... }:
+    {
+      imports = with self.modules.nixos; [
+        # System modules
+        printing
+        yubikey
+        
+        # Desktop environment
+        niri
+        dms
 
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
-in
-{
-  options.custom.profiles.desktop = {
-    enable = mkEnableOption "Enable desktop modules";
-  };
+        # Programs modules
+        _1password
+        chromium
+        firefox
+        foot
+        syncthing
+        vesktop
+        yazi
+        zed
+      ];
 
-  config = mkIf cfg.enable {
-    # Custom module settings
-    custom = {
-      hjem = {
-        # Extra packages to install for user
-        extraPackages = with pkgs; [
+      # Other programs installed to user profile via hjem
+      hj = {
+        packages = with pkgs; [
           calibre
-         (pkgs.kodi-wayland.withPackages (kodiPkgs: with kodiPkgs; [
-        		pvr-iptvsimple
-            plex-for-kodi
-        	]))
-	        moonlight-qt
+          moonlight-qt
           vlc
-          localsend
           obsidian
-          gpu-screen-recorder-gtk
           rustdesk-flutter
-          readest # Ebooks
+          readest # ebook reader
           imv # image viewer
           papers # Gnome pdf viewer
           zathura # Minimal pdf viewer
-          ripdrag
+          ripdrag # Drag-and-drop from terminal
         ];
       };
-      # Enable common graphical configurations and environments
-      graphical = {
-        enable = true;
-        portals.enable = true;
-        greeter = {
-          enable = true; # Disable this if plasma is enabled since plasma uses SDDM
-          user = private.username;
-        };
-        niri.enable = true;
-        quickshell = {
-          enable = true;
-          shell = "dms";
-        };
-        plasma.enable = false;
-      };
-      cli = {
-        comma.enable = true;
-      };
-      programs = {
-        alacritty = {
-          enable = true;
-          imports = [ "~/.config/alacritty/dank-theme.toml" ];
-        };
-        foot = {
-          enable = true;
-          settings = {
-            main.include = "~/.config/foot/dank-colors.ini";
-          };
-        };
-        yazi.enable = true;
-        chromium.enable = true;
-        firefox.enable = true;
-        zen.enable = true;
-        discord.enable = true;
-        thunderbird.enable = false;
-        vscode.enable = true;
-        syncthing.enable = true;
-        _1password = {
-          enable = true;
-          polkitUsers = [ "${private.username} " ]; 
-        };
-        zed.enable = true;
-      };
-      system = {
-        yubikey.enable = true;
-        printing.enable = true;
-      };
     };
-  };
 }

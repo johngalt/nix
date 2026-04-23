@@ -1,44 +1,41 @@
+# Beszel agent service to automatically send stats to the beszel hub
+{ ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let
-  cfg = config.custom.services.beszel;
+  flake.modules.nixos.beszel =
+    { config, lib, private, ... }:
+    let
+      cfg = config.custom.services.beszel;
 
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    ;
-  inherit (lib.types)
-    str
-    attrsOf
-    ;
+      inherit (lib) mkOption;
+      inherit (lib.types) attrs;
+    in
+    {
+      # Custom option will allow host-specific settings
+      options.custom.services.beszel = {
+        extraEnv = mkOption {
+          type = attrs;
+          description = "Extra environmental variables to pass to the beszel agent";
+          default = { };
+        };
+      };
 
-in
-{
-  options.custom.services.beszel = {
-    enable = mkEnableOption "Enable beszel agent";
-    environmentFile = mkOption {
-      type = lib.types.path;
-      description = "Path to environment file used with beszel-agent service";
-    };
-    environment = mkOption {
-      type = attrsOf str;
-      description = "Beszel environmental variables";
-      default = { };
-    };
-  };
+      config = {
+        # Initialize the secrets for the agent
+        sops.secrets."beszel/sshKey" = { };
+        sops.secrets."beszel/universalToken" = { };
+        sops.templates."beszel-agent-config".content = ''
+          HUB_URL=https://beszel.${private.domain}
+          KEY=${config.sops.placeholder."beszel/sshKey"}
+          TOKEN=${config.sops.placeholder."beszel/universalToken"}
+        '';
 
-  config = mkIf cfg.enable {
-    services.beszel.agent = {
-      enable = true;
-      openFirewall = true;
-      smartmon.enable = true;
-      environmentFile = cfg.environmentFile;
-      environment = cfg.environment;
+        services.beszel.agent = {
+          enable = true;
+          openFirewall = true;
+          smartmon.enable = true;
+          environmentFile = config.sops.templates."beszel-agent-config".path;
+          environment = cfg.extraEnv;
+        };
+      };
     };
-  };
 }

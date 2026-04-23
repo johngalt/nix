@@ -1,34 +1,27 @@
+{ ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let
-  cfg = config.custom.programs.steam;
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
-in
-{
-  options.custom.programs.steam = {
-    enable = mkEnableOption "Enable Steam";
-  };
-
-  config = mkIf cfg.enable {
-    # Adwiata theme installer for Steam
-    environment.systemPackages = with pkgs; [
-      adwsteamgtk
-    ];
-    programs.steam = {
-      enable = true;
-      # Proton-GE
-      extraCompatPackages = with pkgs; [
-        proton-ge-bin
+  flake.modules.nixos.steam =
+    { pkgs, ... }:
+    {
+      # Adwiata theme installer for Steam
+      environment.systemPackages = with pkgs; [
+        adwsteamgtk
       ];
-      protontricks.enable = true;
+      programs.steam = {
+        enable = true;
+        # Proton-GE
+        extraCompatPackages = with pkgs; [
+          proton-ge-bin
+        ];
+        protontricks.enable = true;
+      };
+
+      # Set home directories to persist if enabled
+      custom.system.impermanence = {
+        persistHome.directories = [
+          ".local/share/Steam"
+          ".steam"
+        ];
+      };
     };
-    # programs.gamemode.enable = true;
-  };
 }

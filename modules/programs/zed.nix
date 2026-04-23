@@ -1,31 +1,22 @@
+{ ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let 
-  cfg = config.custom.programs.zed;
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
-in 
-{
-  options.custom.programs.zed = {
-    enable = mkEnableOption "Enable Zed editor";
-  };
+  flake.modules.nixos.zed =
+    { pkgs, ... }:
+    {
+      # Install nixd LSP system-wide
+      environment.systemPackages = with pkgs; [ nixd ];
+      # Install zed-editor at user-level via hjem
+      hj.packages = with pkgs; [ zed-editor ];
 
-  config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      zed-editor
-    ];
+      # Dynamic library support
+      programs.nix-ld.enable = true;
 
-    # Dynamic library support
-    programs.nix-ld.enable = true;
-
-    # TODO: declaritive zed settings
-    custom.hjem.cfg = {
+      # Set home directories to persist if enabled
+      custom.system.impermanence = {
+        persistHome.directories = [
+          ".config/zed"
+          ".local/share/zed"
+        ];
+      };
     };
-  };
 }
