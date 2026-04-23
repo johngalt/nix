@@ -1,29 +1,15 @@
+{ ... }:
 {
-  lib,
-  config,
-  pkgs,
-  ...
-}:
-let
-  cfg = config.custom.system.yubikey;
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
-in
-{
-  options.custom.system.yubikey = {
-    enable = mkEnableOption "Enable Yubikey support";
-  };
+  flake.modules.nixos.yubikey =
+    { pkgs, ... }:
+    {
+      # Yubikey supporting system services
+      services = {
+        pcscd.enable = true;
+        udev.packages = with pkgs; [ yubikey-personalization ];
+      };
 
-  config = mkIf cfg.enable {
-    services = {
-      pcscd.enable = true;
-      udev.packages = [ pkgs.yubikey-personalization ];
+      # GUI App for Yubikey
+      environment.systemPackages = with pkgs; [ yubioath-flutter ];
     };
-
-    environment.systemPackages = with pkgs; [
-      yubioath-flutter
-    ];
-  };
 }

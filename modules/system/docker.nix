@@ -1,56 +1,35 @@
+{ ... }:
 {
-  lib,
-  config,
-  private,
-  ...
-}:
-let
-  cfg = config.custom.system.docker;
+  flake.modules.nixos.docker =
+    { lib, config, ... }:
+    let
+      dockerUser = "docker";
+      dockerGroup = "docker";
 
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    optionalAttrs
-    ;
-  inherit (lib.types)
-    str
-    nullOr
-    listOf
-    ;
-in
-{
-  options.custom.system.docker = {
-    enable = mkEnableOption "Enable docker module";
-    customUser = mkOption {
-      description = "Create separate docker user";
-      type = nullOr str;
-      default = null;
-    };
-    customUserGroups = mkOption {
-      description = "Extra groups to add custom docker user to";
-      type = listOf str;
-      default = [ ];
-    };
-  };
+      cfg = config.custom.system.docker;
 
-  config = mkIf cfg.enable {
-    virtualisation.docker.enable = true;
-    virtualisation.docker.autoPrune.enable = lib.mkDefault true;
+      inherit (lib) mkOption;
+      inherit (lib.types) listOf str;
+    in
+    {
+      options.custom.system.docker = {
+        extraGroups = mkOption {
+          type = listOf str;
+          description = "Extra groups to be added to docker user";
+          default = [ ];
+        };
+      };
 
-    users.users = {
-      # Add primary user to docker group
-      ${private.username} = {
-        extraGroups = "docker";
-      }
-      // optionalAttrs (cfg.customUser != null) {
-        # Optionally create custom user for running docker services
-        ${cfg.customUser} = {
+      config = {
+        virtualisation.docker.enable = true;
+        virtualisation.docker.autoPrune.enable = true;
+
+        # Create a docker user
+        users.users.${dockerUser} = {
           isSystemUser = true;
-          group = "docker";
-          extraGroups = cfg.customUserGroups;
+          group = dockerGroup;
+          extraGroups = cfg.extraGroups;
         };
       };
     };
-  };
 }

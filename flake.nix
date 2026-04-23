@@ -1,9 +1,14 @@
 {
-  description = "Home NixOS Configuration";
+  description = "Flake-parts based NixOS Configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # Flake-parts
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    # Wrapper modules 
+    wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrappers.inputs.nixpkgs.follows = "nixpkgs";
     # Private flake for sensitive values
     nix-private.url = "git+ssh://git@github.com/johngalt/private-nix.git?shallow=1";
 
@@ -17,17 +22,14 @@
     # Sops for secrets
     sops-nix.url = "github:Mic92/sops-nix";
 
-    # Hjem and Hjem-rum for home file management
+    # Hjem for some home file linkers
     hjem.url = "github:feel-co/hjem";
-    hjem-rum.url = "github:snugnug/hjem-rum";
-    hjem-rum.inputs.nixpkgs.follows = "nixpkgs";
-    hjem-rum.inputs.hjem.follows = "hjem";
 
     # Niri window manager
     niri.url = "github:sodiboo/niri-flake";
 
     # Quickshell framework -- pinned to avoid breaking shells
-    quickshell.url = "git+https://git.outfoxxed.me/quickshell/quickshell?rev=41828c4180fb921df7992a5405f5ff05d2ac2fff";
+    quickshell.url = "git+https://git.outfoxxed.me/quickshell/quickshell";
     quickshell.inputs.nixpkgs.follows = "nixpkgs";
 
     # Dank Material Shell
@@ -46,34 +48,14 @@
     { ... }@inputs:
     let
       lib = inputs.nixpkgs.lib;
-      private = inputs.nix-private.private;
-
-      # Function from llakala to recursively import nix modules
+      # Recursive import function to load modules, thanks llakala
       recursivelyImport = import lib/recursivelyImport.nix { inherit lib; };
-
-      # List of hosts and builder function to build nixos configurations for
-      hosts = [
-        "atlas"
-        "argon"
-        "incus"
-        "hydra"
-        "dns01"
-        "bootstrap"
-        "cesium"
-      ];
-      mkSystem =
-        host:
-        lib.nixosSystem {
-          specialArgs = { inherit inputs private; };
-          modules =
-            recursivelyImport [
-              ./hosts/${host}
-              ./modules
-            ]
-            ++ [ (import ./overlays) ]; # TODO: Move overlays to just custom package definitions
-        };
+      # Supported systems
+      systems = [ "x86_64-linux" ];
     in
-    {
-      nixosConfigurations = lib.genAttrs hosts mkSystem;
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      inherit systems;
+      imports = recursivelyImport [ ./modules ];
+      debug = true;
     };
 }

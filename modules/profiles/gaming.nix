@@ -1,22 +1,11 @@
+{ self, ... }:
 {
-  lib,
-  config,
-  ...
-}:
-let
-  cfg = config.custom.profiles.gaming;
-
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
-in
-{
-  options.custom.profiles.gaming = {
-    enable = mkEnableOption "Enable gaming modules";
-  };
-
-  config = mkIf cfg.enable {
-    custom.programs.steam.enable = true;
-  };
+  # Gaming profile. Just an addon profile, does not include anything else
+  flake.modules.nixos.gaming =
+    { ... }:
+    {
+      imports = with self.modules.nixos; [
+        steam
+      ];
+    };
 }

@@ -1,40 +1,49 @@
+{ self, ... }:
 {
-  config,
-  pkgs,
-  lib,
-  ...
-}:
-let
-  cfg = config.custom.cli.eza;
+  flake.wrappers.eza =
+    { wlib, pkgs, config, ... }:
+    let
+      # Custom package for the eza-themes repository
+      eza-themes = pkgs.callPackage ../../packages/eza-themes {  };
+      theme = "gruvbox-dark";
+    in
+    {
+      # Default wrapper module pulls in things like `env` and `flags`
+      imports = [ wlib.modules.default ];
+      package = pkgs.eza;
 
-  # Theme for eza
-  ezaTheme = "gruvbox-dark";
+      # Pull the theme into the wrapper
+      constructFiles."eza-theme.yml" = {
+        content = builtins.readFile "${eza-themes}/share/eza-themes/${theme}.yml";
+        relPath = "eza/theme.yml";
+      };
 
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
-in
-{
-  options.custom.cli.eza = {
-    enable = mkEnableOption "Enable eza, an ls replacement";
-  };
-
-  config = mkIf cfg.enable {
-    # Using systemPackages so its available as root as well
-    environment.systemPackages = with pkgs; [
-      eza
-      eza-themes # Custom package from eza-themes repository
-    ];
-
-    environment.shellAliases = {
-      ls = "eza --icons=auto";
-      ll = "eza -l -a --icons=auto";
-      tree = "eza --tree --git-ignore --icons=auto";
+      # Eza needs me to specify the config directory to set the theme ...
+      env = {
+        EZA_CONFIG_DIR = dirOf config.constructFiles."eza-theme.yml".path;
+      };
+      flagSeparator = "=";
+      flags = {
+        "--icons" = "auto";
+        "--hyperlink" = true;
+      };
     };
+    
+  flake.modules.nixos.eza =
+    { pkgs, ... }:
+    let
+      ezaWrapped = self.wrappers.eza.apply { inherit pkgs; };
+    in
+    {
+      environment.systemPackages = [
+        ezaWrapped.wrapper # Wrapped package
+      ];
 
-    custom.hjem.cfg = {
-      files.".config/eza/theme.yml".source = "${pkgs.eza-themes}/share/eza-themes/${ezaTheme}.yml";
+      # Eza-specific shell aliases
+      environment.shellAliases = {
+        ls = "eza";
+        ll = "eza l -a";
+        tree = "eza --tree --git-ignore";
+      };
     };
-  };
 }

@@ -1,56 +1,34 @@
+{ ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let 
-  cfg = config.custom.services.scrutiny;
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    ;
-  inherit (lib.types)
-    str
-    ;
-in 
-{
-  options.custom.services.scrutiny = {
-    enable = mkEnableOption "Enable scrutiny collector for disk monitoring";
-    endpoint = mkOption {
-      type = str;
-      description = "Hub endpoint for scrutiny";
-      default = "";
-    };
-    schedule = mkOption {
-      type = str;
-      description = "Time to start scrutiny collector";
-      default = "04:00";
-    };
-    hostname = mkOption {
-      type = str;
-      description = "Hostname used for scrutiny collector";
-      default = config.networking.hostName;
-    };
-  };
+  flake.modules.nixos.scrutiny =
+    { config, lib, pkgs, hostConfig, private, ... }:
+    let
+      # Will use forked version of scrutiny as the package for the module
+      collectorPackage = pkgs.callPackage ../../packages/scrutiny-collector { };
+      scheduleTime = "04:00";
+      apiEndpoint = "https://scrutiny.${private.domain}";
+      hostId = hostConfig.name;
 
-  config = mkIf cfg.enable {
-    services.scrutiny.collector = {
-      enable = true;
-      schedule = cfg.schedule;
-      settings.api.endpoint = cfg.endpoint;
-      settings.host.id = cfg.hostname;
-    };
+      inherit (lib) mkIf;
+    in
+    {
+      services.scrutiny.collector = {
+        enable = true;
+        package = collectorPackage;
+        schedule = scheduleTime;
+        settings.api.endpoint = apiEndpoint;
+        settings.host.id = hostId;
+      };
 
-    # Override the nixpkgs module to add zfs collector to systemd script
-    systemd.services.scrutiny-collector = mkIf (builtins.hasAttr "zfs" config.boot.supportedFilesystems) {
-      serviceConfig = {
-        ExecStart = lib.mkForce [
-          "${pkgs.scrutiny-collector}/bin/scrutiny-collector-metrics run --config /run/scrutiny-collector/config.yaml"
-          "${pkgs.scrutiny-collector}/bin/scrutiny-collector-zfs run"
-        ];
+      # Override the nixpkgs module to add zfs collector to systemd script
+      # Will only be added if the host has a zfs filesystem
+      systemd.services.scrutiny-collector = mkIf (builtins.hasAttr "zfs" config.boot.supportedFilesystems) {
+        serviceConfig = {
+          ExecStart = lib.mkForce [
+            "${collectorPackage}/bin/scrutiny-collector-metrics run --config /run/scrutiny-collector/config.yaml"
+            "${collectorPackage}/bin/scrutiny-collector-zfs run"
+          ];
+        };
       };
     };
-  };
 }

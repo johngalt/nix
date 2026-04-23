@@ -1,53 +1,62 @@
+{ self, ... }:
 {
-  config,
-  lib,
-  ...
-}:
-let 
-  cfg = config.custom.programs.foot;
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    mkMerge
-    ;
-  inherit (lib.types)
-    attrs
-    ;
-in 
-{
-  options.custom.programs.foot = {
-    enable = mkEnableOption "Enable foot terminal";
-    settings = mkOption {
-      type = attrs;
-      description = "Extra settings to pass to foot config";
-      default = { };
-    };
-  };
-
-  config = mkIf cfg.enable {
-    programs.foot = {
-      enable = true;
+  # Initialize the foot wrapper
+  flake.wrappers.foot =
+    { wlib, pkgs, ... }:
+    {
+      imports = [ wlib.wrapperModules.foot ];
+      package = pkgs.foot;
     };
 
-    # Set 256color on remote ssh hosts
-    programs.ssh.extraConfig = ''
-      Host *
-        SetEnv TERM=xterm-256color
-    '';
-    
-    custom.hjem.cfg = {
-      rum.programs.foot = {
-        enable = true;
-        package = null; # Installed globally
-        settings = mkMerge [
-          {
-            # Pull default font from fontconfig module
-            main.font = "${lib.head config.fonts.fontconfig.defaultFonts.monospace}:size=11";
-          }
-          cfg.settings
-        ];
+  flake.modules.nixos.foot =
+    { lib, config, pkgs, ... }:
+    let
+      footWrapped = self.wrappers.foot.apply {
+        inherit pkgs;
+        inherit (config.custom.programs.foot) settings;
+      };
+      
+      inherit (lib)
+        mkOption
+        ;
+      inherit (lib.types)
+        attrsOf
+        attrs
+        ;
+    in
+    {
+      # Expose settings option for other modules to pass extra configuration
+      options.custom.programs.foot = {
+        settings = mkOption {
+          type = attrsOf attrs; # Forces deep recursive merging of attribute sets
+          description = "Settings to pass to foot config";
+          default = { };
+        };
+      };
+
+      config = {
+        programs.foot = {
+          enable = true;
+          package = footWrapped.wrapper; # From wrapper above
+        };
+
+        # Will pull default font from fontconfig
+        custom.programs.foot.settings = {
+          main.font = "${lib.head config.fonts.fontconfig.defaultFonts.monospace}:size=11";
+        };
+
+        # Set 256color on remote ssh hosts
+        programs.ssh.extraConfig = ''
+          Host *
+            SetEnv TERM=xterm-256color
+        '';
+
+        # Set home directories to persist if enabled
+        custom.system.impermanence = {
+          persistHome.directories = [
+            ".config/foot"
+          ];
+        };
       };
     };
-  };
 }
