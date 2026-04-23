@@ -56,6 +56,5 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       inherit systems;
       imports = recursivelyImport [ ./modules ];
-      debug = true;
     };
 }
