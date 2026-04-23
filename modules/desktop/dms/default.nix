@@ -59,7 +59,7 @@
           # TODO: nixify the rest of the config string
           niri.settings = {
             # Keeping binds in a separate file to keep things cleaner
-            binds = import ./_newbinds.nix { inherit lib pkgs; };
+            binds = import ./_binds.nix { inherit lib pkgs; };
             # Layout
             layout = {
               struts = { left = 0; right = 0; top = 0; bottom = 0; };

@@ -1,75 +1,53 @@
-# DMS-specific binds (most using dms ipc)
-{ lib, pkgs, ... }:
+# This utilizes the wlib.toKdl function
+# https://birdeehub.github.io/nix-wrapper-modules/lib/wlib.html#function-library-wlib.toKdl
+# KDL gets kind of messy with Nix...
+# To have a node with just a name (like keybind acitons), need to use an empty function
+{ pkgs, lib, ... }:
 {
-  "Mod+Shift+S" = {
-    action = "spawn-sh \"dms screenshot --cursor=off -d ~/Pictures/Screenshots\"";
+  "Mod+Shift+S".spawn-sh = "dms screenshot --cursor=off -d ~/Pictures/Screenshots";
+  "Mod+Ctrl+S".spawn-sh = "dms screenshot --stdout | ${lib.getExe pkgs.satty} -f - --early-exit --save-after-copy --actions-on-enter save-to-clipboard --output-filename ~/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png";
+  "Mod+Space".spawn = [ "dms" "ipc" "call" "launcher" "toggle" ];
+  "Mod+V".spawn = [ "dms" "ipc" "call" "clipboard" "toggle" ];
+  "Mod+N".spawn = [ "dms" "ipc" "call" "notifications" "toggle" ];
+  "Mod+Shift+N".spawn = [ "dms" "ipc" "call" "notepad" "toggle" ];
+  "XF86AudioRaiseVolume" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "audio" "increment" "3" ]; };
   };
-  "Mod+Ctrl+S" = {
-    action = "spawn-sh \"dms screenshot --stdout | ${lib.getExe pkgs.satty} -f - --early-exit --save-after-copy --actions-on-enter save-to-clipboard --output-filename ~/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png\"";
+  "XF86AudioLowerVolume" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "audio" "decrement" "3" ]; };
   };
-  "Mod+Space" = {
-    spawn = [ "dms" "ipc" "call" "launcher" "toggle" ];
-    parameters = { hotkey-overlay-title = "Launcher"; };
+  "XF86AudioMute" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "audio" "mute" ]; };
   };
-  "Mod+V" = {
-    spawn = [ "dms" "ipc" "call" "clipboard" "toggle" ];
-    parameters = { hotkey-overlay-title = "Clipboard Manager"; };
+  "XF86AudioMicMute" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "audio" "micmute" ]; };
   };
-  "Mod+N" = {
-    spawn = [ "dms" "ipc" "call" "notifications" "toggle" ];
-    parameters = { hotkey-overlay-title = "Notification Center"; };
+  "XF86AudioPause" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "mpris" "playPause" ]; };
   };
-  "Mod+Shift+N" = {
-    spawn = [ "dms" "ipc" "call" "notepad" "toggle" ];
-    parameters = { hotkey-overlay-title = "Notepad"; };
+  "XF86AudioPlay" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "mpris" "playPause" ]; };
   };
-  "Mod+Alt+L" = {
-    spawn = [ "dms" "ipc" "call" "lock" "lock" ];
-    parameters = { hotkey-overlay-title = "Lock Screen"; };
+  "XF86AudioPrev" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "mpris" "previous" ]; };
   };
-  "Ctrl+Alt+Delete" = {
-    spawn = [ "dms" "ipc" "call" "processlist" "focusOrToggle" ];
-    parameters = { hotkey-overlay-title = "Task Manager"; };
+  "XF86AudioNext" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "mpris" "next" ]; };
   };
-  "XF86AudioRaiseVolume" = {
-    spawn = [ "dms" "ipc" "call" "audio" "increment" "3" ];
-    parameters = { allow-when-locked = true; };
+  "XF86MonBrightnessUp" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "brightness" "incrememnt" "5" ]; };
   };
-  "XF86AudioLowerVolume" = {
-    spawn = [ "dms" "ipc" "call" "audio" "decrement" "3" ];
-    parameters = { allow-when-locked = true; };
-  };
-  "XF86AudioMute" = {
-    spawn = [ "dms" "ipc" "call" "audio" "mute" ];
-    parameters = { allow-when-locked = true; };
-  };
-  "XF86AudioMicMute" = {
-    spawn = [ "dms" "ipc" "call" "audio" "micmute" ];
-    parameters = { allow-when-locked = true; };
-  };
-  "XF86AudioPause" = {
-    spawn = [ "dms" "ipc" "call" "mpris" "playPause" ];
-    parameters = { allow-when-locked = true; };
-  };
-  "XF86AudioPlay" = {
-    spawn = [ "dms" "ipc" "call" "mpris" "playPause" ];
-    parameters = { allow-when-locked = true; };
-  };
-  "XF86AudioPrev" = {
-    spawn = [ "dms" "ipc" "call" "mpris" "previous" ];
-    parameters = { allow-when-locked = true; };
-  };
-  "XF86AudioNext" = {
-    spawn = [ "dms" "ipc" "call" "mpris" "next" ];
-    parameters = { allow-when-locked = true; };
-  };
-  "XF86MonBrightnessUp" = {
-    spawn = [ "dms" "ipc" "call" "brightness" "increment" "5" "" ];
-    parameters = { allow-when-locked = true; };
-  };
-  "XF86MonBrightnessDown" = {
-    spawn = [ "dms" "ipc" "call" "brightness" "decrement" "5" "" ];
-    parameters = { allow-when-locked = true; };
+  "XF86MonBrightnessDown" = _: {
+    props = { allow-when-locked = true; };
+    content = { spawn = [ "dms" "ipc" "call" "brightness" "decrement" "5" ]; };
   };
 }
-

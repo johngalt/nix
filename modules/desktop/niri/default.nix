@@ -48,7 +48,7 @@
         # TODO: nixify the rest of the config string
         custom.programs.niri.settings = {
           # Binds are in a separate file to keep things clean
-          binds = import ./_newbinds.nix { inherit pkgs lib config; };
+          binds = import ./_binds.nix { inherit pkgs lib config; };
           spawn-at-startup = [
             [ "${lib.getExe pkgs.solaar}" "--window=hide" ] # Logitech wireless utility
           ];
