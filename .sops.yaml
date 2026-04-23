@@ -1,10 +1,10 @@
 keys:
   - &taylor age1za75g4g6jl2zuq36dud2e6ssdgzj8n8ee2tnrma2jj4jeexee96sp9f4tv
-  - &host_atlas age1rcdqxlqf8v2ha2dekz7cs72ctrzh2fvqvw63w6h7e3hccvgepy0qznxa8t
+  - &host_atlas age1u0qq0x6p7avra66m22n5u5y64809c58angkpqncktgju75va9d0sn04868
   - &host_argon age1dz2mx7dc3k4tlcuta6wkjf887j9uqj8gkt88czfjkulw08lz2plqc2far6
   - &host_incus age1rf9rplg8z4qlgq5vjj5vy558x0angagx24y4ul860gm89ezeqaes0q2ajs
-  - &host_hydra age1sr90fdh608d8kxpcujmuddxxlc4f0uk4l7ur4mkxsaxw3dyun90sv2q9ca
-  - &host_dns01 age1s82lfezym83mqpyw3yvqlrasrf6qagdhm3sfqr3m4lscttujfg7strmhhk
+  - &host_hydra age1kh6g0tvcks3pevyf6dz85l5zn9fkf7re9jns5j6thacrczdr9qdsqylmda
+  - &host_dns01 age1e7az94d7rpqplck2dhsrt874uu778nt8sudare4zscf2mxqlpqgsqp8up0
   - &host_cesium age15haz8whmqr0q84aa9j2vlsrn65l5lmuyyj64pzsfw6k99cm4v49qlk4alp
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
