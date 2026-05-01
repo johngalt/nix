@@ -5,7 +5,7 @@ keys:
   - &host_incus age1rf9rplg8z4qlgq5vjj5vy558x0angagx24y4ul860gm89ezeqaes0q2ajs
   - &host_hydra age1kh6g0tvcks3pevyf6dz85l5zn9fkf7re9jns5j6thacrczdr9qdsqylmda
   - &host_dns01 age1e7az94d7rpqplck2dhsrt874uu778nt8sudare4zscf2mxqlpqgsqp8up0
-  - &host_cesium age15haz8whmqr0q84aa9j2vlsrn65l5lmuyyj64pzsfw6k99cm4v49qlk4alp
+  - &host_cesium age12eu44tt2r9p77cggs3hvmdlp7r4h8y6z3kvd6wfdgpmu2kvecups8q8l6r
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
