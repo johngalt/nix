@@ -20,7 +20,6 @@
         komodo-core
         komodo-periphery
         sanoid
-        attic
       ];
 
       # Miscellaneous stuff

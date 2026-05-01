@@ -49,7 +49,7 @@
         enableRedistributableFirmware = true;
         intel-gpu-tools.enable = true;
         # Google Coral TPU support
-        coral.pcie.enable = true;
+        # coral.pcie.enable = true;
       };
 
       networking = {
@@ -84,7 +84,7 @@
         enable = true;
         # Rename physical adapter to `lan` rather than enp0s####
         links."10-lan" = {
-          matchConfig.Path = "pci-0000:06:00.0";
+          matchConfig.Path = "pci-0000:0a:00.0";
           linkConfig = {
             Name = "lan";
             TransmitQueueLength = 10000;
