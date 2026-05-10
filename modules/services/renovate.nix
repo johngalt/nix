@@ -24,13 +24,5 @@
         };
         schedule = "*-*-* 00/2:00:00";
       };
-
-      # Set directories to persist
-      custom.system.impermanence = {
-        extraDirectories = [
-          "/var/lib/private/renovate"
-          "/var/cache/private/renovate"
-        ];
-      };
     };
 }
