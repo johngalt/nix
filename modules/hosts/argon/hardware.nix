@@ -43,6 +43,12 @@
         btrfs-progs
         mergerfs
       ];
+      
+      # Backup drive
+      fileSystems."/mnt/backups" = {
+        device = "/dev/disk/by-uuid/fe72168d-41a8-42aa-a14f-623eaacf1e57";
+        fsType = "ext4";
+      };
 
       hardware = {
         cpu.intel.updateMicrocode = true;
@@ -64,8 +70,9 @@
             1883 # mqtt (home-assistant)
             8083 # qbitapi
             32400 # plex
-            34400 # threadfin
             44262 # qbit
+            2377 # docker swarm
+            7946 # docker swarm
           ];
           allowedTCPPortRanges = [
             {
@@ -76,6 +83,8 @@
           ];
           allowedUDPPorts = [
             21116 # Rust desk
+            7946 # docker swarm
+            4789 # docker swarm
           ];
         };
       };

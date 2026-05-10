@@ -14,6 +14,7 @@
         docker
 
         # Service Modules
+        dbdump
         restic
         scrutiny
         healthchecks
@@ -41,6 +42,7 @@
             extraDirectories = [
               "/etc/exports.d" # zfs mounts
               "/var/lib/docker" # docker storage
+              "/var/lib/komodo-periphery" # Komodo
             ];
             extraFiles = [
               "/etc/zfs/zpool.cache"
@@ -50,31 +52,49 @@
           docker.extraGroups = [ "video" "render" ];
         };
         services = {
+          dbdump = {
+            databases = [
+              "auth"
+              "gatus"
+              "netronome"
+              "forgejo"
+              "mealie"
+              "paperless"
+              "komodo"
+              "miniflux"
+              "qui"
+              "tracearr"
+              "zipline"
+            ];
+            targetDir = "/mnt/backups/dbdump";
+            healthcheckId = "ce8c5b49-50b6-48be-8dc3-cc741c760065";
+          };
           # Automated ZFS snapshots
           sanoid.datasets = [
-            "tank/container-configs"
+            "tank/docker"
             "tank/databases"
-            "tank/immich-media"
-            "tank/paperless-data"
-            "tank/taylor-drive"
+            "tank/photos"
+            "tank/paperless"
+            "tank/documents"
+            "tank/drive"
           ];
           # Backups via restic
           restic = {
             backupLocations = [
               "/opt/docker"
-              "/mnt/arrays/tank/database-backup"
-              "/mnt/arrays/tank/immich-media/profile"
-              "/mnt/arrays/tank/immich-media/upload"
-              "/mnt/arrays/tank/paperless-data"
-              "/mnt/arrays/tank/taylor-drive"
-              "/persist"
+              "/mnt/backups/dbdump"
+              "/mnt/tank/documents"
+              "/mnt/tank/paperless"
+              "/mnt/tank/photos/upload"
+              "/mnt/tank/photos/backups"
+              "/mnt/tank/drive"
+              "/mnt/tank/mirror"
             ];
             excludePaths = [
               "*.log*"
               "*.log"
               "/opt/docker/plex/**/Cache"
-              "/persist/var/snapraid/*"
-              "/persist/var/lib/docker/*"
+              "/mnt/tank/mirror/**/databases" # will just dump the sql
             ];
             repositories = {
               argon-local = {

@@ -41,12 +41,6 @@
     options = [ "subvol=/content" ];
   };
 
-  # Backup drive
-  fileSystems."/mnt/backups" = {
-    device = "/dev/disk/by-uuid/fe72168d-41a8-42aa-a14f-623eaacf1e57";
-    fsType = "ext4";
-  };
-
   # MergerFS mount points
   # Vault-cold is mergerfs pool without SSD cache drive
   fileSystems."/mnt/vault-cold" = {

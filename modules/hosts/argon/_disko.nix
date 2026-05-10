@@ -63,13 +63,6 @@
                 ];
                 mountpoint = "/nix"; # Nix subvolume
               };
-              "/frigate" = {
-                mountOptions = [
-                  "compress=zstd"
-                  "subvol=frigate"
-                ];
-                mountpoint = "/mnt/frigate";
-              };
             };
           };
         };
