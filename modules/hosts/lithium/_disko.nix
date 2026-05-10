@@ -3,7 +3,7 @@
     disk = {
       root = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-SHPP41-1000GM_ANDAN55941140B566";
+        device = "/dev/disk/by-id/nvme-PC_SN730_NVMe_WDC_256GB_21033A801503";
         content = {
           type = "gpt";
           partitions = {

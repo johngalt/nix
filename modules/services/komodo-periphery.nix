@@ -1,54 +1,146 @@
-# TODO: Will rewrite this module once the nixpkgs komodo-periphery module gets updated
-# https://github.com/NixOS/nixpkgs/pull/482922
-# For now will just use an oci-container. This does rely on komodo-core currently
 { ... }:
 {
   flake.modules.nixos.komodo-periphery =
-    { config, lib, ... }:
+    { pkgs, lib, config, private, hostConfig, ... }:
     let
-      peripheryVersion = "2.1.2";
-      peripheryRoot = "/opt/docker"; # Root directory for periphery
+      cfg = config.custom.services.komodo-periphery;
+
+      # Will use own komodo package until it gets updated in nixpkgs
+      komodoPackage = pkgs.callPackage ../../packages/komodo { };
+
+      # Lets use nix to generate a config file for komodo-periphery
+      settingsFormat = pkgs.formats.toml { }; 
+      # Standard config for periphery
+      baseSettings = {
+        core_address = "https://komodo.${private.domain}";
+        connect_as = hostConfig.name;
+        root_directory = "/var/lib/komodo-periphery";
+        stack_dir = "/opt/docker";
+      };
+      # Merge base settings with optional onboarding key into final toml config file
+      configFile = settingsFormat.generate "komodo-periphery.toml" (
+        baseSettings
+        // { onboarding_key = cfg.onboardingKey; }
+      );
+
+      inherit (lib) mkOption;
+      inherit (lib.types) str package;
     in
     {
-      virtualisation.oci-containers.containers."komodo-periphery" = {
-        image = "ghcr.io/moghtech/komodo-periphery:${peripheryVersion}";
-        environmentFiles = [ config.sops.secrets.komodo.path ]; # Env file from komodo-kore
-        volumes = [
-          "${peripheryRoot}:${peripheryRoot}:rw"
-          "/proc:/proc:rw"
-          "/var/run/docker.sock:/var/run/docker.sock:rw"
-          "komodo-keys:/config/keys" # komodo-keys volume defined in komodo-core module
-        ];
-        labels = {
-          "komodo.skip" = "";
+      options.custom.services.komodo-periphery = {
+        # Can change this once nixpkgs updates komodo 
+        package = mkOption {
+          type = package;
+          description = "Package to use for komodo";
+          default = komodoPackage;
         };
-        log-driver = "journald";
-        extraOptions = [
-          "--network-alias=komodo-periphery"
-          "--network=komodo"
-        ];
+        onboardingKey = mkOption {
+          type = str;
+          description = "Key to onboard komodo-periphery -- only needed for initial setup";
+          default = "";
+        };
+        user = mkOption {
+          type = str;
+          description = "User to use for komodo-periphery";
+          default = "komodo-periphery";
+        };
+        group = mkOption {
+          type = str;
+          description = "Group to use for komodo-periphery";
+          default = "komodo-periphery";
+        };
       };
-      systemd.services."docker-komodo-periphery" = {
-        serviceConfig = {
-          Restart = lib.mkOverride 90 "always";
-          RestartMaxDelaySec = lib.mkOverride 90 "1m";
-          RestartSec = lib.mkOverride 90 "100ms";
-          RestartSteps = lib.mkOverride 90 9;
+
+      config = {
+        # Enable docker if it isn't already
+        virtualisation.docker.enable = true;
+
+        # Create komodo-periphery user
+        users.users.${cfg.user} = {
+          isSystemUser = true;
+          group = cfg.group;
+          description = "Komodo Periphery service user";
+          home = baseSettings.root_directory;
+          extraGroups = [ "docker" ];
         };
-        after = [
-          "docker-network-komodo.service"
-          "docker-volume-komodo-keys.service"
-        ];
-        requires = [
-          "docker-network-komodo.service"
-          "docker-volume-komodo-keys.service"
-        ];
-        partOf = [
-          "docker-compose-komodo-root.target"
-        ];
-        wantedBy = [
-          "docker-compose-komodo-root.target"
-        ];
+        users.groups.${cfg.group} = { };
+
+        # Create the system folders for the service
+        systemd.tmpfiles.settings."10-komodo-periphery" = {
+          "${baseSettings.root_directory}".d = {
+            mode = "0755";
+            user = cfg.user;
+            group = cfg.group;
+          };
+          "${baseSettings.root_directory}/repos".d = {
+            mode = "0755";
+            user = cfg.user;
+            group = cfg.group;
+          };
+          "${baseSettings.root_directory}/ssl".d = {
+            mode = "0700";
+            user = cfg.user;
+            group = cfg.group;
+          };
+          "${baseSettings.root_directory}/keys".d = {
+            mode = "0700";
+            user = cfg.user;
+            group = cfg.group;
+          };
+          "${baseSettings.root_directory}/builds".d = {
+            mode = "0755";
+            user = cfg.user;
+            group = cfg.group;
+          };
+          # Create empty directory for docker builds
+          "/var/empty/.docker".d = {
+            mode = "0755";
+            user = cfg.user;
+            group = cfg.group;
+          };
+        };
+
+        # Create the systemd service to run the periphery agent
+        systemd.services.komodo-periphery = {
+          description = "Komodo Periphery - Multi-server Docker and Git deployment agent";
+          after = [
+            "network-online.target"
+            "docker.service"
+          ];
+          wants = [
+            "network-online.target"
+            "docker.service"
+          ];
+          wantedBy = [ "multi-user.target" ];
+
+          serviceConfig = {
+            Type = "simple";
+            User = cfg.user;
+            Group = cfg.group;
+            SupplementaryGroups = [ "docker" ];
+            Restart = "on-failure";
+            RestartSec = "10s";
+            WorkingDirectory = baseSettings.root_directory;
+
+            ExecStart = lib.escapeShellArgs [
+              "${lib.getExe' cfg.package "periphery"}"
+              "--config-path"
+              configFile
+            ];
+
+            Environment = lib.mapAttrsToList (name: value: "${name}=${value}") {
+              PATH = "/run/current-system/sw/bin:/run/wrappers/bin";
+            };
+            
+            StateDirectory = "komodo-periphery";
+            StateDirectoryMode = "0755";
+
+            NoNewPrivileges = true;
+            PrivateTmp = true;
+            ProtectSystem = "full";
+            ProtectHome = true;
+          };
+        };
       };
     };
 }

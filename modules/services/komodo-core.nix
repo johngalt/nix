@@ -11,7 +11,7 @@
       postgresVersion = "17-0.107.0";
       ferretVersion = "2.7.0";
 
-      databaseDir = "/mnt/arrays/tank/databases/komodo";
+      databaseDir = "/opt/databases/komodo";
     in
     {
       # Will pull the komodo env file from secrets to pass to containers
@@ -41,7 +41,7 @@
         log-driver = "journald";
         extraOptions = [
           "--network-alias=komodo-core"
-          "--network=dockernet"
+          "--network=swarmnet"
           "--network=komodo"
         ];
       };

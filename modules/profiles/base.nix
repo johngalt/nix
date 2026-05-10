@@ -27,7 +27,6 @@
         fd
         fq
         jq
-        nh
         ripgrep
         unzip
       ];

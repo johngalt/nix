@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos."hosts/cesium" =
+  flake.modules.nixos."hosts/lithium" =
     { modulesPath, hostConfig, inputs, lib, pkgs, ... }:
     {
       imports = [
@@ -33,7 +33,7 @@
 
       networking = {
         hostName = hostConfig.name;
-        hostId = "d871150c"; # Needed for ZFS
+        hostId = "eccf0673"; # Needed for ZFS
         useDHCP = lib.mkForce false; # We are using systemd networking for DHCP
         firewall = {
           allowedTCPPorts = [

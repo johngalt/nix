@@ -1,6 +1,6 @@
 { self, ... }:
 {
-  flake.modules.nixos."hosts/cesium" =
+  flake.modules.nixos."hosts/lithium" =
     { ... }:
     {
       imports = with self.modules.nixos; [
@@ -14,7 +14,6 @@
         # Service Modules
         scrutiny
         technitium
-        renovate
         komodo-periphery
         sanoid
         syncoid
@@ -37,8 +36,8 @@
                 "zroot/docker"
                 "zroot/home"
               ];
-              targetRoot = "tank/mirror/cesium";
-              healthcheckId = "4cf1a993-0ed2-430d-b17f-5e5cff33dedf";
+              targetRoot = "tank/mirror/lithium";
+              healthcheckId = "b3f07083-d532-4568-961d-51bb2bee7515";
             };
           };
         };
