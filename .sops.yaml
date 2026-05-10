@@ -2,10 +2,8 @@ keys:
   - &taylor age1za75g4g6jl2zuq36dud2e6ssdgzj8n8ee2tnrma2jj4jeexee96sp9f4tv
   - &host_atlas age1u0qq0x6p7avra66m22n5u5y64809c58angkpqncktgju75va9d0sn04868
   - &host_argon age1dz2mx7dc3k4tlcuta6wkjf887j9uqj8gkt88czfjkulw08lz2plqc2far6
-  - &host_incus age1rf9rplg8z4qlgq5vjj5vy558x0angagx24y4ul860gm89ezeqaes0q2ajs
-  - &host_hydra age1kh6g0tvcks3pevyf6dz85l5zn9fkf7re9jns5j6thacrczdr9qdsqylmda
-  - &host_dns01 age1e7az94d7rpqplck2dhsrt874uu778nt8sudare4zscf2mxqlpqgsqp8up0
-  - &host_cesium age12eu44tt2r9p77cggs3hvmdlp7r4h8y6z3kvd6wfdgpmu2kvecups8q8l6r
+  - &host_cesium age1whk4a9aganprake6jzjqh9h29nejg8jcafdrmfxc0kdy72vgpqmq2zpsf0
+  - &host_lithium age12tnqulnszc5xmdjxep2p2dxvmval5j8fmf9plpx3utdjefv0xd0qe7n6tz
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -13,7 +11,5 @@ creation_rules:
         - *taylor
         - *host_atlas
         - *host_argon
-        - *host_incus
-        - *host_hydra
-        - *host_dns01
         - *host_cesium
+        - *host_lithium
