@@ -7,7 +7,7 @@
   flake.modules.nixos.komodo-core =
     { lib, pkgs, config, ... }:
     let
-      coreVersion = "2.1.2";
+      coreVersion = "2.2.0";
       postgresVersion = "17-0.107.0";
       ferretVersion = "2.7.0";
 
