@@ -24,6 +24,9 @@
       config = {
         custom = {
           services = {
+            beszel.extraEnv = {
+              SENSORS = "-dell_smm_18"; # broken temp sensor
+            };
             # Automated ZFS snapshots
             sanoid.datasets = [
               "zroot/databases"
