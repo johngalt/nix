@@ -66,6 +66,7 @@
           sshKey = config.sops.secrets."syncoid/sshKey".path;
           commonArgs = [
             "--delete-target-snapshots" # Keep snapshots in sync (so they don't pile up on target)
+            "--force-delete" # Removes conflicting snapshots on target
             "--no-privilege-elevation" 
             "--sshoption=\"StrictHostKeyChecking=no\""
             "--compress=zstd-fast"
