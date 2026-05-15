@@ -2,7 +2,7 @@
 {
   # Quickshell base module, to be imported by a shell module
   flake.modules.nixos.quickshell =
-    { inputs, lib, pkgs, ... }:
+    { lib, pkgs, ... }:
     let
       inherit (lib) mkOption;
       inherit (lib.types) package;
@@ -14,7 +14,8 @@
           package = mkOption {
             type = package;
             description = "Quickshell package to expose to other modules";
-            default = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
+            # default = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
+            default = pkgs.quickshell;
           };
         };
       };
@@ -33,9 +34,10 @@
           # Adw theme for GTK stuff
           adw-gtk3
           # Papirus icon theme with override for folder color
-          (papirus-icon-theme.override {
+          (papirus-icon-theme.overrideAttrs (old: {
             color = "green";
-          })
+            dontFixup = true; # this makes building take forever
+          }))
         ];
 
         # QT THEMING
