@@ -28,7 +28,7 @@
     # Niri window manager
     niri.url = "github:sodiboo/niri-flake";
 
-    # Quickshell framework -- pinned to avoid breaking shells
+    # Quickshell framework -- not using currently as 0.3 is on nixpkgs
     quickshell.url = "git+https://git.outfoxxed.me/quickshell/quickshell";
     quickshell.inputs.nixpkgs.follows = "nixpkgs";
 
