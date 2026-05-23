@@ -5,7 +5,7 @@
     { pkgs, ... }:
     let
       forwardPort = 2222;
-      forwardKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIUp5CycMjxyBJEIw9awQ38r/BpRRBLixmltEzZb5xK6 Gitea Host Key";
+      forwardKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOGzRIvlab3xpOUucc0NyROrtQxXk02s81T08tt8hz66 git@argon";
     in
     {
       # Create a shell script to forward git commands to the forgejo container
