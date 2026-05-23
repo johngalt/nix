@@ -21,7 +21,7 @@
         syncthing
         vesktop
         yazi
-        zed
+        zed-editor
       ];
 
       # Other programs installed to user profile via hjem

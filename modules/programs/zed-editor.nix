@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.zed =
+  flake.modules.nixos.zed-editor =
     { pkgs, ... }:
     {
       # Install nixd LSP system-wide
@@ -10,13 +10,5 @@
 
       # Dynamic library support
       programs.nix-ld.enable = true;
-
-      # Set home directories to persist if enabled
-      custom.system.impermanence = {
-        persistHome.directories = [
-          ".config/zed"
-          ".local/share/zed"
-        ];
-      };
     };
 }
