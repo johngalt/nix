@@ -4,6 +4,8 @@
     { pkgs, ... }:
     {
       nix = {
+        # Set lix as nix package
+        package = pkgs.lixPackageSets.latest.lix;
         # Disable channels, set nixpkgs to this flake's input nixpkgs
         channel.enable = false;
         nixPath = [ "nixpkgs=${pkgs.path}" ];
