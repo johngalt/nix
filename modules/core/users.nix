@@ -14,6 +14,7 @@
         "docker"
         "video"
         "render"
+        "input"
       ];
     in
     {
@@ -27,6 +28,7 @@
             inherit extraGroups;
             shell = pkgs.fish;
             hashedPasswordFile = config.sops.secrets."userpass/${myUser}".path;
+            # initialHashedPassword = "$y$j9T$yYBXBprRkerd0LLg6WTJU.$iRtDta/kDy.zvLC.OoRTKtuv8HGdVdBtZUylSxzwSR4";
             openssh.authorizedKeys.keys = [ myPubkey ];
           };
         };
