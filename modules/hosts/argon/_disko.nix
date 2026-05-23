@@ -1,88 +1,116 @@
 {
-  disko.devices.disk.main = {
-    device = "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_1TB_S59ANM0W621674W";
-    type = "disk";
-    content = {
-      type = "gpt"; # GPT partitioning scheme
-      partitions = {
-        # EFI Partition
-        ESP = {
-          priority = 1;
-          name = "ESP";
-          start = "1M";
-          end = "512M";
-          type = "EF00";
-          content = {
-            type = "filesystem";
-            format = "vfat";
-            mountpoint = "/boot";
-            mountOptions = [ "umask=0077" ];
-          };
-        };
-        # Btrfs Root Partition
-        root = {
-          end = "-24G";
-          content = {
-            type = "btrfs";
-            extraArgs = [ "-f" ];
-            subvolumes = {
-              "/root" = {
-                mountOptions = [
-                  "compress=zstd"
-                  "subvol=root"
-                ];
-                mountpoint = "/"; # Root subvolume
+  fileSystems."/persist".neededForBoot = true;
+  fileSystems."/cache".neededForBoot = true;
+  
+  disko.devices = {
+    # tmpfs
+    nodev = {
+      "/" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "size=1G"
+          "mode=755"
+        ];
+      };
+      "/tmp" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "size=5G"
+          "mode=755"
+        ];
+      };
+    };
+
+    # zfs
+    disk = {
+      root = {
+        type = "disk";
+        device = "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_1TB_S59ANM0W621674W";
+        content = {
+          type = "gpt";
+          partitions = {
+            ESP = {
+              size = "1G";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [ "nofail" "umask=0077" ];
               };
-              "/persist" = {
-                mountOptions = [
-                  "compress=zstd"
-                  "subvol=persist"
-                ];
-                mountpoint = "/persist"; # Persistent subvolume
+            };
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
               };
-              "/log" = {
-                mountOptions = [
-                  "compress=zstd"
-                  "noatime"
-                  "subvol=log"
-                ];
-                mountpoint = "/var/log";
-              };
-              "/home" = {
-                mountOptions = [
-                  "compress=zstd"
-                  "subvol=home"
-                ];
-                mountpoint = "/home";
-              };
-              "/nix" = {
-                mountOptions = [
-                  "compress=zstd"
-                  "noatime"
-                  "subvol=nix"
-                ];
-                mountpoint = "/nix"; # Nix subvolume
+            };
+            swap = {
+              size = "32G";
+              content = {
+                type = "swap";
               };
             };
           };
         };
-        swap = {
-          size = "24G";
-          content = {
-            type = "swap";
+      };
+    };
+    zpool = {
+      zroot = {
+        type = "zpool";
+        rootFsOptions = {
+          mountpoint = "none";
+          compression = "zstd";
+          acltype = "posixacl";
+          xattr = "sa";
+        };
+        options = {
+          ashift = "12";
+          autotrim = "on";
+        };
+        datasets = {
+          "home" = {
+            type = "zfs_fs";
+            options.mountpoint = "/home";
+            mountpoint = "/home";
+          };
+          "persist" = {
+            type = "zfs_fs";
+            options.mountpoint = "/persist";
+            mountpoint = "/persist";
+          };
+          "cache" = {
+            type = "zfs_fs";
+            options.mountpoint = "/cache";
+            mountpoint = "/cache";
+          };
+          "nix" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/nix";
+              atime = "off";
+            };
+            mountpoint = "/nix";
+          };
+          "docker" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/var/lib/docker";
+              atime = "off";
+            };
+            mountpoint = "/var/lib/docker";
+          };
+          "log" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/var/log";
+              atime = "off";
+            };
+            mountpoint = "/var/log";
           };
         };
       };
     };
   };
-  fileSystems = {
-    "/persist".neededForBoot = true;
-    "/var/log".neededForBoot = true;
-  };
-  swapDevices = [
-    {
-      device = "/dev/disk/by-uuid/cf2e2f11-3051-4d58-805b-ff32d429b4e1";
-    }
-  ];
 }
-

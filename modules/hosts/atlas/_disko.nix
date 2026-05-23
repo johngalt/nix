@@ -1,93 +1,109 @@
 {
+  fileSystems."/persist".neededForBoot = true;
   disko.devices = {
+    # tmpfs
+    nodev = {
+      "/" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "size=1G"
+          "mode=755"
+        ];
+      };
+      "/tmp" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "size=5G"
+          "mode=755"
+        ];
+      };
+    };
+
+    # zfs
     disk = {
-      main = {
+      root = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        device = "/dev/disk/by-id/nvme-SKHynix_HFS001TEM4X169N_5SE7N806311408A36";
         content = {
           type = "gpt";
           partitions = {
             ESP = {
-              label = "boot";
-              size = "512M";
+              size = "1G";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=077" ];
+                mountOptions = [ "nofail" "umask=0077" ];
               };
             };
-            luks = {
+            zfs = {
               size = "100%";
-              label = "luks";
               content = {
-                type = "luks";
-                name = "crypted";
-                settings = {
-                  allowDiscards = true;
-                  bypassWorkqueues = true;
-                  # keyFile = "/tmp/secret.key";
-                };
-                content = {
-                  type = "btrfs";
-                  extraArgs = [
-                    "-L"
-                    "nixos"
-                    "-f"
-                  ];
-                  subvolumes = {
-                    "/root" = {
-                      mountpoint = "/";
-                      mountOptions = [
-                        "subvol=root"
-                        "compress=zstd"
-                      ];
-                    };
-                    "/persist" = {
-                      mountpoint = "/persist";
-                      mountOptions = [
-                        "subvol=persist"
-                        "compress=zstd"
-                      ];
-                    };
-                    "/log" = {
-                      mountpoint = "/var/log";
-                      mountOptions = [
-                        "subvol=log"
-                        "compress=zstd"
-                        "noatime"
-                      ];
-                    };
-                    "/home" = {
-                      mountpoint = "/home";
-                      mountOptions = [
-                        "subvol=home"
-                        "compress=zstd"
-                      ];
-                    };
-                    "/nix" = {
-                      mountpoint = "/nix";
-                      mountOptions = [
-                        "subvol=nix"
-                        "compress=zstd"
-                        "noatime"
-                      ];
-                    };
-                    "/swap" = {
-                      mountpoint = "/swap";
-                      swap.swapfile.size = "64G";
-                    };
-                  };
-                };
+                type = "zfs";
+                pool = "zroot";
+              };
+            };
+            swap = {
+              size = "32G";
+              content = {
+                type = "swap";
               };
             };
           };
         };
       };
     };
+    zpool = {
+      zroot = {
+        type = "zpool";
+        rootFsOptions = {
+          mountpoint = "none";
+          compression = "zstd";
+          acltype = "posixacl";
+          encryption = "aes-256-gcm";
+          keyformat = "passphrase";
+          keylocation = "prompt";
+          xattr = "sa";
+        };
+        options = {
+          ashift = "12";
+          autotrim = "on";
+        };
+        datasets = {
+          "home" = {
+            type = "zfs_fs";
+            options.mountpoint = "/home";
+            mountpoint = "/home";
+          };
+          "persist" = {
+            type = "zfs_fs";
+            options.mountpoint = "/persist";
+            mountpoint = "/persist";
+          };
+          "cache" = {
+            type = "zfs_fs";
+            options.mountpoint = "/cache";
+            mountpoint = "/cache";
+          };
+          "nix" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/nix";
+              atime = "off";
+            };
+            mountpoint = "/nix";
+          };
+          "log" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/var/log";
+              atime = "off";
+            };
+            mountpoint = "/var/log";
+          };
+        };
+      };
+    };
   };
-
-  fileSystems."/persist".neededForBoot = true;
-  fileSystems."/var/log".neededForBoot = true;
 }

@@ -52,6 +52,7 @@
 
       networking = {
         hostName = hostConfig.name; 
+        hostId = "f3e20b1c"; # needed for zfs
         firewall.checkReversePath = true;
         # Prefer iwd to wpa_supplicant
         wireless.iwd = {

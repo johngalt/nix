@@ -11,7 +11,7 @@
         gaming
 
         # System Modules
-        impermanence
+        preservation
       ];
       
       # Module settings/overrides
@@ -27,13 +27,11 @@
           }
         '';
         # Set host-specific files/directories to be persisted through reboot
-        system.impermanence = {
-          rootFilesystem = "/dev/mapper/crypted"; # LUKS encrypted drive
+        system.preservation = {
           persistPath = "/persist";
           extraDirectories = [
             "/etc/NetworkManager/system-connections"
             "/var/lib/systemd/backlight"
-            "/var/lib/systemd/coredump"
             "/var/lib/upower"
             "/var/lib/iwd" # wireless networks
             "/var/lib/dms-greeter" # dms greeter
@@ -45,11 +43,6 @@
             "/var/lib/NetworkManager/seen-bssids"
             "/var/lib/NetworkManager/timestamps"
           ];
-          # TODO: Maybe finish setting this up. May not be worth it
-          # Too many cache/config/state directories to keep track of
-          # persistHome = {
-          #   enable = true;
-          # };
         };
       };
     };

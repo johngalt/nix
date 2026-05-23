@@ -1,5 +1,25 @@
 {
+  fileSystems."/persist".neededForBoot = true;
+  fileSystems."/cache".neededForBoot = true;
+  
   disko.devices = {
+    # tmpfs
+    nodev = {
+      "/" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "size=1G"
+          "mode=755"
+        ];
+      };
+      "/tmp" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "size=2G"
+          "mode=755"
+        ];
+      };
+    };
     disk = {
       root = {
         type = "disk";
@@ -48,22 +68,20 @@
           autotrim = "on";
         };
         datasets = {
-          "root" = {
+          "home" = {
             type = "zfs_fs";
-            mountpoint = "/";
+            options.mountpoint = "/home";
+            mountpoint = "/home";
           };
-          "var" = {
+          "persist" = {
             type = "zfs_fs";
-            options.mountpoint = "/var";
-            mountpoint = "/var";
+            options.mountpoint = "/persist";
+            mountpoint = "/persist";
           };
-          "var/log" = {
+          "cache" = {
             type = "zfs_fs";
-            options = {
-              mountpoint = "/var/log";
-              atime = "off";
-            };
-            mountpoint = "/var/log";
+            options.mountpoint = "/cache";
+            mountpoint = "/cache";
           };
           "nix" = {
             type = "zfs_fs";
@@ -73,12 +91,23 @@
             };
             mountpoint = "/nix";
           };
-          "home" = {
-            type = "zfs_fs";
-            options.mountpoint = "/home";
-            mountpoint = "/home";
-          };
           "docker" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/var/lib/docker";
+              atime = "off";
+            };
+            mountpoint = "/var/lib/docker";
+          };
+          "log" = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/var/log";
+              atime = "off";
+            };
+            mountpoint = "/var/log";
+          };
+          "containers" = {
             type = "zfs_fs";
             options.mountpoint = "/opt/docker";
             mountpoint = "/opt/docker";
@@ -89,13 +118,6 @@
               mountpoint = "/opt/databases";
               recordsize = "8K";
               primarycache = "metadata";
-            };
-          };
-          "reserved" = {
-            type = "zfs_fs";
-            options = {
-              mountpoint = "none";
-              refreservation = "10G";
             };
           };
         };

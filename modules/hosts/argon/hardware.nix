@@ -34,9 +34,9 @@
       
       # Enable zfs and btrfs
       boot.supportedFilesystems = [ "zfs" "btrfs" ];
-      # Import zfs zpool
       boot.zfs = {
         forceImportRoot = false;
+        # Import tank pool
         extraPools = [ "tank" ];
       };
       environment.systemPackages = with pkgs; [
@@ -54,8 +54,6 @@
         cpu.intel.updateMicrocode = true;
         enableRedistributableFirmware = true;
         intel-gpu-tools.enable = true;
-        # Google Coral TPU support
-        # coral.pcie.enable = true;
       };
 
       networking = {
