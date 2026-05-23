@@ -11,7 +11,7 @@
       ];
       # List of content file locations for snapraid
       contentFiles = [
-        "/persist/var/snapraid/snapraid.content"
+        "/cache/var/snapraid/snapraid.content"
         "/mnt/snapraid-content/disk01/snapraid.content"
         "/mnt/snapraid-content/disk02/snapraid.content"
         "/mnt/snapraid-content/disk03/snapraid.content"
