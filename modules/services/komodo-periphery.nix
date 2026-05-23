@@ -12,7 +12,7 @@
       settingsFormat = pkgs.formats.toml { }; 
       # Standard config for periphery
       baseSettings = {
-        core_address = "https://komodo.${private.domain}";
+        core_address = "http://192.168.10.10:9120";
         connect_as = hostConfig.name;
         root_directory = "/var/lib/komodo-periphery";
         stack_dir = "/opt/docker";

@@ -41,7 +41,6 @@
         log-driver = "journald";
         extraOptions = [
           "--network-alias=komodo-core"
-          "--network=swarmnet"
           "--network=komodo"
         ];
       };
