@@ -10,13 +10,5 @@
         enable = true;
         silent = true;
       };
-
-      # Set home directories to persist if enabled
-      custom.system.impermanence = {
-        persistHome.directories = [
-          ".local/share/devenv"
-          ".local/share/direnv"
-        ];
-      };
     };
 }

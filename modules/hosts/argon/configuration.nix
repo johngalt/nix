@@ -10,7 +10,7 @@
         nas
 
         # System Modules
-        impermanence
+        preservation
         docker
 
         # Service Modules
@@ -21,6 +21,7 @@
         komodo-core
         komodo-periphery
         sanoid
+        zed
       ];
 
       # Miscellaneous stuff
@@ -36,16 +37,13 @@
       # Custom module settings/overrides
       custom = {
         system = {
-          impermanence = {
-            rootFilesystem = "/dev/disk/by-partlabel/disk-main-root";
+          preservation = {
             persistPath = "/persist";
             extraDirectories = [
-              "/etc/exports.d" # zfs mounts
-              "/var/lib/docker" # docker storage
-              "/var/lib/komodo-periphery" # Komodo
+              "/var/lib/komodo-periphery"
             ];
             extraFiles = [
-              "/etc/zfs/zpool.cache"
+              { file = "/etc/zfs/zpool.cache"; inInitrd = true; }
             ];
           };
           # Allow containers to access iGPU
@@ -71,12 +69,14 @@
           };
           # Automated ZFS snapshots
           sanoid.datasets = [
-            "tank/docker"
+            "tank/containers"
             "tank/databases"
             "tank/photos"
             "tank/paperless"
             "tank/documents"
             "tank/drive"
+            "zroot/persist"
+            "zroot/home"
           ];
           # Backups via restic
           restic = {
@@ -110,6 +110,11 @@
                 healthcheck = "835d0d39-5656-4012-8df1-4167196ca3f3";
               };
             };
+          };
+          zed = {
+            smtpServer = "localhost";
+            fromEmail = "argon@nitron.app";
+            toEmail = "ca2d11ca-98fd-47cf-ace0-0a24184095e0@ping.nitron.app";
           };
         };
       };

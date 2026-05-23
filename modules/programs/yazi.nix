@@ -105,12 +105,5 @@
           '';
         };
       };
-
-      # Set home directories to persist if enabled
-      custom.system.impermanence = {
-        persistHome.directories = [
-          ".config/yazi"
-        ];
-      };
     };
 }

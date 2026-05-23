@@ -61,16 +61,5 @@
           ${pkgs.syncthingtray-minimal}/bin/syncthingtray --wait
         '';
       };
-
-      # Set home directories to persist if enabled
-      custom.system.impermanence = {
-        persistHome.directories = [
-          ".config/syncthing"
-          "Drive"
-        ];
-        persistHome.files = [
-          ".config/syncthingtray.ini"
-        ];
-      };
     };
 }

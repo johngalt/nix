@@ -50,13 +50,6 @@
           Host *
             SetEnv TERM=xterm-256color
         '';
-
-        # Set home directories to persist if enabled
-        custom.system.impermanence = {
-          persistHome.directories = [
-            ".config/foot"
-          ];
-        };
       };
     };
 }

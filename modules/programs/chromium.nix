@@ -21,13 +21,5 @@
           "GenAiDefaultSettings" = 2; # Disables generative AI
         };
       };
-
-      # Set home directories to persist if enabled
-      custom.system.impermanence = {
-        persistHome.directories = [
-          ".config/chromium"
-          ".cache/chromium"
-        ];
-      };
     };
 }

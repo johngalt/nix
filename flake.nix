@@ -16,8 +16,8 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Wipe root directory with each boot
-    impermanence.url = "github:nix-community/impermanence";
+    # Preserve state with tmpfs root
+    preservation.url = "github:nix-community/preservation";
 
     # Sops for secrets
     sops-nix.url = "github:Mic92/sops-nix";

@@ -126,13 +126,5 @@
           };
         };
       };
-      # Set home directories to persist if enabled
-      custom.system.impermanence = {
-        persistHome.directories = [
-          ".config/mozilla"
-          ".cache/mozilla"
-          ".mozilla"
-        ];
-      };
     };
 }

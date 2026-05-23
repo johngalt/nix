@@ -73,19 +73,4 @@
         };
       };
     };
-
-  # Since the shell is part of my core module, I won't put relative impermanence stuff above
-  # I'll put persist files/folders in the impermanence module below so they will only be set if impermanence is enabled
-  # If I put this stuff in the nixos.core module, then I'll get errors for hosts without impermanence options
-  #  since the option definitions were never set (because the impermanence module wasn't loaded..)
-  flake.modules.nixos.impermanence = {
-    custom.system.impermanence = {
-      persistHome.directories = [
-        ".cache/fish"
-        ".config/fish"
-        ".local/share/fish"
-        ".local/share/zoxide"
-      ];
-    };
-  };
 }
