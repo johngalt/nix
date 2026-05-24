@@ -3,9 +3,9 @@
   flake.modules.nixos.technitium =
     { lib, pkgs, ... }:
     let
-      # TODO: remove when 15.2 gets to nixpkgs
-      technitium-dns-server-library = pkgs.callPackage ../../packages/technitium-dns-server-library/package.nix {};
-      technitium-dns-server = pkgs.callPackage ../../packages/technitium-dns-server/package.nix { inherit technitium-dns-server-library; };
+      # OLD: used to update prior to being available in nixpkgs
+      # technitium-dns-server-library = pkgs.callPackage ../../packages/technitium-dns-server-library/package.nix {};
+      # technitium-dns-server = pkgs.callPackage ../../packages/technitium-dns-server/package.nix { inherit technitium-dns-server-library; };
     in
     {
 
@@ -15,9 +15,12 @@
     # Force resolvconf to use local DNS (technitium)
     networking.resolvconf.useLocalResolver = lib.mkForce true;
 
+    # Lets persist the directory on hosts
+    custom.system.preservation.extraDirectories = [ "/var/lib/private/technitium-dns-server" ];
+
     services.technitium-dns-server = {
       enable = true;
-      package = technitium-dns-server;
+      package = pkgs.technitium-dns-server;
       openFirewall = true;
       firewallUDPPorts = [
         53
