@@ -43,6 +43,7 @@
         # Will pull default font from fontconfig
         custom.programs.foot.settings = {
           main.font = "${lib.head config.fonts.fontconfig.defaultFonts.monospace}:size=11";
+          colors.alpha = "0.9"; # transparency for blur
         };
 
         # Set 256color on remote ssh hosts

@@ -83,9 +83,11 @@
                   clip-to-geometry true
               }
               window-rule {
-                  match app-id="zen"
                   match app-id="foot"
                   draw-border-with-background false
+                  background-effect {
+                      blur true
+                  }
               }
               window-rule {
                 geometry-corner-radius 12
