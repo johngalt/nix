@@ -28,20 +28,9 @@
         '';
         # Set host-specific files/directories to be persisted through reboot
         system.preservation = {
-          persistPath = "/persist";
           extraDirectories = [
-            "/etc/NetworkManager/system-connections"
-            "/var/lib/systemd/backlight"
-            "/var/lib/upower"
-            "/var/lib/iwd" # wireless networks
+            "/var/lib/systemd/backlight" # backlight state
             "/var/lib/dms-greeter" # dms greeter
-            "/var/lib/bluetooth" # bluetooth devices
-            "/var/lib/fwupd" # firmware update daemon
-          ];
-          extraFiles = [
-            "/var/lib/NetworkManager/secret_key"
-            "/var/lib/NetworkManager/seen-bssids"
-            "/var/lib/NetworkManager/timestamps"
           ];
         };
       };

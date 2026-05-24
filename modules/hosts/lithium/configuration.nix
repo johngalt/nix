@@ -24,18 +24,6 @@
 
       config = {
         custom = {
-          system = {
-            preservation = {
-              persistPath = "/persist";
-              extraDirectories = [
-                "/var/lib/private/technitium-dns-server"
-                "/var/lib/komodo-periphery"
-              ];
-              extraFiles = [
-                { file = "/etc/zfs/zpool.cache"; inInitrd = true; }
-              ];
-            };
-          };
           services = {
             # Automated ZFS snapshots
             sanoid.datasets = [

@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.nixos.komodo-periphery =
-    { pkgs, lib, config, private, hostConfig, ... }:
+    { pkgs, lib, config,  hostConfig, ... }:
     let
       cfg = config.custom.services.komodo-periphery;
 
@@ -54,6 +54,9 @@
       config = {
         # Enable docker if it isn't already
         virtualisation.docker.enable = true;
+
+        # Lets persist the directory on hosts
+        custom.system.preservation.extraDirectories = [ "/var/lib/komodo-periphery" ];
 
         # Create komodo-periphery user
         users.users.${cfg.user} = {

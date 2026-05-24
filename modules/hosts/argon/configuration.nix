@@ -37,15 +37,6 @@
       # Custom module settings/overrides
       custom = {
         system = {
-          preservation = {
-            persistPath = "/persist";
-            extraDirectories = [
-              "/var/lib/komodo-periphery"
-            ];
-            extraFiles = [
-              { file = "/etc/zfs/zpool.cache"; inInitrd = true; }
-            ];
-          };
           # Allow containers to access iGPU
           docker.extraGroups = [ "video" "render" ];
         };
@@ -81,20 +72,23 @@
           # Backups via restic
           restic = {
             backupLocations = [
-              "/opt/docker"
-              "/mnt/backups/dbdump"
-              "/mnt/tank/documents"
-              "/mnt/tank/paperless"
-              "/mnt/tank/photos/upload"
+              "/opt/docker" # docker stacks
+              "/mnt/backups/dbdump" # postgres databases
+              "/mnt/tank/documents" # papra
+              "/mnt/tank/paperless" # paperless-ngx
+              "/mnt/tank/photos/upload" # immich
               "/mnt/tank/photos/backups"
-              "/mnt/tank/drive"
-              "/mnt/tank/mirror"
+              "/mnt/tank/drive" # syncthing
+              "/mnt/tank/mirror" # contains datasets from other hosts
             ];
             excludePaths = [
               "*.log*"
               "*.log"
               "/opt/docker/plex/**/Cache"
               "/mnt/tank/mirror/**/databases" # will just dump the sql
+              "/mnt/tank/mirror/**/.cache"
+              "/mnt/tank/mirror/**/.config/vesktop" # why is it so big?
+              "/mnt/tank/mirror/**/.config/mozilla"
             ];
             repositories = {
               argon-local = {
