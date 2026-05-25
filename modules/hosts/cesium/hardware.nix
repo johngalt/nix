@@ -24,6 +24,7 @@
       boot.extraModulePackages = [ ];
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
+      boot.zfs.forceImportRoot = false; # does not forcibly import root in a hard shutdown
 
       # Pin kernel
       boot.kernelPackages = pkgs.linuxPackages_6_18;
