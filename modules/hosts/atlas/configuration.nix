@@ -12,6 +12,10 @@
 
         # System Modules
         preservation
+
+        # Service Modules
+        sanoid
+        syncoid
       ];
       
       # Module settings/overrides
@@ -32,6 +36,27 @@
             "/var/lib/systemd/backlight" # backlight state
             "/var/lib/dms-greeter" # dms greeter
           ];
+        };
+        services = {
+          # Automated ZFS snapshots
+          sanoid = {
+            datasets = [
+              "zroot/home/taylor"
+              "zroot/persist"
+            ];
+            ignoreSets = [
+              "zroot/home/taylor/.cache"
+            ];
+            setRecursive = true; # creates recursive snapshots so I can ignore some child datasets
+          };
+          syncoid = {
+            datasets = [
+              "zroot/home/taylor"
+              "zroot/persist"
+            ];
+            targetRoot = "tank/mirror/atlas";
+            interval = [ ]; # empty dataset to avoid running automatically
+          };
         };
       };
     };

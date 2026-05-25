@@ -5,8 +5,6 @@
     let
       cfg = config.custom.services.syncoid;
 
-      interval = "*-*-* 00/2:00:00"; # Every 2 hours
-
       # Removes the zfs pool name from the dataset string
       trimDataset = ds: lib.concatStringsSep "/" (lib.tail (lib.splitString "/" ds));
       # Create attribute set for each dataset to send
@@ -14,15 +12,15 @@
         source = set;
         target = "${cfg.targetHost}:${cfg.targetRoot}/${trimDataset set}";
         # Only add extra systemd service options for FIRST dataset to avoid duplicating healthchecks
-        service = lib.optionalAttrs (set == (lib.head cfg.datasets)) {
+        service = lib.mkIf (!isNull cfg.healthcheckId) (lib.optionalAttrs (set == (lib.head cfg.datasets)) {
           onFailure = [ "ping-healthchecks@${cfg.healthcheckId}:failure.service" ];
           onSuccess = [ "ping-healthchecks@${cfg.healthcheckId}:success.service" ];
           wants = [ "ping-healthchecks@${cfg.healthcheckId}:start.service" ];
-        };
+        });
       });
 
       inherit (lib) mkOption;
-      inherit (lib.types) listOf str;
+      inherit (lib.types) listOf str nullOr anything;
 
     in
     {
@@ -41,8 +39,14 @@
           description = "Target base dataset on receiving host";
         };
         healthcheckId = mkOption {
-          type = str;
-          description = "Healthcheck endpoint to ping with service run";
+          type = nullOr str;
+          description = "Healthcheck endpoint to ping with service run (empty to not run)";
+          default = null;
+        };
+        interval = mkOption {
+          type = anything; # let syncoid module do the type checking
+          description = "OnCalendar timer to run. Set as empty list to disable automatic running";
+          default = "*-*-* 00/2:00:00";
         };
       };
 
@@ -61,7 +65,7 @@
 
         services.syncoid = {
           enable = true;
-          inherit interval;
+          interval = cfg.interval;
           user = "syncoid";
           sshKey = config.sops.secrets."syncoid/sshKey".path;
           commonArgs = [
