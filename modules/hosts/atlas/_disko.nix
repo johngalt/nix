@@ -1,5 +1,7 @@
 {
   fileSystems."/persist".neededForBoot = true;
+  fileSystems."/cache".neededForBoot = true;
+  
   disko.devices = {
     # tmpfs
     nodev = {

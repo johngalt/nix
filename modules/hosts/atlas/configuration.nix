@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.modules.nixos."hosts/atlas" =
-    { ... }:
+    { lib, ... }:
     {
       imports = with self.modules.nixos; [
         # Profiles
@@ -17,7 +17,7 @@
         sanoid
         syncoid
       ];
-      
+          
       # Module settings/overrides
       custom = {
         # Placing this niri config snippet for HOST specific display setting
@@ -32,7 +32,7 @@
         '';
         # Set host-specific files/directories to be persisted through reboot
         system.preservation = {
-          extraDirectories = [
+          extraCacheDirectories = [
             "/var/lib/systemd/backlight" # backlight state
             "/var/lib/dms-greeter" # dms greeter
           ];
@@ -56,8 +56,29 @@
             ];
             targetRoot = "tank/mirror/atlas";
             interval = [ ]; # empty dataset to avoid running automatically
+            serviceConfig = {
+              Restart = "on-failure";
+              RestartSec = 1800; # Retry every 30 minutes
+              StartLimitIntervalSec = 0;
+            };
           };
         };
       };
+
+      # syncoid serivce module doesn't allow me to configure the timer much
+      # Manually creating systemd timer to run service daily
+      # Persistent flag added to run if missed due to laptop being asleep
+      systemd.timers =
+        let
+          datasets = [ "zroot-persist" "zroot-home-taylor" ];
+          genServiceNames = map (set: "syncoid-${set}");
+        in
+          lib.genAttrs (genServiceNames datasets) (service: {
+            wantedBy = [ "timers.target" ];
+            timerConfig = {
+              OnCalendar = "daily";
+              Persistent = true; 
+            };
+          });
     };
 }
