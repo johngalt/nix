@@ -11,6 +11,7 @@
         # System Modules
         preservation
         docker
+        ups
 
         # Service Modules
         scrutiny

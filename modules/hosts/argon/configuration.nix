@@ -12,6 +12,7 @@
         # System Modules
         preservation
         docker
+        ups
 
         # Service Modules
         dbdump
@@ -39,6 +40,8 @@
         system = {
           # Allow containers to access iGPU
           docker.extraGroups = [ "video" "render" ];
+          # Enable server config in ups module
+          ups.enableServer = true;
         };
         services = {
           dbdump = {
