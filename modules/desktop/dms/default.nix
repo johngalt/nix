@@ -45,7 +45,6 @@
             dankGifSearch.enable = true;
             dankBatteryAlerts.enable = true;
             dankNotepadModule.enable = true;
-            homeAssistantMonitor.enable = true;
           };
         };
 
