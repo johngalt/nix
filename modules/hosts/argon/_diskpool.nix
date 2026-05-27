@@ -1,6 +1,12 @@
 {
   # ROOT FILE SYSTEM IS MANAGED BY DISKO.NIX
 
+  # Backup drive
+  fileSystems."/mnt/backups" = {
+    device = "/dev/disk/by-uuid/fe72168d-41a8-42aa-a14f-623eaacf1e57";
+    fsType = "ext4";
+  };
+
   # Disks have data/content btrfs subvolumes to separate snapraid files
   fileSystems."/mnt/data-disks/data01" = {
     device = "/dev/disk/by-uuid/2bad7281-b435-4127-8702-300951adcb6a";

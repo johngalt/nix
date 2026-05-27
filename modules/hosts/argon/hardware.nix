@@ -10,7 +10,7 @@
         # Declarative disk
         inputs.disko.nixosModules.default
         ./_disko.nix
-        ./_mergerfs.nix
+        ./_diskpool.nix
       ];
 
       boot.initrd.availableKernelModules = [
@@ -39,16 +39,11 @@
         # Import tank pool
         extraPools = [ "tank" ];
       };
+      
       environment.systemPackages = with pkgs; [
         btrfs-progs
         mergerfs
       ];
-      
-      # Backup drive
-      fileSystems."/mnt/backups" = {
-        device = "/dev/disk/by-uuid/fe72168d-41a8-42aa-a14f-623eaacf1e57";
-        fsType = "ext4";
-      };
 
       hardware = {
         cpu.intel.updateMicrocode = true;
