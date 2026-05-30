@@ -17,7 +17,10 @@
         sanoid
         syncoid
       ];
-          
+
+      # Testing fprint
+      services.fprintd.enable = true;
+      
       # Module settings/overrides
       custom = {
         # Placing this niri config snippet for HOST specific display setting
