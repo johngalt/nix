@@ -23,6 +23,11 @@
     fsType = "btrfs";
     options = [ "subvol=/data" ];
   };
+  fileSystems."/mnt/data-disks/data04" = {
+    device = "/dev/disk/by-uuid/04780f4e-449a-4749-a8ba-c15fa0df1eba";
+    fsType = "btrfs";
+    options = [ "subvol=/data" ];
+  };
   fileSystems."/mnt/cache-disks/cache01" = {
     device = "/dev/disk/by-uuid/24b2e8f6-292c-4790-b8b3-18462b7bb857";
     fsType = "ext4";
@@ -46,6 +51,11 @@
     fsType = "btrfs";
     options = [ "subvol=/content" ];
   };
+  fileSystems."/mnt/snapraid-content/disk04" = {
+    device = "/dev/disk/by-uuid/04780f4e-449a-4749-a8ba-c15fa0df1eba";
+    fsType = "btrfs";
+    options = [ "subvol=/content" ];
+  };
 
   # MergerFS mount points
   # Vault-cold is mergerfs pool without SSD cache drive
@@ -56,6 +66,7 @@
       "/mnt/data-disks/data01"
       "/mnt/data-disks/data02"
       "/mnt/data-disks/data03"
+      "/mnt/data-disks/data04"
     ];
     options = [
       "defaults"
@@ -80,6 +91,7 @@
       "/mnt/data-disks/data01"
       "/mnt/data-disks/data02"
       "/mnt/data-disks/data03"
+      "/mnt/data-disks/data04"
       "/mnt/cache-disks/cache01"
     ];
     options = [
