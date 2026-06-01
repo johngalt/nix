@@ -8,6 +8,7 @@
         "/mnt/data-disks/data01"
         "/mnt/data-disks/data02"
         "/mnt/data-disks/data03"
+        "/mnt/data-disks/data04"
       ];
       # List of content file locations for snapraid
       contentFiles = [
@@ -15,6 +16,7 @@
         "/mnt/snapraid-content/disk01/snapraid.content"
         "/mnt/snapraid-content/disk02/snapraid.content"
         "/mnt/snapraid-content/disk03/snapraid.content"
+        "/mnt/snapraid-content/disk04/snapraid.content"
       ];
       # Where to save snapraid parity
       parityFiles = [

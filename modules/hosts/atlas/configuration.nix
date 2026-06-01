@@ -35,6 +35,9 @@
         '';
         # Set host-specific files/directories to be persisted through reboot
         system.preservation = {
+          extraDirectories = [
+            "/var/lib/fprint" # biometric store
+          ];
           extraCacheDirectories = [
             "/var/lib/systemd/backlight" # backlight state
             "/var/lib/dms-greeter" # dms greeter
