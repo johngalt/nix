@@ -1,6 +1,7 @@
 { ... }:
 {
   # Quickshell base module, to be imported by a shell module
+  # TODO: Rename this to be common environment or something, since its not quickshell specific
   flake.modules.nixos.quickshell =
     { lib, pkgs, ... }:
     let
@@ -21,7 +22,7 @@
       };
 
       config = {
-        # Will install some global system packages that support theming in Quickshell
+        # Will install some global system packages that support shells
         environment.systemPackages = with pkgs; [
           # Qt5/6ct for most QT theming
           libsForQt5.qt5ct

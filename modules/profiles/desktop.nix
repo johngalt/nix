@@ -10,8 +10,10 @@
         yubikey
         
         # Desktop environment
+        greeter
         niri
         dms
+        # noctalia
 
         # Programs modules
         _1password
