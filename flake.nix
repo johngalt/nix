@@ -25,12 +25,16 @@
     # Hjem for some home file linkers
     hjem.url = "github:feel-co/hjem";
 
+    # tuigreet
+    tuigreet.url = "github:NotAShelf/tuigreet";
+    tuigreet.inputs.nixpkgs.follows = "nixpkgs";
+    
     # Niri window manager
     niri.url = "github:sodiboo/niri-flake";
 
     # Quickshell framework -- not using currently as 0.3 is on nixpkgs
-    quickshell.url = "git+https://git.outfoxxed.me/quickshell/quickshell";
-    quickshell.inputs.nixpkgs.follows = "nixpkgs";
+    # quickshell.url = "git+https://git.outfoxxed.me/quickshell/quickshell";
+    # quickshell.inputs.nixpkgs.follows = "nixpkgs";
 
     # Dank Material Shell
     dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
@@ -39,9 +43,11 @@
     dms-plugin-registry.url = "github:AvengeMedia/dms-plugin-registry";
     dms-plugin-registry.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Noctalia
+    noctalia.url = "github:noctalia-dev/noctalia-shell/v5";
+
     # Helix modal editor
     helix.url = "github:helix-editor/helix";
-    helix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
