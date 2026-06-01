@@ -27,6 +27,23 @@
           trusted-users = [ "@wheel" ];
           auto-optimise-store = true;
           warn-dirty = false;
+
+          # Extra substituters to use
+          substituters = [
+            "https://niri.cachix.org"
+            "https://noctalia.cachix.org"
+            "https://helix.cachix.org"
+          ];
+          trusted-substituters = [
+            "https://niri.cachix.org"
+            "https://noctalia.cachix.org"
+            "https://helix.cachix.org"
+          ];
+          trusted-public-keys = [
+            "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+            "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+            "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
+          ];
         };
 
         # Sensible defaults

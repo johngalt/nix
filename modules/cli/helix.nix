@@ -16,12 +16,6 @@
         EDITOR = "hx";
         VISUAL = "hx";
       };
-
-      # Add helix cachix binary cache
-      nix.settings = {
-        substituters = [ "https://helix.cachix.org" ];
-        trusted-public-keys = [ "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs=" ];
-      };
     };
 
   # Initialize helix wrapper with some default configuration

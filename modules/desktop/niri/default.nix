@@ -121,12 +121,6 @@
           nautilus
         ];
 
-        # Set cachix for niri builds from sodiboo flake
-        nix.settings = {
-          substituters = [ "https://niri.cachix.org" ];
-          trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
-        };
-
         # This is just a little something to reload the niri config on system rebuild
         # Nix path will change so I pull it from the wrapper via `.constructFiles.generatedConfig`
         # Taken from https://github.com/iynaix/dotfiles
