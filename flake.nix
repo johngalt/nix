@@ -12,6 +12,9 @@
     # Private flake for sensitive values
     nix-private.url = "git+ssh://git@github.com/johngalt/private-nix.git?shallow=1";
 
+    # Used for some packages (eg helix)
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+
     # Declarative disk management
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
