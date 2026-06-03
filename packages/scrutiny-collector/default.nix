@@ -8,7 +8,7 @@
   lib,
 }:
 let
-  version = "1.50.0";
+  version = "1.62.2";
 in
 buildGoModule rec {
   inherit version;
@@ -18,7 +18,7 @@ buildGoModule rec {
     owner = "Starosdev";
     repo = "scrutiny";
     tag = "v${version}";
-    hash = "sha256-3zK2hbYowqdnrs9RiStuYm45avPjN7P6FLI1724/Plo=";
+    hash = "sha256-A2vlZMB4CeCXAOl28x97jC5ziJo30LDZQHDlpITpRsQ=";
   };
 
   subPackages = [
