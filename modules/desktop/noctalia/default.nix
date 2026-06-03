@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.modules.nixos.noctalia =
-    { inputs, pkgs, ... }:
+    { config, inputs, pkgs, ... }:
     let
       # Pull noctalia from v5 flake
       noctaliaPackage = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -49,11 +49,32 @@
                 match namespace="^noctalia-backdrop"
                 place-within-backdrop true
               }
+              switch-events {
+                lid-close { spawn "noctalia" "session" "lock"; }
+              }
               debug {
                 honor-xdg-activation-with-invalid-serial
               }
+              // Will include dms/colors.kdl for dynamic colors if present
+              include optional=true "${config.hj.directory}/.config/niri/noctalia.kdl"
             '';
           };
+          # Adding additional config to foot settings
+          foot.settings = {
+            main.include = "~/.config/foot/themes/noctalia";
+          };
+        };
+        
+        # Some miscellaneous theming stuff to support noctalia
+        hj = {
+          # KDE applications configured with KColorScheme
+          files.".config/kdeglobals".text = ''
+            [UiSettings]
+            ColorScheme=noctalia
+
+            [Icons]
+            Theme=Papirus-Dark
+          '';
         };
       };
     };
