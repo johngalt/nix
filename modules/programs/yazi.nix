@@ -37,20 +37,25 @@
                 -- Available values: ui.Border.PLAIN, ui.Border.ROUNDED
                 type = ui.Border.ROUNDED,
               }
-              require("git"):setup()
+              require("git"):setup {
+               	-- Order of status signs showing in the linemode
+               	order = 1500,
+              }
             '';
           };
           settings.yazi = {
             plugin.prepend_fetchers = [
               {
                 id = "git";
-                name = "*";
+                url   = "*";
                 run = "git";
+                group = "git";
               }
               {
                 id = "git";
-                name = "*/";
-                run = "git";
+                url   = "*/";
+                run   = "git";
+                group = "git";
               }
             ];
             plugin.prepend_previewers = [
