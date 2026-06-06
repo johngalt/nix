@@ -31,6 +31,7 @@
 
       hardware.cpu.intel.updateMicrocode = true;
       hardware.enableRedistributableFirmware = true;
+      hardware.rtl-sdr.enable = true; # rf receiver
 
       networking = {
         hostName = hostConfig.name;
@@ -40,6 +41,7 @@
           allowedTCPPorts = [
             2377 # docker swarm
             7946 # docker swaam
+            1400 # sonos
           ];
           allowedUDPPorts = [
             7946 # docker swarm
