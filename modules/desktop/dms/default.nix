@@ -9,7 +9,8 @@
     {
       imports = [
         self.modules.nixos.quickshell # Import quickshell module as base
-        inputs.dms-plugin-registry.modules.default
+        inputs.dms-plugin-registry.nixosModules.default
+        inputs.dankcalendar.nixosModules.default
       ];
 
       # Option to set dms package to be exposed for other modules (like dms-greeter) to use
@@ -46,6 +47,12 @@
             dankBatteryAlerts.enable = true;
             dankNotepadModule.enable = true;
           };
+        };
+
+        # DMS Calendar
+        programs.dank-calendar = {
+          enable = true;
+          systemd.enable = true;
         };
 
         # DMS specific dependencies

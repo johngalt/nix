@@ -42,15 +42,20 @@
     # Dank Material Shell
     dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
     dankMaterialShell.inputs.nixpkgs.follows = "nixpkgs";
+    
     # DMS Plugins
     dms-plugin-registry.url = "github:AvengeMedia/dms-plugin-registry";
     dms-plugin-registry.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Dank calendar
+    dankcalendar.url = "github:AvengeMedia/dankcalendar";
+    dankcalendar.inputs.nixpkgs.follows = "nixpkgs";
+
     # Noctalia
-    noctalia.url = "github:noctalia-dev/noctalia-shell/v5";
+    # noctalia.url = "github:noctalia-dev/noctalia-shell/v5";
 
     # Helix modal editor
-    helix.url = "github:helix-editor/helix";
+    # helix.url = "github:helix-editor/helix";
   };
 
   outputs =
