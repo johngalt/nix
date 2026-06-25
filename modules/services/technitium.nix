@@ -35,5 +35,12 @@
         53443
       ];
     };
+
+    # Fix to allow DynamicUser to write to /var/log
+    systemd.services.technitium-dns-server = {
+      serviceConfig = {
+        LogsDirectory = "technitium";
+      };
+    };
   };
 }
