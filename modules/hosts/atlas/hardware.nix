@@ -58,16 +58,6 @@
         # Prefer iwd to wpa_supplicant
         wireless.iwd = {
           enable = true;
-          settings = {
-            # Bump 5GHz priority when roaming
-            Rank = {
-              BandModifier5GHz = 3.0; # Prefer 5GHz
-            };
-            Settings = {
-              RoamThreshold5G = -80;
-              CriticalRoamThreshold5G = -85;
-            };
-          };
         };
         # Force networkmanager to use iwd as backend
         networkmanager = {
