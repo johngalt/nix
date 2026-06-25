@@ -53,6 +53,7 @@
 
       networking = {
         hostName = hostConfig.name;
+        domain = hostConfig.domain;
         hostId = "0fd4d7be"; # Needed for ZFS
         useDHCP = false; # We are using systemd networking for DHCP
         firewall = {

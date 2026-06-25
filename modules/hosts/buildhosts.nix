@@ -20,6 +20,7 @@ in
           # Will pass hostname from module name as argument for config modules to reference
           hostConfig = {
             name = lib.removePrefix prefix name;
+            domain = "lan.${private.domain}";
           };
         };
       in

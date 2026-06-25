@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.modules.nixos."hosts/lithium" =
-    { ... }:
+    { private, ... }:
     {
       imports = with self.modules.nixos; [
         # Profiles
@@ -45,7 +45,7 @@
             zed = {
               toEmail = "a6bf278a-0962-4191-8c2a-20a18e512e0b@ping.nitron.app";
               fromEmail = "lithium@nitron.app";
-              smtpServer = "argon.gudhak.home";
+              smtpServer = "argon.lan.${private.domain}";
             };
           };
         };

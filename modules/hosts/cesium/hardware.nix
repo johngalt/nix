@@ -35,6 +35,7 @@
 
       networking = {
         hostName = hostConfig.name;
+        domain = hostConfig.domain;
         hostId = "d871150c"; # Needed for ZFS
         useDHCP = lib.mkForce false; # We are using systemd networking for DHCP
         firewall = {

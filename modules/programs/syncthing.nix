@@ -36,7 +36,7 @@
           devices = {
             argon = {
               addresses = [
-                "tcp://argon.gudhak.home:22000"
+                "tcp://argon.lan.${private.domain}:22000"
               ];
               id = deviceID;
             };

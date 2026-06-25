@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.modules.nixos."hosts/cesium" =
-    { ... }:
+    { private, ... }:
     {
       imports = with self.modules.nixos; [
         # Profiles
@@ -49,7 +49,7 @@
             zed = {
               toEmail = "53592fb1-3501-4d22-ab11-cb7ddc24ddff@ping.nitron.app";
               fromEmail = "cesium@nitron.app";
-              smtpServer = "argon.gudhak.home";
+              smtpServer = "argon.lan.${private.domain}";
             };
           };
         };

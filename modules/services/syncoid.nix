@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.nixos.syncoid =
-    { pkgs, config, lib, ... }:
+    { pkgs, config, lib, private, ... }:
     let
       cfg = config.custom.services.syncoid;
 
@@ -79,7 +79,7 @@
         # Adding public key for target host verification
         services.openssh.knownHosts = {
           "argon" = {
-            hostNames = [ "192.168.10.10" "argon.gudhak.home" ];
+            hostNames = [ "192.168.10.10" "argon.lan.${private.domain}" ];
             publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAiYEfYEsnr25d2wL9yhMbecWF13/sDCT7fiKASPDKIQ";
           };
         };
