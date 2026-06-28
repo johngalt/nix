@@ -3,7 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    
     # Flake-parts
     flake-parts.url = "github:hercules-ci/flake-parts";
     # Wrapper modules 

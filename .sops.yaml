@@ -4,6 +4,7 @@ keys:
   - &host_argon age1dz2mx7dc3k4tlcuta6wkjf887j9uqj8gkt88czfjkulw08lz2plqc2far6
   - &host_cesium age1whk4a9aganprake6jzjqh9h29nejg8jcafdrmfxc0kdy72vgpqmq2zpsf0
   - &host_lithium age12tnqulnszc5xmdjxep2p2dxvmval5j8fmf9plpx3utdjefv0xd0qe7n6tz
+  - &host_atlantis age1f9ju4dg5426alkrsay0lyethr64lzu2vsp649ypen5lj3jcqu46sjm76dd
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -13,3 +14,4 @@ creation_rules:
         - *host_argon
         - *host_cesium
         - *host_lithium
+        - *host_atlantis
