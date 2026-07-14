@@ -35,7 +35,8 @@
       imports = [ wlib.wrapperModules.helix ];
 
       # Will use helix_git from chaotic nyx flake
-      package = inputs.chaotic.packages.${pkgs.stdenv.hostPlatform.system}.helix_git;
+      # package = inputs.chaotic.legacyPackages.${pkgs.stdenv.hostPlatform.system}.helix_git;
+      package = pkgs.helix_git;
 
       # Set theme/settings here
       inherit themes;
