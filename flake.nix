@@ -4,6 +4,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+
+    # Nixpkgs-patcher
+    nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
+    nixpkgs-patch-kernel-7-1-zfs = {
+      url = "https://gist.githubusercontent.com/johngalt/fbf8f1290e835288e15d0751201f35c1/raw/a848dd71b1de88f12ce079c17029a7f6829fdade/kernel_7_1_zfs.patch";
+      flake = false;
+    };
     
     # Flake-parts
     flake-parts.url = "github:hercules-ci/flake-parts";

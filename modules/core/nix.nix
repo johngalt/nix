@@ -8,6 +8,7 @@
         package = pkgs.lixPackageSets.latest.lix;
         # Disable channels, set nixpkgs to this flake's input nixpkgs
         channel.enable = false;
+        # TODO: https://github.com/gepbird/nixpkgs-patcher/blob/main/doc/configuration.md#reusing-the-patched-nixpkgs
         nixPath = [ "nixpkgs=${pkgs.path}" ];
 
         # Garbage collection and store optimization
@@ -58,7 +59,7 @@
           fallback = true
         '';
       };
-      nixpkgs.config.allowUnfree = true;
+      # nixpkgs.config.allowUnfree = true;
       system.stateVersion = "24.11";
     };
 }

@@ -21,7 +21,21 @@
       boot.zfs.forceImportRoot = false; # does not forcibly import root in a hard shutdown
 
       # Pinned kernel
-      boot.kernelPackages = pkgs.linuxPackages_7_0;
+      boot.kernelPackages = pkgs.linuxPackages_7_1;
+      boot.zfs.package = pkgs.zfs_2_4;
+
+      # Patch nixpkgs to allow ZFS building on 7.1
+      # TODO: remove once new ZFS version is released
+      # nixpkgs-patcher = {
+      #   enable = true;
+      #   settings.patches = with pkgs; [
+      #     (fetchurl {
+      #       name = "kernel_7_1_zfs.patch";
+      #       url = "https://gist.githubusercontent.com/johngalt/fbf8f1290e835288e15d0751201f35c1/raw/a848dd71b1de88f12ce079c17029a7f6829fdade/kernel_7_1_zfs.patch";
+      #       hash = "sha256-KecIYQMg+kxU25w/vC1oO0uKFQYqu5tawlm28H4jlDM="; # rebuild, wait for nix to fail and give you the hash, then put it here
+      #     })
+      #   ];
+      # };
 
       hardware = {
         enableRedistributableFirmware = true;

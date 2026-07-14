@@ -1,6 +1,6 @@
 # Borrowed from drupol
 # https://github.com/drupol/infra/blob/master/modules/flake-parts/host-machines.nix
-{ inputs, lib, config, ... }:
+{ inputs, lib, config, withSystem, ... }:
 let
   # Host configuration "modules" are prefixed with "hosts/"
   prefix = "hosts/";
@@ -28,12 +28,21 @@ in
         # Create a nixosSystem for each host that imports the host-specific module
         # Each host will then selectively import modules within their own configuration
         name = lib.removePrefix prefix name;
-        value = inputs.nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            module
-          ];
-        };
+        # Using withSystem to expose patched nixpkgs to nixosConfigurations
+        # https://github.com/gepbird/nixpkgs-patcher/blob/main/doc/flake-parts.md
+        value = withSystem "x86_64-linux" (
+          { pkgs, system, ... }:
+          # Custom lib from nixpkgs-patcher
+          inputs.nixpkgs-patcher.lib.nixosSystem {
+            inherit specialArgs system;
+            nixpkgsPatcher.inputs = inputs;
+            modules = [
+              # Sets nixpkgs to the patched version provided with `withSystem`
+              { nixpkgs.pkgs = pkgs; }              
+              module
+            ];
+          }
+        );
       }
     ))
   ];
