@@ -26,6 +26,11 @@
         zed-editor
       ];
 
+      # Other programs installed to system
+      environment.systemPackages = with pkgs; [
+        wakeonlan
+      ];
+
       # Other programs installed to user profile via hjem
       hj = {
         packages = with pkgs; [

@@ -6,9 +6,12 @@
       environment.systemPackages = with pkgs; [
         devenv
       ];
-      programs.direnv = {
-        enable = true;
-        silent = true;
-      };
+
+      programs.fish.interactiveShellInit = "devenv hook fish | source";
+
+      # programs.direnv = {
+      #   enable = true;
+      #   silent = true;
+      # };
     };
 }

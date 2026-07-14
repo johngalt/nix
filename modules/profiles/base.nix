@@ -21,7 +21,7 @@
         nano
         wget
         btop # TODO: Wrap btop with configuration?
-        ncdu
+        dua
         fastfetch
         duf
         fd
