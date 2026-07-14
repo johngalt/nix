@@ -54,7 +54,7 @@
         enable = true;
         # Rename physical adapter to `lan` rather than enp0s####
         links."10-lan" = {
-          matchConfig.Path = "pci-0000:00:1f.6";
+          matchConfig.Path = "pci-0000:02:00.0";
           linkConfig = {
             Name = "lan";
           };
