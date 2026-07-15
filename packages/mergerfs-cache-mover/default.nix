@@ -6,7 +6,7 @@
   ...
 }:
 let
-  version = "1.4.2";
+  version = "1.4.3";
   pname = "mergerfs-cache-mover";
 
   runEnv = pkgs.python3.buildEnv.override {
@@ -18,7 +18,7 @@ let
     owner = "monstermuffin";
     repo = pname;
     tag = "v${version}";
-    hash = "sha256-uwFM8qaHOp46irWeZjfRGfFxhKjVbmKvpkgA4c85Meo=";
+    hash = "sha256-ElBbyVbDw0wsjnj73P0mnEa5Uqed6gjJRYYGhqmshPQ=";
   };
 in
 pkgs.writeShellApplication {

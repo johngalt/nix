@@ -21,11 +21,11 @@
         Settings:
           AUTO_UPDATE: false
           THRESHOLD_PERCENTAGE: 70
-          TARGET_PERCENTAGE: 30
+          TARGET_PERCENTAGE: 20
           MAX_WORKERS: 8
           MAX_LOG_SIZE_MB: 100
           EXCLUDED_DIRS:
-            - books
+            - usenet
           LOG_LEVEL: "INFO"
           NOTIFICATIONS_ENABLED: true
           NOTIFY_THRESHOLD: true
