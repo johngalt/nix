@@ -32,7 +32,7 @@
         dcu = "docker compose up -d";
         dcs = "docker compose stop";
         dcl = "docker compose logs";
-        dut = "COLORTERM=truecolor duf -only-mp /mnt/data-disks/\\*,/mnt/cache-disks/\\*,/mnt/parity-disks/\\*,/mnt/vault";
+        dut = "COLORTERM=truecolor duf -only-mp /mnt/data-disks/\\*,/mnt/cache-disks/\\*,/mnt/vault";
       };
 
       # Custom module settings/overrides
@@ -48,7 +48,7 @@
             databases = [
               "auth"
               "gatus"
-              "netronome"
+              # "netronome"
               "forgejo"
               "mealie"
               "paperless"

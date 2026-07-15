@@ -7,7 +7,6 @@
     fsType = "ext4";
   };
 
-  # Disks have data/content btrfs subvolumes to separate snapraid files
   fileSystems."/mnt/data-disks/data01" = {
     device = "/dev/disk/by-uuid/2bad7281-b435-4127-8702-300951adcb6a";
     fsType = "btrfs";
@@ -28,33 +27,14 @@
     fsType = "btrfs";
     options = [ "subvol=/data" ];
   };
+  fileSystems."/mnt/data-disks/data05" = {
+    device = "/dev/disk/by-uuid/c1c4f537-ba72-4fd1-89dc-1c93f36ea318";
+    fsType = "btrfs";
+    options = [ "subvol=/data" ];
+  };
   fileSystems."/mnt/cache-disks/cache01" = {
     device = "/dev/disk/by-uuid/24b2e8f6-292c-4790-b8b3-18462b7bb857";
     fsType = "ext4";
-  };
-  fileSystems."/mnt/parity-disks/parity01" = {
-    device = "/dev/disk/by-uuid/3629eee0-f40b-4549-8dbc-ed237c183e06";
-    fsType = "btrfs";
-  };
-  fileSystems."/mnt/snapraid-content/disk01" = {
-    device = "/dev/disk/by-uuid/2bad7281-b435-4127-8702-300951adcb6a";
-    fsType = "btrfs";
-    options = [ "subvol=/content" ];
-  };
-  fileSystems."/mnt/snapraid-content/disk02" = {
-    device = "/dev/disk/by-uuid/a737c66a-0c9a-4dfa-ba46-507dc742efbc";
-    fsType = "btrfs";
-    options = [ "subvol=/content" ];
-  };
-  fileSystems."/mnt/snapraid-content/disk03" = {
-    device = "/dev/disk/by-uuid/959bd10f-a3f4-4fd4-b641-8d2cbaaafb74";
-    fsType = "btrfs";
-    options = [ "subvol=/content" ];
-  };
-  fileSystems."/mnt/snapraid-content/disk04" = {
-    device = "/dev/disk/by-uuid/04780f4e-449a-4749-a8ba-c15fa0df1eba";
-    fsType = "btrfs";
-    options = [ "subvol=/content" ];
   };
 
   # MergerFS mount points
@@ -67,6 +47,7 @@
       "/mnt/data-disks/data02"
       "/mnt/data-disks/data03"
       "/mnt/data-disks/data04"
+      "/mnt/data-disks/data05"
     ];
     options = [
       "defaults"
@@ -92,6 +73,7 @@
       "/mnt/data-disks/data02"
       "/mnt/data-disks/data03"
       "/mnt/data-disks/data04"
+      "/mnt/data-disks/data05"
       "/mnt/cache-disks/cache01"
     ];
     options = [
