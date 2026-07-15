@@ -11,6 +11,10 @@
       url = "https://gist.githubusercontent.com/johngalt/fbf8f1290e835288e15d0751201f35c1/raw/a848dd71b1de88f12ce079c17029a7f6829fdade/kernel_7_1_zfs.patch";
       flake = false;
     };
+    nixpkgs-patch-lttng-tools = {
+      url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/542084.patch";
+      flake = false;
+    };
     
     # Flake-parts
     flake-parts.url = "github:hercules-ci/flake-parts";
