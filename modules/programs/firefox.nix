@@ -88,9 +88,9 @@
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
               installation_mode = "force_installed";
             };
-            # Imagus
-            "{00000f2a-7cde-4f20-83ed-434fcb420d71}" = {
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/imagus/latest.xpi";
+            # Imagus Reborn
+            "{7653b5cb-d76d-442f-a98f-f3c83a118cf4}" = {
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/imagus-reborn/latest.xpi";
               installation_mode = "force_installed";
             };
             # Karakeep
