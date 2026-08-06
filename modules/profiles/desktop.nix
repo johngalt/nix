@@ -12,8 +12,8 @@
         # Desktop environment
         greeter
         niri
-        dms
-        # noctalia
+        # dms
+        noctalia
 
         # Programs modules
         _1password

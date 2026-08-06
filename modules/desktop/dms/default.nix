@@ -129,18 +129,49 @@
           };
         };
 
-        # Some miscellaneous theming stuff to support dms
-        hj = {
-          # Force KDE applications like Dolphin to use DankMatugen KColorScheme
-          # Some KDE apps just ignore qt5/6ct stuff
-          files.".config/kdeglobals".text = ''
-            [UiSettings]
-            ColorScheme=DankMatugen
+        programs.qtengine = {
+          enable = true;
+  
+          config = {
+            theme = {
+              colorScheme = "${config.hj.directory}/.local/share/DankMatugen.colors";
+              iconTheme = "Papirus-Dark";
+              style = "breeze";
 
-            [Icons]
-            Theme=Papirus-Dark
-          '';
+              font = {
+                family = "Noto Sans";
+                size = 12;
+                weight = -1;
+              };
+
+              fontFixed = {
+                family = "Noto Sans";
+                size = 12;
+                weight = -1;
+              };
+            };
+
+            misc = {
+              singleClickActivate = false;
+              menusHaveIcons = true;
+              shortcutsForContextMenus = true;
+            };
+          };
         };
+        
+
+        # Some miscellaneous theming stuff to support dms
+        # hj = {
+        #   # Force KDE applications like Dolphin to use DankMatugen KColorScheme
+        #   # Some KDE apps just ignore qt5/6ct stuff
+        #   files.".config/kdeglobals".text = ''
+        #     [UiSettings]
+        #     ColorScheme=DankMatugen
+
+        #     [Icons]
+        #     Theme=Papirus-Dark
+        #   '';
+        # };
       };
     };
 }

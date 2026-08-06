@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   # Quickshell base module, to be imported by a shell module
   # TODO: Rename this to be common environment or something, since its not quickshell specific
@@ -9,6 +9,9 @@
       inherit (lib.types) package;
     in
     {
+      # Allow for declarative QT theming
+      imports = [ inputs.qtengine.nixosModules.default ];
+
       # Create a module option that holds the quickshell package to be passed to other modules
       options ={
         custom.programs.quickshell = {
@@ -35,18 +38,22 @@
           # Adw theme for GTK stuff
           adw-gtk3
           # Papirus icon theme with override for folder color
-          (papirus-icon-theme.overrideAttrs (old: {
-            color = "green";
-            dontFixup = true; # this makes building take forever
-          }))
+          # (papirus-icon-theme.overrideAttrs (old: {
+          #   color = "green";
+          #   dontFixup = true; # this makes building take forever
+          # }))
+          papirus-icon-theme
         ];
 
         # QT THEMING
         # Set environmental variables to force Qt apps to use qt6ct
         environment.variables = {
           # Set QT apps to follow qt6ct theme settings by default
-          QT_QPA_PLATFORMTHEME = "qt6ct";
-          QT_QPA_PLATFORMTHEME_QT6 = "qt6ct";
+          # QT_QPA_PLATFORMTHEME = "qt6ct";
+          # QT_QPA_PLATFORMTHEME_QT6 = "qt6ct";
+          # Going to use qtengine instead
+          QT_QPA_PLATFORMTHEME = "qtengine";
+          QT_QPA_PLATFORMTHEME_QT6 = "qtengine";
         };
 
         # GTK THEMING

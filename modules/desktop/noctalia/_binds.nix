@@ -6,6 +6,7 @@
   "Mod+Shift+S".spawn =[ "noctalia" "msg" "screenshot-region" ];
   "Mod+Space".spawn = [ "noctalia" "msg" "panel-toggle" "launcher" ];
   "Mod+V".spawn = [ "noctalia" "msg" "panel-toggle" "clipboard" ];
+  "Mod+Shift+N".spawn = [ "noctalia" "msg" "panel-toggle" "noctalia/notes:panel" ];
   "XF86AudioRaiseVolume" = _: {
     props = { allow-when-locked = true; };
     content = { spawn = [ "noctalia" "msg" "volume-up" ]; };
