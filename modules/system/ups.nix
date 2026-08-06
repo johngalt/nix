@@ -90,14 +90,16 @@
                   # There is a danger that the system will take longer than the default 20 seconds to shut down. 
                   # If that were to happen, the UPS shutdown would provoke a brutal system crash.
                   # We adjust offdelay, to solve this issue.
-                  "offdelay = 60"
+                  "offdelay = 70"
 
                   # UPS power is now cut regardless of wall power.  After (ondelay minus offdelay) seconds,
                   # if wall power returns, turn on UPS power.  The system has now been disconnected for a minimum of (ondelay minus offdelay) seconds,
                   # "Restore power on AC" should now power on the system.
                   # For reasons described above, ondelay value must be larger than offdelay value.
                   # We adjust ondelay, to ensure Restore power on AC option returns to Power Disconnected state.
-                  "ondelay = 70"
+                  # SETTING TO 0 DUE TO CYBERPOWER WEIRDNESS
+                  # https://github.com/networkupstools/nut/issues/578
+                  "ondelay = 0"
 
                   # set value for battery.charge.low,
                   # upsmon initiate shutdown once this threshold is reached.
