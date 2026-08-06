@@ -6,6 +6,7 @@
     {
       imports = with self.modules.nixos; [
         devenv
+        claude
       ];
       config = {
         environment.systemPackages = with pkgs; [
