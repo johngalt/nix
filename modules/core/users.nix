@@ -15,6 +15,7 @@
         "video"
         "render"
         "input"
+        "dialout"
       ];
     in
     {

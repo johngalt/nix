@@ -7,7 +7,7 @@
   flake.modules.nixos.komodo-core =
     { lib, pkgs, config, ... }:
     let
-      coreVersion = "2.2.0";
+      coreVersion = "2.3.1";
       postgresVersion = "17-0.107.0";
       ferretVersion = "2.7.0";
 
@@ -42,6 +42,7 @@
         extraOptions = [
           "--network-alias=komodo-core"
           "--network=komodo"
+          "--network=swarmnet"
         ];
       };
       systemd.services."docker-komodo-core" = {

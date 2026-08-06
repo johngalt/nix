@@ -1,5 +1,6 @@
 { ... }:
 {
+  # TODO: Update this with new nix komodo-periphery module?
   flake.modules.nixos.komodo-periphery =
     { pkgs, lib, config,  hostConfig, ... }:
     let
