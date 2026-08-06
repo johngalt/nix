@@ -7,14 +7,14 @@
 
     # Nixpkgs-patcher
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
+    # Remove once zfs updates to support 7.1 kernel
     nixpkgs-patch-kernel-7-1-zfs = {
       url = "https://gist.githubusercontent.com/johngalt/fbf8f1290e835288e15d0751201f35c1/raw/a848dd71b1de88f12ce079c17029a7f6829fdade/kernel_7_1_zfs.patch";
       flake = false;
     };
-    nixpkgs-patch-lttng-tools = {
-      url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/542084.patch";
-      flake = false;
-    };
+
+    # Claude
+    llm-agents.url = "github:numtide/llm-agents.nix";
     
     # Flake-parts
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -64,10 +64,13 @@
     dankcalendar.inputs.nixpkgs.follows = "nixpkgs";
 
     # Noctalia
-    # noctalia.url = "github:noctalia-dev/noctalia-shell/v5";
+    noctalia.url = "github:noctalia-dev/noctalia-shell";
 
-    # Helix modal editor
-    # helix.url = "github:helix-editor/helix";
+    # Declarative QT styling
+    qtengine = {
+      url = "github:kossLAN/qtengine";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

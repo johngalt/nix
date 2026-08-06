@@ -34,18 +34,27 @@
             "https://niri.cachix.org"
             "https://noctalia.cachix.org"
             "https://helix.cachix.org"
+            "https://cache.numtide.com"
+            "https://devenv.cachix.org"
+            "https://cachix.cachix.org"
           ];
           trusted-substituters = [
             "https://niri.cachix.org"
             "https://noctalia.cachix.org"
             "https://helix.cachix.org"
-            "https://nyx-cache.chaotic.cx/"
+            "https://nyx-cache.chaotic.cx"
+            "https://cache.numtide.com"
+            "https://devenv.cachix.org"
+            "https://cachix.cachix.org"
           ];
           trusted-public-keys = [
             "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
             "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
             "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
             "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
+            "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+            "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+            "cachix.cachix.org-1:eWNHQldwUO7G2VkjpnjDbWwy4KQ/HNxht7H4SSoMckM="
           ];
         };
 
