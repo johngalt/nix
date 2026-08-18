@@ -1,19 +1,18 @@
-{ inputs, ... }:
+{ ... }:
 {
   flake.modules.nixos.greeter =
     { config, pkgs, lib, ... }:
     let
-      # tuigreet from NotAShelf's fork
-      tuigreetPackage = inputs.tuigreet.packages.${pkgs.stdenv.hostPlatform.system}.tuigreet;
       # use nixpkgs displayManager module to get desktop session files to load from
       sessionFiles = "${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
     in
     {
       services.greetd = {
         enable = true;
+        useTextGreeter = true;
         settings = {
           default_session = {
-            command = "${lib.getExe tuigreetPackage} --asterisks --remember --time --sessions ${sessionFiles}";
+            command = "${lib.getExe pkgs.tuigreet} --asterisks --remember --time --sessions ${sessionFiles}";
             user = "greeter";
           };
         };

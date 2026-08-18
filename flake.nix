@@ -9,7 +9,7 @@
     nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
     # Remove once zfs updates to support 7.1 kernel
     nixpkgs-patch-kernel-7-1-zfs = {
-      url = "https://gist.githubusercontent.com/johngalt/fbf8f1290e835288e15d0751201f35c1/raw/a848dd71b1de88f12ce079c17029a7f6829fdade/kernel_7_1_zfs.patch";
+      url = "https://gist.githubusercontent.com/johngalt/fbf8f1290e835288e15d0751201f35c1/raw/c8306d01ce8717390a427b639b008eb460441b68/kernel_7_1_zfs.patch";
       flake = false;
     };
 
@@ -40,16 +40,8 @@
     # Hjem for some home file linkers
     hjem.url = "github:feel-co/hjem";
 
-    # tuigreet
-    tuigreet.url = "github:NotAShelf/tuigreet";
-    tuigreet.inputs.nixpkgs.follows = "nixpkgs";
-    
     # Niri window manager
     niri.url = "github:sodiboo/niri-flake";
-
-    # Quickshell framework -- not using currently as 0.3 is on nixpkgs
-    # quickshell.url = "git+https://git.outfoxxed.me/quickshell/quickshell";
-    # quickshell.inputs.nixpkgs.follows = "nixpkgs";
 
     # Dank Material Shell
     dankMaterialShell.url = "github:AvengeMedia/DankMaterialShell";
@@ -67,10 +59,8 @@
     noctalia.url = "github:noctalia-dev/noctalia-shell";
 
     # Declarative QT styling
-    qtengine = {
-      url = "github:kossLAN/qtengine";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    qtengine.url = "github:kossLAN/qtengine";
+    qtengine.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
