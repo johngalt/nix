@@ -42,7 +42,7 @@
       # Eza-specific shell aliases
       environment.shellAliases = {
         ls = "eza";
-        ll = "eza l -a";
+        ll = "eza -la";
         tree = "eza --tree --git-ignore";
       };
     };
