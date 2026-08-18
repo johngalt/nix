@@ -9,6 +9,6 @@
       ];
 
       # TODO: No longer needed?
-      # programs.fish.interactiveShellInit = "devenv hook fish | source";
+      programs.fish.interactiveShellInit = "devenv hook fish | source";
     };
 }
