@@ -3,7 +3,7 @@
   # Quickshell base module, to be imported by a shell module
   # TODO: Rename this to be common environment or something, since its not quickshell specific
   flake.modules.nixos.quickshell =
-    { lib, pkgs, ... }:
+    { config, lib, pkgs, ... }:
     let
       inherit (lib) mkOption;
       inherit (lib.types) package;
@@ -65,6 +65,9 @@
               "org/gnome/desktop/interface" = {
                 icon-theme = "Papirus-Dark"; # Icon pack
                 gtk-theme = "adw-gtk3"; # Set adw as gtk3 theme
+                # Set default fonts for gsettings via those defined in fontconfig
+                font-name = lib.head config.fonts.fontconfig.defaultFonts.sansSerif;
+                monospace-font-name = lib.head config.fonts.fontconfig.defaultFonts.monospace;
               };
             };
           }
