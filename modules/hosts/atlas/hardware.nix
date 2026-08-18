@@ -53,11 +53,12 @@
           ];
         };
         bluetooth.enable = true;
-        # Drivers/software for Logitech peripherals
-        logitech.wireless = {
-          enable = true;
-          enableGraphical = true;
-        };
+      };
+
+      # Drivers/software for Logitech peripherals
+      programs.solaar = {
+        enable = true;
+        userService.enable = true;
       };
 
       # Force VA-API to use intel-media-driver
